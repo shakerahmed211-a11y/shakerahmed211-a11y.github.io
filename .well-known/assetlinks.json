@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.shaker.mat7oon",
+        "sha256_cert_fingerprints": ["B2:A5:27:3E:75:A2:C7:59:23:F8:96:A7:73:51:75:DD:41:CB:39:5C:0E:37:24:03:50:1E:94:32:91:61:34:EA"]
+      }
+    }]
