@@ -1,0 +1,12 @@
+import {build} from 'esbuild';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+await mkdir('assets',{recursive:true});
+const built=await build({entryPoints:['src/main.tsx'],bundle:true,minify:true,write:false,format:'iife',platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},legalComments:'inline',target:['es2020']});
+const js=built.outputFiles[0].text,css=await readFile('src/styles.css','utf8');
+const hash=x=>createHash('sha256').update(x).digest('hex').slice(0,12);
+const jsFile=`app-${hash(js)}.js`,cssFile=`style-${hash(css)}.css`;
+await writeFile('assets/'+jsFile,js);await writeFile('assets/'+cssFile,css);
+const html=`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#174e3e"><meta name="description" content="مِرقاة: منهج تفاعلي عام لتعلّم النحو العربي من الصفر إلى التحليل المتقدم، مع اختبارات ومراجعات متباعدة. تصميم أحمد شاكر."><title>مِرْقَاة | تعلّم النحو العربي بإتقان</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23174e3e'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='44' fill='%23e8d99a'%3Eم%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="./assets/${cssFile}"></head><body><div id="root"></div><noscript>فعّل JavaScript لاستخدام الدروس والاختبارات التفاعلية. تصميم أحمد شاكر.</noscript><script src="./assets/${jsFile}" defer></script></body></html>`;
+await writeFile('index.html',html);
+console.log(JSON.stringify({js:jsFile,css:cssFile,bytes:Buffer.byteLength(js)+Buffer.byteLength(css)}));
