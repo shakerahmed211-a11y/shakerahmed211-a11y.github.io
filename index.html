@@ -95,6 +95,25 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
 #vsTxt{text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #vsTrack{position:relative;height:22px;margin:2px 8px;border-bottom:3px dashed rgba(255,255,255,.35);direction:ltr}
 #vsTrack i{position:absolute;bottom:-2px;font-style:normal;font-size:18px;transform:translateX(-50%);transition:left .2s}
+
+.home{width:min(94vw,520px);height:92vh;display:flex;flex-direction:column;align-items:stretch;padding:6px 4px 84px}
+.topbar{display:flex;justify-content:space-between;align-items:center}
+.pill{display:flex;align-items:center;gap:8px;background:rgba(10,14,40,.7);border-radius:30px;padding:5px 16px 5px 6px;font-size:22px;font-weight:900;color:#fff}
+.coin{width:34px;height:34px;border-radius:50%;background:radial-gradient(#ffe680,#f5a900);border:3px solid #ffd447;display:inline-block}
+.gear{background:none;border:0;color:#fff;font-size:34px;cursor:pointer;text-shadow:0 2px 6px #000}
+.who{align-self:center;background:rgba(10,14,40,.55);border:0;color:#fff;border-radius:20px;padding:4px 16px;font:700 16px inherit;margin-top:4px;cursor:pointer}
+.home h1.logo{margin:8px 0 6px}
+.rkb{background:rgba(10,14,40,.62);border-radius:16px;padding:8px 12px;margin:4px 6px;color:#fff;text-align:center}
+.rkt{display:flex;justify-content:space-between;font-weight:900;font-size:16px}.rkt small{opacity:.8;font-weight:600}
+.rkbar{height:12px;background:rgba(255,255,255,.18);border-radius:8px;overflow:hidden;margin:6px 0 3px}.rkbar i{display:block;height:100%;background:linear-gradient(90deg,#34d399,#fbbf24);border-radius:8px;transition:width .6s}
+.rkp{margin:8px 0;padding:8px;border-radius:12px;background:rgba(52,211,153,.2);text-align:center;font-weight:700}.rkp.ex{background:rgba(251,191,36,.22)}
+.grow{flex:1}
+.bigplay{font-size:30px!important;padding:20px 14px!important;border-radius:36px!important;background:linear-gradient(#ffa24a,#f0600e)!important;color:#fff!important;box-shadow:0 7px 0 #9a3b00,0 12px 24px rgba(0,0,0,.4)!important}
+.stsub{text-align:center;color:#fff;font-size:20px;font-weight:700;margin-top:8px;text-shadow:0 2px 6px #000}
+#nav{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:30;display:flex;background:rgba(14,22,56,.94);border:2px solid rgba(255,255,255,.12);border-radius:26px;padding:6px;gap:4px}
+#nav button{flex:1;border:0;background:none;color:#cfd8ff;font:700 15px inherit;padding:8px 2px;border-radius:20px;cursor:pointer}#nav button i{display:block;font-style:normal;font-size:26px}
+#nav button.on{background:rgba(76,141,255,.35);color:#fff}
+.hub{padding-bottom:96px}.help{display:block;text-align:center;opacity:.75;line-height:1.7;margin-top:8px}
 </style>
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1c123a"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="mobile-web-app-capable" content="yes"></head>
 <body>
@@ -112,25 +131,35 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
 <div id="bbtns" class="hide"><div><button data-b="back">↶<small>ميل ورا</small></button><button data-b="fwd">↷<small>ميل قدام</small></button></div><div><button data-b="brake">■<small>فرامل</small></button><button data-b="gas">▶▶<small>بنزين</small></button></div><div><button data-b="hit" class="act" style="display:none">👊<small>ضرب</small></button></div><button data-b="nit" class="act">🔥<small>نيترو</small></button><button data-b="gup" style="display:none">▲<small>جير</small></button><button data-b="gdn" style="display:none">▼<small>جير</small></button><button data-b="ab" class="act">🔔<small>صفّارة</small></button><button data-b="trk" class="act">🙌<small>حركة</small></button><button data-b="lup" style="display:none">⬆<small>بعيدة</small></button><button data-b="ldn" style="display:none">⬇<small>قريبة</small></button></div>
 <div id="toasts"></div>
 
-<div class="screen show" id="s-start"><div class="panel" style="background:rgba(28,18,58,.82)">
- <div class="stats" style="justify-content:space-between;align-items:center;margin-bottom:4px"><button class="btn sm alt" data-act="rename" id="tbName" style="width:auto;padding:6px 12px;font-size:15px">👤 ...</button><span class="coinsTxt" id="tbCoins" style="font-weight:900;font-size:18px;color:#ffd447"></span></div>
- <h1 class="logo">يوميات واحد مطحون</h1><div class="sub">The Daily Grind — النسخة ١٢هـ ⚙🔔</div>
- <div class="stats"><span id="stBest"></span><span id="stCoins"></span><span id="stLv"></span></div>
- <button class="btn" id="btnPlay" data-act="play" style="font-size:24px;padding:16px 14px;background:linear-gradient(#ff9f6a,#ff5a1f);color:#fff;box-shadow:0 6px 0 #a02f00">▶ العب</button>
- <button class="btn alt" data-act="stages">🗺 المراحل</button>
- <button class="btn alt" data-act="worlds" style="background:linear-gradient(#7dd3fc,#3b82f6);color:#fff">🌍 العوالم: الجليد والجبال ❄⛰</button>
- <button class="btn alt" data-act="vs" style="background:linear-gradient(#4cc9f0,#2563eb);color:#fff">👥 تحدّي أونلاين (٢ لـ ٤ لاعبين)</button>
- <button class="btn alt" data-act="vssolo" style="background:linear-gradient(#a78bfa,#6d28d9);color:#fff">🤖 العب قصاد كمبيوتر (من غير نت)</button>
- <div class="grid2"><button class="btn alt" data-act="start">🏃 جري حر</button><button class="btn alt" data-act="startbike">🏍 موتوسيكل حر</button></div>
- <div class="grid2"><button class="btn alt" data-act="chars">👤 الشخصيات</button><button class="btn alt" data-act="shop">🛒 المتجر</button>
- <button class="btn alt" data-act="missions">📋 المهام</button><button class="btn alt" data-act="ach">🏆 الإنجازات</button></div>
- <button class="btn alt" data-act="online" style="background:linear-gradient(#fbbf24,#f59e0b);color:#3a2300">🌐 أونلاين: متصدرين وتحديات ودعوات</button>
- <button class="btn alt" data-act="acc">☁️ حسابي وحفظ البيانات</button>
- <button class="btn alt" data-act="daily">🎁 مكافأة اليوم وعجلة الحظ</button>
- <button class="btn alt" data-act="prog">🌟 المهارات والكروت</button>
- <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <small style="display:block;text-align:center;opacity:.8;line-height:1.7">الكمبيوتر: الأسهم / WASD / مسافة للقفز / Esc للإيقاف<br>الموبايل: اسحب يمين/شمال/فوق(قفز)/تحت(انزلاق)<br>الموتوسيكل: → بنزين / ← فرامل / ↑ ↓ ميل للشقلبة (أو الأزرار على الشاشة)</small>
+<div class="screen show" id="s-start" style="background:rgba(10,6,28,.35)"><div class="home">
+ <div class="topbar"><span class="pill"><i class="coin"></i><b class="coinsTxt" id="tbCoins"></b></span><button class="gear" data-act="settings" aria-label="الإعدادات">⚙</button></div>
+ <button class="who" data-act="rename" id="tbName"></button>
+ <h1 class="logo">يوميات واحد مطحون</h1>
+ <div id="rkBox"></div>
+ <div class="grow"></div>
+ <button class="btn bigplay" id="btnPlay" data-act="play">كمّل اللعب ▶</button>
+ <div class="stsub" id="stSub"></div>
 </div></div>
+<div class="screen" id="s-hub-play"><div class="panel hub"><h2>🎮 العب</h2>
+ <button class="btn alt" data-act="stages">🗺 المراحل</button>
+ <button class="btn alt" data-act="worlds" style="background:linear-gradient(#7dd3fc,#3b82f6);color:#fff">🌍 العوالم</button>
+ <div class="grid2"><button class="btn alt" data-act="start">🏃 جري حر</button><button class="btn alt" data-act="startbike">🏍 موتوسيكل حر</button></div>
+ <button class="btn alt" data-act="vs" style="background:linear-gradient(#4cc9f0,#2563eb);color:#fff">👥 تحدّي أونلاين (٢ لـ ٤)</button>
+ <button class="btn alt" data-act="vssolo" style="background:linear-gradient(#a78bfa,#6d28d9);color:#fff">🤖 قصاد كمبيوتر (من غير نت)</button>
+ <small class="help">الكمبيوتر: الأسهم / WASD / مسافة للقفز<br>الموبايل: اسحب يمين/شمال/فوق/تحت<br>الموتوسيكل: → سرعة / ← فرامل / ↑ ↓ ميل</small></div></div>
+<div class="screen" id="s-hub-rew"><div class="panel hub"><h2>🎁 المكافآت</h2>
+ <button class="btn alt" data-act="daily">🎁 مكافأة اليوم وعجلة الحظ</button>
+ <button class="btn alt" data-act="missions">📋 المهام</button>
+ <button class="btn alt" data-act="ach">🏆 الإنجازات</button>
+ <button class="btn alt" data-act="prog">🌟 المهارات والكروت</button>
+ <button class="btn alt" data-act="shop">🛒 المتجر</button></div></div>
+<div class="screen" id="s-hub-me"><div class="panel hub"><h2>👤 حسابي</h2>
+ <button class="btn alt" data-act="chars">👤 الشخصيات</button>
+ <button class="btn alt" data-act="online" style="background:linear-gradient(#fbbf24,#f59e0b);color:#3a2300">🌐 المتصدرين والتحديات والدعوات</button>
+ <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
+ <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
+ <div class="sub" style="text-align:center">النسخة ١٢هـ ⚙🔔</div></div></div>
+<div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-stages"><div class="panel"><h2>🗺 المراحل</h2><div class="stats"><span id="stProg"></span></div><div id="stageList"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
 <div class="screen" id="s-worlds"><div class="panel"><h2>🌍 العوالم</h2><div class="stats"><span id="wcTxt"></span></div><div class="sub" style="text-align:center">العملات اللي بتجمعها في أي لعبة بتتحسب. العملة بتيجي بصعوبة 😉</div><div id="worldList"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -225,6 +254,8 @@ const LINES={
  salah:['الفلوس يا باشا... والسلف على المكشوف!','أنا أسلّفك، وإنت تسلّفني عمرك!','خد دي سلف واحتفظ بالباقي للعد!'],
  kamal:['تفتيش مفاجئ! الكل يقف مكانه!','فين الرخصة؟ فين المخالفة؟','المحضر جاهز يا فندم!','ممنوع الجري في الشارع بدون تصريح!']
 };
+const RANKS=[['عامل','👷'],['فني موقع','🔧'],['فني مختبر','🧪'],['مشرف فنيين','📋'],['مهندس','📐'],['مسؤول قسم','🗂'],['مدير فني','⚙️'],['مدير فرع','🏢'],['مدير منطقة','🗺'],['مدير تنفيذي','💼'],['عضو مجلس إدارة','🎩'],['نائب رئيس مجلس الإدارة','🥈'],['رئيس مجلس الإدارة','👑']];
+const RNEED=[500,1500,4000,9000,20000,40000,80000,150000,280000,500000,900000,1600000];
 const SKILLS=[{k:'nit',n:'🔥 شحن النيترو أسرع',d:'+٨٪ لكل مستوى',max:5},{k:'cool',n:'🌡 تبريد المحرك',d:'+١٠٪ تبريد لكل مستوى',max:5},{k:'abc',n:'🔔 شحن الصفّارة',d:'+٢٠٪ سرعة شحن لكل مستوى',max:5},{k:'coin',n:'🪙 حظ العملات',d:'+٦٪ فرصة عملة زيادة لكل مستوى',max:5}];
 const CARDS=[{id:'c1',n:'عم سيد الكشري',ic:'🍛',r:'عادي'},{id:'c2',n:'الدكتور المتسحّب',ic:'🥼',r:'عادي'},{id:'c3',n:'سواق التوكتوك',ic:'🛺',r:'عادي'},{id:'c4',n:'الحاجة أم أحمد',ic:'👵',r:'نادر'},{id:'c5',n:'الأسطى بلية',ic:'🔧',r:'نادر'},{id:'c6',n:'المعلم الكبير',ic:'🧔',r:'نادر'},{id:'c7',n:'قطة الحارة',ic:'🐈',r:'أسطوري'},{id:'c8',n:'الجنّي الفقري',ic:'🧞',r:'أسطوري'}];
 const MISSIONS=[
@@ -277,7 +308,7 @@ const ACHS=[
 /* ===================== Save ===================== */
 class SaveManager{
  constructor(){this.key='yomiat_wahed_mat7oon_v1';this.d=this.defaults();this.load();this.checkDaily()}
- defaults(){return{sk:{},cards:{},coll:0,mchain:0,inv:{code:'',claimed:0,redeemed:false},pname:'',tut:0,bup:{eng:0,tire:0,susp:0,nit:0},best:0,bestDist:0,bikeBest:0,bikeBestDist:0,coins:0,xp:0,level:1,wc:0,stageSel:0,prog:{unlocked:1,best:[0,0,0,0,0,0,0,0,0],done:false},chars:['ahmed'],char:'ahmed',
+ defaults(){return{rk:0,rp:0,rpd:{day:0,n:0},exam:0,sk:{},cards:{},coll:0,mchain:0,inv:{code:'',claimed:0,redeemed:false},pname:'',tut:0,bup:{eng:0,tire:0,susp:0,nit:0},best:0,bestDist:0,bikeBest:0,bikeBestDist:0,coins:0,xp:0,level:1,wc:0,stageSel:0,prog:{unlocked:1,best:[0,0,0,0,0,0,0,0,0],done:false},chars:['ahmed'],char:'ahmed',
   owned:{hat:['none'],glass:['none'],shirt:['default'],bike:['red'],bt:['classic'],pet:[]},eq:{hat:'none',glass:'none',shirt:'default',bike:'red',bt:'classic',pet:''},login:{last:'',streak:0,claimed:'',wheel:''},taBest:{run:0,bike:0},up:{tea:0,jet:0,magnet:0,shield:0},
   settings:{manual:false,ag:true,lives3:false,big:false,swap:false,hcon:false,vib:true,sfx:true,music:true,voice:false,local:false,shake:true,touch:null,quality:'auto',vol:0.7},
   ach:{},chal:{},stats:{runs:0,coins:0,jumps:0,slides:0,powers:0,near:0,dist:0,purchases:0,tea:0,jet:0,magnet:0,shield:0,microbus:0,chicken:0,flips:0,bikeRuns:0},
@@ -856,7 +887,7 @@ class BikeMode{
   let ax=0,ay=-BK.G*(R.th&&R.th.grav||1),al=0,rG=false,fG=false,tx=1,ty=0,wall=false;
   for(let i=0;i<2;i++){const lx=i?BK.L:-BK.L,ly=-BK.WY,rx=lx*c-ly*s,ry=lx*s+ly*c,wx=this.x+rx,wy=this.y+ry;
    const th=T.Y(wx),sl=T.slope(wx),cs=1/Math.sqrt(1+sl*sl),dist=(wy-th)*cs,pen=BK.WR-dist;
-   if(th-(wy-BK.WR)>1.0)wall=true;
+   if(th-(wy-BK.WR)>1.0){if(this.vy<-7){this.y+=Math.min(1.6,th-(wy-BK.WR))*.9;this.vy*=.35;this.safeT=.5}else wall=true}
    if(pen>0){const nx=-sl*cs,ny=cs,vpx=this.vx-this.w*ry,vpy=this.vy+this.w*rx,vn=vpx*nx+vpy*ny;let Fn=BK.K*pen-BK.CD*vn;if(Fn<0)Fn=0;if(Fn>140)Fn=140;
     const Fx=Fn*nx,Fy=Fn*ny;ax+=Fx;ay+=Fy;al+=(rx*Fy-ry*Fx)/BK.I;if(i)fG=true;else rG=true;tx=cs;ty=sl*cs}}
   const gr=rG||fG;
@@ -875,7 +906,7 @@ class BikeMode{
   this.rG=rG;this.fG=fG;if(gr)this.gAny=true;
   if(!crashing&&g.state==='bike'){
    const c2=Math.cos(this.ang),s2=Math.sin(this.ang),hx=this.x+.13*c2-1.55*s2,hy=this.y+.13*s2+1.55*c2,sx2=this.x-.1*c2-1.0*s2,sy2=this.y-.1*s2+1.0*c2;
-   if(wall)this.crash('wall');else if(T.hazAt(this.x,this.y))this.crash('spike');else if(hy<T.Y(hx)+.28||sy2<T.Y(sx2)+.1)this.crash('head');else if(this.y<-3.5)this.crash('fall')}}
+   if(wall)this.crash('wall');else if(T.hazAt(this.x,this.y))this.crash('spike');else if(hy<T.Y(hx)+.28||sy2<T.Y(sx2)+.1){const sa=Math.atan(T.slope(this.x)),rl=nang(this.ang-sa);if(Math.abs(rl)<1.05){this.ang+=(sa-this.ang)*.5;this.w*=.5;this.vy=Math.max(this.vy,0);this.y+=.06;this.safeT=.5}else this.crash('head')}else if(this.y<-3.5)this.crash('fall')}}
  chaseUpdate(dt){const g=this.g,S=g.stage;if(!S||!S.w||(g.vs&&g.vs.on)||g.state!=='bike')return;let b=this.ch;if(!b||b.run!==this.run)b=this.ch={run:this.run,t:0,next:600,n:0,wx:0,on:false};const B=BOSS[S.w];
   if(!b.on&&this.x>=b.next){b.on=true;b.t=18;b.n++;b.wx=this.x-40;b.next=this.x+1200;g.banner('⚠ '+B.n+' بيطاردك! متوقفش');R.shake=Math.max(R.shake,8);g.audio.sfx('hit')}
   else if(b.on){b.t-=dt;b.wx+=(9+1.3*b.n)*dt;if(this.x-b.wx<1.5){b.on=false;this.crash('wall');return}
@@ -1504,14 +1535,14 @@ class UIManager{
  constructor(g){this.g=g;this.tab='hat';this.prev='s-start';this.last={};
   document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;g.audio.init();g.audio.sfx('click');this.act(b.dataset.act,b.dataset);if(b.blur)b.blur()});
   document.addEventListener('change',e=>{const t=e.target;if(t.id==='set-vol'){g.sv.d.settings.vol=+t.value;g.audio.apply();g.sv.save()}else if(t.id==='set-q'){g.sv.d.settings.quality=t.value;g.setQuality();g.resize();g.sv.save()}})}
- show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));if(id)$(id).classList.add('show')}
+ show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));if(id)$(id).classList.add('show');const nv=$('nav');if(nv){const on=id==='s-start'||(id||'').indexOf('s-hub')===0;nv.style.display=on?'flex':'none';nv.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.h==='start'?id==='s-start':id==='s-hub-'+b.dataset.h))}}
  applyAccess(){const S=this.g.sv.d.settings,b=$('bbtns');if(!b)return;b.style.setProperty('--bs',S.big?1.2:1);b.classList.toggle('swap',!!S.swap);document.body.classList.toggle('hcon',!!S.hcon)}
  hud(b){$('hud').classList.toggle('hide',!b);const S=this.g.sv.d.settings;const tc=S.touch===null?('ontouchstart' in window||(navigator.maxTouchPoints||0)>0):S.touch;const bk=this.g.mode==='bike';$('tbtns').classList.toggle('hide',!(b&&tc&&!bk));$('bbtns').classList.toggle('hide',!(b&&tc&&bk))}
  toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;$('toasts').appendChild(d);setTimeout(()=>d.remove(),2800)}
  act(a,d){const g=this.g,sv=g.sv.d;if(a.slice(0,2)==='vs'){g.vs.act(a,d);return}
   switch(a){
    case'start':g.startRun();break;case'play':g.play();break;case'stages':this.buildStages();this.show('s-stages');break;case'worlds':this.buildWorlds();this.show('s-worlds');break;case'world':g.startWorld(d.id,d.m);break;case'tacity':g.startTA(d.m);break;case'tatog':g.taOn=!g.taOn;this.buildWorlds();break;case'hctog':g.hcOn=!g.hcOn;this.buildWorlds();break;case'stage':g.startStage(+d.i);break;case'nextstage':g.startStage(+d.i);break;case'restart':g.restart();break;case'startbike':g.startBike();break;
-   case'menu':g.toMenu();break;
+   case'menu':g.toMenu();break;case'hub':if(d.h==='start')this.show('s-start');else{this.show('s-hub-'+d.h)}break;
    case'share':{const L=this.lastShare||{s:g.sv.d.best,d:g.sv.d.bestDist,m:'🏃'},url=location.href.split('?')[0].split('#')[0],txt=L.m+' وصلت '+fmt(Math.floor(L.d))+' م وجبت '+fmt(Math.floor(L.s))+' نقطة في لعبة "يوميات واحد مطحون"! تقدر تكسر رقمي؟ 😎';
     if(navigator.share){navigator.share({title:'يوميات واحد مطحون',text:txt,url:url}).catch(()=>{})}else{try{navigator.clipboard.writeText(txt+' '+url);this.toast('📋 اتنسخت — ابعتها لأصحابك')}catch(e){this.toast(txt)}}break}
    case'daily':this.openDaily();break;case'rename':this.openName();break;case'namesave':this.saveName();break;case'online':this.buildOnline();this.show('s-online');break;case'lb':if(d.id)this.lbTab=d.id;this.buildLb();this.show('s-lb');break;case'lbtab':this.lbTab=d.id;this.buildLb();break;case'inv':this.buildInv();this.show('s-inv');break;case'invshare':this.shareInv();break;case'invredeem':Cloud.redeem($('invIn').value).then(()=>this.buildInv());break;case'prof':this.buildProf();this.show('s-prof');break;case'wk':g.startSeeded('wk');break;case'dy':g.startSeeded('dy');break;case'acc':this.buildAcc();this.show('s-acc');break;case'accin':Cloud.signIn();break;case'accout':Cloud.signOut();break;case'accsync':Cloud.syncNow();break;
@@ -1536,7 +1567,7 @@ class UIManager{
    case'bupg':{const k=d.id,l=(sv.bup[k]||0),p=BUPC[l];if(l>=5||sv.coins<p){g.audio.sfx('error');this.toast('العملات مش كفاية');break}sv.coins-=p;sv.bup[k]=l+1;g.stat('purchases');g.audio.sfx('buy');g.sv.save();this.buildShop();break}
    case'equip':sv.eq[d.cat]=d.id;g.sv.save();this.buildShop();break;
    case'upg':{const l=sv.up[d.id];if(l>=3)break;const p=UPCOST[l];if(sv.coins>=p){sv.coins-=p;sv.up[d.id]++;g.stat('purchases');g.audio.sfx('buy');g.sv.save();g.checkAch();this.buildShop()}else{g.audio.sfx('error');this.toast('العملات مش كفاية')}break}
-   case'claim':{if(d.kind==='daily'){const m=g.sv.daily().find(x=>x.m.id===d.id);if(m&&m.done&&!m.claimed&&!m.locked){sv.daily.claimed[m.m.id]=true;sv.coins+=m.rw;this.toast('+'+fmt(m.rw)+' عملة');if(g.sv.daily().every(x=>x.claimed)){sv.coins+=300;this.toast('🏅 خلّصت السلسلة كلها! +٣٠٠ 🪙')}}}
+   case'claim':{if(d.kind==='daily'){const m=g.sv.daily().find(x=>x.m.id===d.id);if(m&&m.done&&!m.claimed&&!m.locked){sv.daily.claimed[m.m.id]=true;sv.coins+=m.rw;g.rkAdd(60);this.toast('+'+fmt(m.rw)+' عملة');if(g.sv.daily().every(x=>x.claimed)){sv.coins+=300;this.toast('🏅 خلّصت السلسلة كلها! +٣٠٠ 🪙')}}}
     else{const ch=CHALS.find(x=>x.id===d.id);if(ch&&(sv.stats[ch.key]||0)>=ch.n&&!sv.chal[ch.id]){sv.chal[ch.id]=true;sv.coins+=ch.rw;this.toast('+'+fmt(ch.rw)+' عملة')}}
     g.audio.sfx('buy');g.sv.save();this.buildMissions();break}
    case'tog':{const k=d.k;if(k==='touch'){const cur=sv.settings.touch===null?('ontouchstart' in window||(navigator.maxTouchPoints||0)>0):sv.settings.touch;sv.settings.touch=!cur}else{sv.settings[k]=!sv.settings[k];if(k==='manual'&&sv.settings.manual)sv.settings.ag=false;if(k==='ag'&&sv.settings.ag!==false)sv.settings.manual=false}this.applyAccess();if(g.bike)g.bike.applyGearUI();g.audio.apply();g.sv.save();this.buildSettings();break}
@@ -1556,7 +1587,7 @@ class UIManager{
  autoDaily(){const st=this.dailyState();if(!st.claimed||!st.wheel)this.openDaily()}
  spinWheel(){const d=this.g.sv.d,st=this.dailyState();if(st.wheel||this.spinning)return;this.spinning=true;const P=[[30,30],[60,25],[100,20],[200,12],[400,8],[800,4],[1500,1]];let r=Math.random()*100,pz=30;for(const q of P){if(r<q[1]){pz=q[0];break}r-=q[1]}const el=$('wheelNum');let n=0;const t=setInterval(()=>{el.textContent='🎡 '+fmt(P[Math.floor(Math.random()*P.length)][0]);this.g.audio.sfx('click');if(++n>16){clearInterval(t);el.textContent='🎉 +'+fmt(pz)+' 🪙';d.login.wheel=st.today;d.coins+=pz;this.g.sv.save();this.spinning=false;this.g.audio.sfx('level');this.coins();this.buildDaily()}},110)}
  coins(){document.querySelectorAll('.coinsTxt').forEach(e=>e.textContent='🪙 '+fmt(this.g.sv.d.coins))}
- refreshStart(){const d=this.g.sv.d;{const i=Math.min(d.stageSel||0,d.prog.unlocked-1);$('btnPlay').textContent='▶ العب — مرحلة '+fmt(i+1)+': '+STAGES[i].n}$('stBest').textContent='أفضل نتيجة: '+fmt(d.best)+(d.bikeBest?'  🏍 '+fmt(d.bikeBest):'');$('stCoins').textContent='🪙 '+fmt(d.coins);$('tbName').textContent='👤 '+(d.pname||'اكتب اسمك')+' ✎';$('tbCoins').textContent='🪙 '+fmt(d.coins);$('stLv').textContent='مستوى '+fmt(d.level)}
+ refreshStart(){const d=this.g.sv.d;{const i=Math.min(d.stageSel||0,d.prog.unlocked-1);$('btnPlay').textContent='كمّل اللعب ▶';$('stSub').textContent='المرحلة '+fmt(i+1)+' • '+STAGES[i].n}if($('stBest'))$('stBest').textContent='أفضل نتيجة: '+fmt(d.best)+(d.bikeBest?'  🏍 '+fmt(d.bikeBest):'');if($('stCoins'))$('stCoins').textContent='🪙 '+fmt(d.coins);$('tbName').textContent=d.pname||'اكتب اسمك';$('tbCoins').textContent=fmt(d.coins);$('rkBox').innerHTML=this.rankBar();if($('stLv'))$('stLv').textContent='مستوى '+fmt(d.level)}
  buildChars(){this.coins();const d=this.g.sv.d;$('charList').innerHTML=CHARS.map(c=>{const own=d.chars.includes(c.id);return'<div class="card'+(d.char===c.id?' sel':'')+'"><canvas width="110" height="140" data-ch="'+c.id+'"></canvas><b>'+c.name+'</b><small>'+c.desc+'</small>'+
   (own?'<button class="btn sm" data-act="pick" data-id="'+c.id+'">'+(d.char===c.id?'مختار ✔':'اختيار')+'</button>':'<button class="btn sm red" data-act="buychar" data-id="'+c.id+'">افتح بـ 🪙 '+fmt(c.price)+'</button>')+'</div>'}).join('');
   document.querySelectorAll('#charList canvas').forEach(cv=>{const c=cv.getContext('2d'),ch=CHARS.find(x=>x.id===cv.dataset.ch);if(c)drawHero(c,{x:55,y:128,s:62,ch:ch,eq:ch.id===d.char?d.eq:{},pose:'run',t:.6})})}
@@ -1609,12 +1640,16 @@ class UIManager{
   if(spec)$('vsSpecN').textContent='👁 '+(v.specId!=null?v.nm(v.specId):'')}
  updGoal(){const g=this.g,S=g.stage,e=$('hGoal'),r=g.run;if(!S||(S.vs&&!S.ta)||!r||!(g.state==='playing'||g.state==='bike')){if(e.style.display!=='none')e.style.display='none';return}
   const t=S.ta?'⏱ '+Math.max(0,Math.ceil(90-r.time))+' ث  🏆 '+fmt((g.sv.d.taBest||{})[g.mode]||0):r.passed?'✅ اتفتحت المرحلة التالية':'🎯 '+fmt(Math.min(Math.floor(r.score),S.t))+'/'+fmt(S.t);if(this.gt!==t){this.gt=t;e.textContent=t}if(e.style.display==='none')e.style.display=''}
- buildOver(r){const g=this.g,d=g.sv.d;this.lastShare={s:r.score,d:r.dist,m:'🏃'};$('overBox').innerHTML='<h2>خلصت الجولة!</h2><div class="big">'+fmt(r.score)+'</div>'+(r.newBest?'<div style="text-align:center"><span class="badge">رقم قياسي جديد!</span></div>':'')+
+ buildOver(r){this.buildOver0(r);this.addRank(this.g.rankEnd(r,'run'),'run')}
+ buildOverBike(r){this.buildOverBike0(r);this.addRank(this.g.rankEnd(r,'bike'),'bike')}
+ rankBar(){const d=this.g.sv.d,R0=RANKS[d.rk],nx=RANKS[Math.min(12,d.rk+1)],need=this.g.rkNeed(),pc=d.rk>=12?100:Math.min(100,Math.floor(d.rp*100/need));return'<div class="rkb"><div class="rkt"><span>'+R0[1]+' '+R0[0]+(d.stars?' ★'+d.stars:'')+'</span>'+(d.rk<12?'<small>التالي: '+nx[1]+' '+nx[0]+'</small>':'<small>أعلى رتبة 👑</small>')+'</div><div class="rkbar"><i style="width:'+pc+'%"></i></div><small>'+(d.exam?'🎯 الشريط اتملا — محتاج تعدّي اختبار الترقية':fmt(d.rp)+' / '+fmt(need)+' نقطة ترقي')+'</small></div>'}
+ addRank(o,m){if(!o)return;const g=this.g;let h='';if(o.promo){h='<div class="rkp">🎉 مبروك! اترقيت لرتبة <b>'+o.promo[1]+' '+o.promo[0]+'</b><br>+'+fmt(o.rw)+' 🪙</div>';g.audio.sfx('level')}else if(o.exam){h='<div class="rkp ex">🎯 اختبار الترقية: اجري '+fmt(m==='run'?o.T:Math.round(o.T*1.6))+' م في جولة واحدة'+(m==='run'?' (أو '+fmt(Math.round(o.T*1.6))+' م بالموتوسيكل)':' (أو '+fmt(o.T)+' م جري)')+'</div>'}else h='<div class="rkp">+'+fmt(o.gain)+' نقطة ترقي'+(o.cap?' (وصلت للحد اليومي)':'')+'</div>';$('overBox').insertAdjacentHTML('afterbegin',this.rankBar()+h)}
+ buildOver0(r){const g=this.g,d=g.sv.d;this.lastShare={s:r.score,d:r.dist,m:'🏃'};$('overBox').innerHTML='<h2>خلصت الجولة!</h2><div class="big">'+fmt(r.score)+'</div>'+(r.newBest?'<div style="text-align:center"><span class="badge">رقم قياسي جديد!</span></div>':'')+
   '<div class="stats"><span>📏 '+fmt(r.dist)+' م</span><span>🪙 '+fmt(r.coins)+'</span><span>⭐ +'+fmt(r.xpGain)+' خبرة</span></div>'+(r.lv?'<div style="text-align:center"><span class="badge">مستوى جديد: '+fmt(d.level)+'</span></div>':'')+
   '<div class="stats"><span>أفضل نتيجة: '+fmt(d.best)+'</span><span>رصيدك: 🪙 '+fmt(d.coins)+'</span></div>'+
   (!r.revived?'<button class="btn alt" data-act="revive"'+(d.coins<100?' disabled':'')+'>كمّل الجولة بـ 🪙 ١٠٠</button>':'')+
   this.stageBlock(r)+'<button class="btn" data-act="restart">▶ العب تاني</button><div class="grid2"><button class="btn alt" data-act="shop">🛒 المتجر</button><button class="btn alt" data-act="missions">📋 المهام</button></div><button class="btn alt" data-act="share">📤 شارك نتيجتك</button><button class="btn red" data-act="menu">القائمة الرئيسية</button>'}
- buildOverBike(r){const d=this.g.sv.d;this.lastShare={s:r.score,d:r.dist,m:'🏍'};$('overBox').innerHTML='<h2>🏍 خلصت جولة الموتوسيكل!</h2><div class="big">'+fmt(r.score)+'</div>'+(r.newBest?'<div style="text-align:center"><span class="badge">رقم قياسي جديد!</span></div>':'')+
+ buildOverBike0(r){const d=this.g.sv.d;this.lastShare={s:r.score,d:r.dist,m:'🏍'};$('overBox').innerHTML='<h2>🏍 خلصت جولة الموتوسيكل!</h2><div class="big">'+fmt(r.score)+'</div>'+(r.newBest?'<div style="text-align:center"><span class="badge">رقم قياسي جديد!</span></div>':'')+
   '<div class="stats"><span>📏 '+fmt(r.dist)+' م</span><span>🪙 '+fmt(r.coins)+'</span><span>🌀 '+fmt(r.flips)+' شقلبة</span></div>'+
   '<div class="stats"><span>⭐ +'+fmt(r.xpGain)+' خبرة</span>'+(r.bestAir>0?'<span>⏱ أطول طيران '+fmt(Math.round(r.bestAir*10)/10)+' ث</span>':'')+'</div>'+(r.lv?'<div style="text-align:center"><span class="badge">مستوى جديد: '+fmt(d.level)+'</span></div>':'')+
   '<div class="stats"><span>أفضل نتيجة موتوسيكل: '+fmt(d.bikeBest)+'</span><span>رصيدك: 🪙 '+fmt(d.coins)+'</span></div>'+
@@ -1674,6 +1709,10 @@ class GameEngine{
    this.audio.sfx('level');this.dlg.say('levelup','hero',true);this.sv.save()}}
  recStage(){const S=this.stage,r=this.run;if(S&&S.ta&&r){const d=this.sv.d;d.taBest=d.taBest||{run:0,bike:0};const k=this.mode;if(r.score>(d.taBest[k]||0)){d.taBest[k]=Math.floor(r.score);this.ui.toast('⏱ رقم قياسي جديد في تحدي الوقت!')}this.sv.save()}if(!S||!r||S.vs)return;const i=STAGES.indexOf(S),d=this.sv.d;this.checkStage();if(r.score>d.prog.best[i])d.prog.best[i]=Math.floor(r.score);this.sv.save()}
  startBike(st){if(!(st&&st.sk)&&!this.vs.on&&Object.prototype.hasOwnProperty.call(this.bike.t,'gen'))delete this.bike.t.gen;this.stage=(st==null)?null:(typeof st==='object'?st:STAGES[st]);R.th=(this.stage&&this.stage.w)?WT[this.stage.w]:null;this.audio.init();this.sv.checkDaily();this.mode='bike';this.bike.start();this.state='bike';this.run=this.bike.run;this.fx.reset();this.flash=0;R.shake=0;R.cyc=0;this.ui.show(null);this.ui.hud(true);this.ui.last={};this.dlg.say('bikestart','hero',true);if(innerHeight>innerWidth*1.1)this.ui.toast('لف الموبايل أفقي عشان تلعب أحسن 🔄')}
+ rkNeed(){const d=this.sv.d;return d.rk>=12?500000:RNEED[d.rk]}
+ rkCap(){return 1500+this.sv.d.rk*500}
+ rkAdd(n,ign){const d=this.sv.d,day=DAYN();if(!d.rpd||d.rpd.day!==day)d.rpd={day,n:0};if(!ign){n=Math.max(0,Math.min(n,this.rkCap()-d.rpd.n));d.rpd.n+=n}d.rp+=n;const need=this.rkNeed();if(d.rk<12){if(d.rp>=need){d.rp=need;d.exam=1}}else{while(d.rp>=need){d.rp-=need;d.stars=(d.stars||0)+1}}return n}
+ rankEnd(r,m){const d=this.sv.d;if(d.rk===undefined)return null;const o={gain:0,promo:null,exam:0,passed:0};if(d.exam&&d.rk<12){const T=500+d.rk*120,ok=m==='run'?r.dist>=T:r.dist>=T*1.6;o.exam=1;o.T=T;o.m=m;if(ok){d.exam=0;d.rk++;d.rp=0;const rw=300*d.rk;d.coins+=rw;o.promo=RANKS[d.rk];o.rw=rw;o.passed=1}}else{const g=Math.max(3,Math.floor(r.score/12));o.gain=this.rkAdd(g);const c=this.rkCap()-(d.rpd.n);if(c<=0&&g>0&&!o.gain)o.cap=1;if(d.exam){o.exam=1;o.T=500+d.rk*120}}this.sv.save();return o}
  endBike(){if(this.state==='over')return;const r=this.run,d=this.sv.d;this.audio.engine(false);this.bike.releaseAll();
   r.score=Math.floor(r.dist*1.5+r.coins*10+r.pts);this.stat('runs');this.stat('bikeRuns');d.stats.dist+=r.dist;
   r.newBest=r.score>d.bikeBest;if(r.newBest)d.bikeBest=r.score;if(r.dist>d.bikeBestDist)d.bikeBestDist=Math.floor(r.dist);
