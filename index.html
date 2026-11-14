@@ -130,7 +130,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
 </div>
 <div id="bubble"><b id="bn"></b><span id="bt"></span></div>
 <div id="tbtns" class="hide"><div><button data-t="left">◀</button><button data-t="right">▶</button></div><div><button data-t="slide">▼</button><button data-t="jump">▲</button></div><div><button data-t="hit" style="display:none;background:rgba(251,146,60,.6)">👊</button></div></div>
-<div id="sbtns" class="hide"><button data-s="x" style="position:fixed;top:10px;left:10px;width:46px;height:46px;font-size:20px;background:rgba(0,0,0,.5)">✖</button><button data-s="l" style="left:14px;bottom:calc(20px + env(safe-area-inset-bottom))">◀</button><button data-s="r" style="left:122px;bottom:calc(20px + env(safe-area-inset-bottom))">▶</button><button data-s="k" class="big" style="right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:rgba(251,146,60,.65)">⚽</button><button data-s="sp" style="right:36px;bottom:calc(168px + env(safe-area-inset-bottom));background:rgba(244,114,182,.55)">⭐</button></div>
+<div id="sbtns" class="hide"><button data-s="x" style="position:fixed;top:10px;left:10px;width:46px;height:46px;font-size:20px;background:rgba(0,0,0,.5)">✖</button><button data-s="l" style="left:14px;bottom:calc(20px + env(safe-area-inset-bottom))">◀</button><button data-s="r" style="left:122px;bottom:calc(20px + env(safe-area-inset-bottom))">▶</button><button data-s="k" class="big" style="right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:rgba(251,146,60,.65)">⚽</button><button data-s="j" style="right:160px;bottom:calc(24px + env(safe-area-inset-bottom));width:100px;height:100px;background:rgba(96,165,250,.6)">⤒</button><button data-s="sp" style="right:36px;bottom:calc(168px + env(safe-area-inset-bottom));background:rgba(244,114,182,.55)">⭐</button></div>
 <div id="bbtns" class="hide"><div><button data-b="back">↶<small>ميل ورا</small></button><button data-b="fwd">↷<small>ميل قدام</small></button></div><div><button data-b="brake">■<small>فرامل</small></button><button data-b="gas">▶▶<small>بنزين</small></button></div><div><button data-b="hit" class="act" style="display:none">👊<small>ضرب</small></button></div><button data-b="nit" class="act">🔥<small>نيترو</small></button><button data-b="gup" style="display:none">▲<small>جير</small></button><button data-b="gdn" style="display:none">▼<small>جير</small></button><button data-b="ab" class="act">🔔<small>صفّارة</small></button><button data-b="trk" class="act">🙌<small>حركة</small></button><button data-b="lup" style="display:none">⬆<small>بعيدة</small></button><button data-b="ldn" style="display:none">⬇<small>قريبة</small></button></div>
 <div id="toasts"></div>
 
@@ -163,7 +163,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ١٤ب ⚽</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ١٤ج ⚽</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -1453,8 +1453,8 @@ class Soccer{
  effect(p,o){const i=Math.floor(Math.random()*6),k=SFX[i][0];if(k==='fire')p.fire=true;else if(k==='frz')o.frz=2;else if(k==='wall')p.wall=4.5;else if(k==='big')p.big=7;else if(k==='spd')p.spdT=6;else if(k==='mag')p.magT=3.5;p.ch2=0;this.evq.push(['fx',p.side,i]);this.onEv(['fx',p.side,i])}
  stepP(p,o,dt){const iv=p.inp,B=this.ball,sc=p.big>0?1.45:1,hr=SHR*sc;p.frz=Math.max(0,p.frz-dt);p.big=Math.max(0,p.big-dt);p.wall=Math.max(0,p.wall-dt);p.kcd=Math.max(0,p.kcd-dt);p.kick=Math.max(0,p.kick-dt);p.dash=Math.max(0,p.dash-dt);p.dcd=Math.max(0,p.dcd-dt);p.spdT=Math.max(0,p.spdT-dt);p.magT=Math.max(0,p.magT-dt);
   if(iv.dsh){iv.dsh=0;if(p.dcd<=0&&p.frz<=0){p.dash=.22;p.ddir=iv.dd||p.dir;p.dcd=.9;this.evq.push(['dash',p.side])}}
-  const mv=p.frz>0?0:(iv.r-iv.l);p.vx=p.dash>0?p.ddir*720:mv*300*(p.spd||1)*(p.spdT>0?1.55:1);const gy=SGY-hr-SLEG*sc;
-  if(p.frz<=0&&iv.j&&p.onG){p.vy=p.spdT>0?-880:-800;p.onG=false}p.vy+=2200*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.y>=gy){p.y=gy;p.vy=0;p.onG=true}else p.onG=false;p.x=Math.max(SGW+hr*.6,Math.min(SW-SGW-hr*.6,p.x));
+  const mv=p.frz>0?0:(iv.r-iv.l);if(p.dash>0)p.vx=p.ddir*760;else{const tg=mv*360*(p.spd||1)*(p.spdT>0?1.5:1),ac=(p.onG?3600:2000)*dt,df=tg-p.vx;p.vx+=Math.max(-ac,Math.min(ac,df));if(!mv&&p.onG)p.vx*=.82}const gy=SGY-hr-SLEG*sc;
+  if(p.frz<=0&&iv.j&&p.onG){p.vy=p.spdT>0?-940:-860;p.onG=false}p.vy+=2000*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.y>=gy){p.y=gy;p.vy=0;p.onG=true}else p.onG=false;p.x=Math.max(SGW+hr*.6,Math.min(SW-SGW-hr*.6,p.x));
   if(p.frz<=0&&iv.k&&!p.k0&&p.kcd<=0){p.kick=.26;p.kcd=.42;p.hit=false;const bx=Math.abs(B.x-p.x),by=B.y-p.y;
    if(!p.onG){if(bx<115&&Math.abs(by)<125){p.hit=true;B.vx=p.dir*(880+Math.abs(p.vx)*.3);B.vy=-280;p.ch2=Math.min(100,p.ch2+12);this.evq.push(['bike',p.side]);this.onEv(['bike',p.side])}}
    else if(B.y<SGY-155&&bx<135&&(B.x-p.x)*p.dir>-45){p.vy=p.spdT>0?-880:-800;p.onG=false}}
@@ -1464,17 +1464,18 @@ class Soccer{
   if(p.kick>0&&!p.hit){const d=Math.hypot(B.x-fx,B.y-fy);if(d<SBR+30*sc){p.hit=true;const f=p.fire?1.9:1;B.vx=p.dir*(640+Math.abs(p.vx)*.4)*f;B.vy=-(380+Math.random()*60)*(p.fire?.7:1);if(p.fire){p.fire=false;this.shake=8}p.ch2=Math.min(100,p.ch2+8);this.evq.push(['kick',p.side]);this.onEv(['kick',p.side])}}
   // head collision
   let dx=B.x-p.x,dy=B.y-(p.y),d=Math.hypot(dx,dy);const rr=hr+SBR;if(d<rr&&d>0.001){const nx=dx/d,ny=dy/d;B.x=p.x+nx*rr;B.y=p.y+ny*rr;const vr=(B.vx-p.vx)*nx+(B.vy-p.vy)*ny;if(vr<0){B.vx-=1.9*vr*nx;B.vy-=1.9*vr*ny;if(p.vy<-250){B.vx=B.vx*1.2+p.dir*140;B.vy*=1.12}if(!p.hdCd||p.hdCd<=0){p.ch2=Math.min(100,p.ch2+6);p.hdCd=.25;this.evq.push(['head',p.side]);this.onEv(['head',p.side])}}}p.hdCd=(p.hdCd||0)-dt}
- stepBall(dt){const B=this.ball;for(const q of this.P){if(q.magT>0){const dx=q.x+q.dir*40-B.x,dy=q.y+SHR-B.y,d=Math.hypot(dx,dy);if(d<260&&d>20){B.vx+=dx/d*1500*dt;B.vy+=dy/d*900*dt}}}B.vy+=1500*dt;B.x+=B.vx*dt;B.y+=B.vy*dt;B.vx*=Math.pow(.9996,dt*120);B.rot+=B.vx*dt*.03;
+ stepBall(dt){const B=this.ball;if(B.x<-30||B.x>SW+30||B.y>SH+30||B.y<-200||isNaN(B.x+B.y))return this.respawnBall();if(Math.abs(B.vx)<30&&Math.abs(B.vy)<40){this.stk=(this.stk||0)+dt;if(this.stk>(B.y<SGY-SBR-6?1.1:3.2))return this.respawnBall()}else this.stk=0;for(const q of this.P){if(q.magT>0){const dx=q.x+q.dir*40-B.x,dy=q.y+SHR-B.y,d=Math.hypot(dx,dy);if(d<260&&d>20){B.vx+=dx/d*1500*dt;B.vy+=dy/d*900*dt}}}B.vy+=1500*dt;B.x+=B.vx*dt;B.y+=B.vy*dt;B.vx*=Math.pow(.9996,dt*120);B.rot+=B.vx*dt*.03;
   if(B.y>SGY-SBR){B.y=SGY-SBR;if(B.vy>120)B.vy=-B.vy*.7;else B.vy=0;B.vx*=1-dt*.55}
   if(B.y<SBR){B.y=SBR;B.vy=Math.abs(B.vy)*.7}
   for(const s of [0,1]){const wl=this.P[s].wall>0;const gx=s?SW-SGW:SGW;const inL=s?B.x>gx-SBR:B.x<gx+SBR;
    if(inL){ // crossbar
-    if(B.y+SBR>SCY&&B.y<SCY+9&&B.vy>0&&(s?B.x>SW-SGW-SBR:B.x<SGW+SBR)){B.y=SCY-SBR;B.vy=-B.vy*.55}
+    if(B.y+SBR>SCY&&B.y<SCY+9&&B.vy>0&&(s?B.x>SW-SGW-SBR:B.x<SGW+SBR)){B.y=SCY-SBR;B.vy=-Math.max(B.vy*.55,160);B.vx+=(s?-1:1)*220}
     else if(B.y<SCY&&(s?B.x>SW-SBR:B.x<SBR)){B.x=s?SW-SBR:SBR;B.vx=-B.vx*.7}
     else if(wl&&B.y>SCY&&(s?B.x>gx-SBR:B.x<gx+SBR)){B.x=s?gx-SBR:gx+SBR;B.vx=(s?-1:1)*Math.abs(B.vx)*.9+(s?-60:60)}
     else if(B.y>SCY+9){const inside=s?B.x>SW-SGW*.55:B.x<SGW*.55;if(inside)return this.goal(s?0:1)}}}
  }
  goal(scorer){if(this.ph!=='play')return;this.sc[scorer]++;this.ph='goal';this.goalT=1.8;this.evq.push(['goal',scorer]);this.onEv(['goal',scorer]);this.P[1-scorer].ch2=Math.min(100,this.P[1-scorer].ch2+25);}
+ respawnBall(){this.stk=0;this.ball={x:SW/2+(Math.random()-.5)*160,y:130,vx:(Math.random()-.5)*160,vy:0,rot:0}}
  resetPos(){const [a,b]=this.P;a.x=260;b.x=SW-260;a.y=b.y=SGY-SHR-SLEG;a.vx=b.vx=a.vy=b.vy=0;a.frz=b.frz=0;a.kick=b.kick=0;this.ball={x:SW/2,y:140,vx:0,vy:0,rot:0}}
  simStep(dt){
   if(this.ph==='cd'){this.cdT-=dt;if(this.cdT<=0){this.ph='play'}return}
