@@ -168,7 +168,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ٢٠ 🥷 أسلحة وبقاء</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ١٩ 🥷 قتال</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -509,7 +509,7 @@ const Cloud={user:null,ready:false,loading:null,synced:false,last:0,tm:0,busy:fa
  say(m){try{__GAME.ui.toast(m)}catch(e){}},
  load(){if(this.loading)return this.loading;const L=['app','auth','firestore'];
   this.loading=new Promise((res,rej)=>{let i=0;const nx=()=>{if(i>=L.length){try{firebase.initializeApp(FBCFG);this.auth=firebase.auth();this.db=firebase.firestore();this.ready=true;
-    this.auth.onAuthStateChanged(u=>{this.user=u;this.synced=false;if(u){this.flag(true);this.pull()}this.ui()});res()}catch(e){rej(e)}return}
+    this.auth.onAuthStateChanged(u=>{if(u&&u.isAnonymous){this.user=null;this.synced=false;this.ui();return}this.user=u;this.synced=false;if(u){this.flag(true);this.pull()}this.ui()});res()}catch(e){rej(e)}return}
    const s=document.createElement('script');s.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-'+L[i++]+'-compat.js';s.onload=nx;s.onerror=()=>rej(new Error('net'));document.head.appendChild(s)};nx()});
   this.loading.catch(()=>{this.loading=null});return this.loading},
  init(){try{const m=location.search.match(/[?&]ref=([A-Za-z0-9]{4,8})/);if(m){localStorage.setItem('mat7oon_ref',m[1].toUpperCase());setTimeout(()=>this.say('🎟 اتحفظ كود الدعوة. سجّل دخول من "حسابي" علشان تاخد المكافأة'),2500)}}catch(e){}if(this.wanted())this.load().catch(()=>{})},
@@ -1115,9 +1115,31 @@ class BikeMode{
 }
 const PKCFG={debug:0,config:{iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302','stun:stun2.l.google.com:19302','stun:stun.cloudflare.com:3478','stun:global.stun.twilio.com:3478','stun:openrelay.metered.ca:80']},{urls:['turn:openrelay.metered.ca:80','turn:openrelay.metered.ca:443','turn:openrelay.metered.ca:443?transport=tcp','turns:openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'},{urls:['turn:staticauth.openrelay.metered.ca:80','turn:staticauth.openrelay.metered.ca:443','turn:staticauth.openrelay.metered.ca:443?transport=tcp','turns:staticauth.openrelay.metered.ca:443?transport=tcp'],username:'openrelayproject',credential:'openrelayproject'}],iceCandidatePoolSize:6}};
 window.__pkIce='';
-function pkDial(p,id,hook,onFail){let n=0,done=false,tm=null,cur=null;const drop=()=>{const o=cur;cur=null;try{window.__pkIce=(o&&o.peerConnection&&o.peerConnection.iceConnectionState)||'';o&&o.close()}catch(_){}};
- const go=()=>{if(done)return;n++;const c=p.connect(id,{reliable:true});cur=c;c.on('open',()=>{if(cur!==c)return;done=true;clearTimeout(tm)});hook(c,()=>cur===c);tm=setTimeout(()=>{if(done)return;drop();if(n<3)go();else onFail('timeout')},9000)};
- p.on('error',e=>{if(done)return;if(e.type==='peer-unavailable'&&n<4){clearTimeout(tm);drop();setTimeout(go,1400)}else onFail(e.type)});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});go()}
+const RELAY_URL='https://mat7oon-46400-default-rtdb.europe-west1.firebasedatabase.app',PKTO=window.__pkto||9000;
+class RelayConn{constructor(room,bi,bo){this.room=room;this.bi=bi;this.bo=bo;this.h={};this.open=false;this.dead=false;this.relay=true;this.peer='relay'}
+ on(e,f){(this.h[e]=this.h[e]||[]).push(f)}
+ emit(e,a){(this.h[e]||[]).forEach(f=>{try{f(a)}catch(x){console.error(x)}})}
+ send(o){if(!this.open||this.dead)return;try{Relay.ref(this.room,this.bo).push(JSON.stringify(o))}catch(e){this.emit('error',e)}}
+ start(){if(this.dead||this.open)return;const r=Relay.ref(this.room,this.bi);this.r=r;this.l=r.on('child_added',s=>{const v=s.val();try{s.ref.remove()}catch(e){}let m=null;try{m=JSON.parse(v)}catch(e){return}if(m&&m.__bye){this.close(true);return}this.emit('data',m)});
+  try{this.od=Relay.ref(this.room,this.bo).push().onDisconnect();this.od.set(JSON.stringify({__bye:1}))}catch(e){}this.open=true;this.emit('open')}
+ close(remote){if(this.dead)return;this.dead=true;const was=this.open;this.open=false;try{this.r&&this.r.off('child_added',this.l)}catch(e){}if(!remote){try{Relay.ref(this.room,this.bo).push(JSON.stringify({__bye:1}))}catch(e){}}try{this.od&&this.od.cancel()}catch(e){}if(was)this.emit('close')}}
+const Relay={ld:null,db:null,hr:null,
+ load(){if(this.ld)return this.ld;this.ld=(async()=>{try{if(Cloud.loading)await Cloud.loading.catch(()=>{})}catch(e){}
+  const need=[['app',()=>typeof firebase!=='undefined'&&firebase.initializeApp],['auth',()=>typeof firebase!=='undefined'&&firebase.auth],['database',()=>typeof firebase!=='undefined'&&firebase.database]];
+  for(const nd of need){if(nd[1]())continue;await new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-'+nd[0]+'-compat.js';sc.onload=res;sc.onerror=()=>rej(new Error('net'));document.head.appendChild(sc)})}
+  if(!firebase.apps.length)firebase.initializeApp(FBCFG);this.db=firebase.app().database(RELAY_URL)})();this.ld.catch(()=>{this.ld=null});return this.ld},
+ auth(){const a=firebase.auth();return new Promise((res,rej)=>{const un=a.onAuthStateChanged(u=>{un();if(u)res(u);else a.signInAnonymously().then(r=>res(r.user)).catch(rej)})})},
+ ref(room,box){return this.db.ref('relay/'+room+'/'+box)},
+ host(room,onc,alive){this.load().then(()=>this.auth()).then(()=>{if(!alive())return;this.stop();const root=this.db.ref('relay/'+room);try{root.onDisconnect().remove()}catch(e){}const h=root.child('hello'),l=h.on('child_added',s=>{const gid=String(s.val()||'');try{s.ref.remove()}catch(e){}if(!alive()||!/^[a-z0-9]{4,12}$/.test(gid))return;const c=new RelayConn(room,gid+'u',gid+'d');c.peer='r'+gid;root.child(gid+'a').push('ok');onc(c);setTimeout(()=>c.start(),0)});this.hr={root,h,l}}).catch(e=>{})},
+ stop(){const r=this.hr;this.hr=null;if(r){try{r.h.off('child_added',r.l)}catch(e){}try{r.root.onDisconnect().cancel();r.root.remove()}catch(e){}}},
+ dial(room,cb,fail){let done=false,hk=null,l=null,ack=null;const to=setTimeout(()=>fin(false,'relay-timeout'),PKTO),fin=(ok,v)=>{if(done)return;done=true;clearTimeout(to);if(ack&&l){try{ack.off('child_added',l)}catch(e){}}if(ok)cb(v);else{try{hk&&hk.remove()}catch(e){}fail(v)}};
+  this.load().then(()=>this.auth()).then(()=>{if(done)return;const gid=Math.random().toString(36).slice(2,10).replace(/[^a-z0-9]/g,'x');ack=this.ref(room,gid+'a');l=ack.on('child_added',()=>{const c=new RelayConn(room,gid+'d',gid+'u');c.peer='h'+gid;fin(true,c)});hk=this.ref(room,'hello').push(gid)}).catch(e=>fin(false,'relay-'+((e&&e.code)||'err')))}};
+function pkRelayHost(room,onc,alive){Relay.host(room,onc,alive)}
+function pkDial(p,id,hook,onFail){let n=0,done=false,tm=null,cur=null,rel=false,pF='',rF=false;const drop=()=>{const o=cur;cur=null;try{window.__pkIce=(o&&o.peerConnection&&o.peerConnection.iceConnectionState)||'';o&&o.close()}catch(_){}};
+ const chk=()=>{if(done||!pF||!rF)return;onFail(pF)};
+ const relay=()=>{if(rel||done)return;rel=true;Relay.dial(id,c=>{if(done){try{c.close()}catch(_){}return}done=true;clearTimeout(tm);drop();cur=c;hook(c,()=>cur===c);c.start()},()=>{rF=true;chk()})};
+ const go=()=>{if(done)return;n++;const c=p.connect(id,{reliable:true});cur=c;c.on('open',()=>{if(cur!==c)return;done=true;clearTimeout(tm)});hook(c,()=>cur===c);tm=setTimeout(()=>{if(done)return;drop();relay();if(n<3)go();else{pF='timeout';chk()}},PKTO)};
+ p.on('error',e=>{if(done)return;if(e.type==='peer-unavailable'&&n<4){clearTimeout(tm);drop();relay();setTimeout(go,1400)}else if(e.type==='peer-unavailable'){pF='peer-unavailable';chk()}else onFail(e.type)});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});go()}
 const pkErr=t=>t==='peer-unavailable'?'الكود غلط أو الغرفة مش موجودة (أو صاحبها قفل اللعبة)':t==='timeout'?((window.__pkIce==='failed'||window.__pkIce==='checking'||window.__pkIce==='disconnected')?'الصاحب موجود بس شبكة واحد فيكم بتمنع الاتصال المباشر (غالباً داتا موبايل). جرّب الاتنين على نفس الواي فاي، أو واحد يبدّل واي فاي/داتا':'مش قادر يوصل لسيرفر الغرف — اتأكد من النت وجرّب تاني'):'حصلت مشكلة في الاتصال ('+t+')';
 /* ===================== Versus (online 2-4 players, WebRTC via PeerJS, host = hub) ===================== */
 function mb32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -1139,7 +1161,7 @@ class Versus{
  roById(id){const o=this.ro[id];if(!o)return null;const age=Math.min(.25,(performance.now()-o.t)/1000);return{id:id,d:o.d+(o.dead?0:o.sp*age),x:o.x,y:o.y,ps:o.ps,dead:o.dead,rot:o.rot,sp:o.sp,so:0}}
  loadLib(){const urls=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js'];
   return new Promise((ok,no)=>{if(window.Peer)return ok();let i=0;const next=()=>{if(i>=urls.length)return no();const s=document.createElement('script');s.src=urls[i++];s.onload=()=>window.Peer?ok():next();s.onerror=next;document.head.appendChild(s)};next()})}
- cleanup(){this.bsim={};this.bots={};clearInterval(this.timer);clearTimeout(this.cd);clearTimeout(this.to);this.unpatch();this.on=false;for(const id in this.conns){try{this.conns[id].close()}catch(e){}}try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.conns={};this.peer=null;
+ cleanup(){Relay.stop();this.bsim={};this.bots={};clearInterval(this.timer);clearTimeout(this.cd);clearTimeout(this.to);this.unpatch();this.on=false;for(const id in this.conns){try{this.conns[id].close()}catch(e){}}try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.conns={};this.peer=null;
   const g=this.g;try{g.ui.specHud(false);g.bike.opps={};g.ui.vsBar()}catch(e){}}
  fail(m){const g=this.g;this.cleanup();this.reset();this.err=m;this.render();if(g.state!=='menu')g.toMenu();g.ui.show('s-vs')}
  mkCode(){const L='ABCDEFGHJKLMNPQRSTUVWXYZ';let s='';for(let i=0;i<4;i++)s+=L[Math.floor(Math.random()*L.length)];return s}
@@ -1151,7 +1173,7 @@ class Versus{
   try{await this.loadLib()}catch(e){return this.fail('مش قادر يحمّل مكتبة الأونلاين — اتأكد إن النت شغال')}
   this.tryHost(0)}
  tryHost(n){const code=this.mkCode(),p=new Peer('ymm-'+code,PKCFG);this.peer=p;
-  p.on('open',()=>{this.code=code;this.msg='';this.render()});
+  p.on('open',()=>{this.code=code;this.msg='';this.render();pkRelayHost('ymm-'+code,c=>this.onGuest(c),()=>this.peer===p)});
   p.on('connection',c=>this.onGuest(c));p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
   p.on('error',e=>{if(e.type==='unavailable-id'&&n<6){try{p.destroy()}catch(_){}this.tryHost(n+1)}else this.fail('حصلت مشكلة في الاتصال ('+e.type+')')})}
  onGuest(c){const free=[1,2,3].find(i=>!this.conns[i]&&!this.pl[i]);
@@ -1540,8 +1562,8 @@ class Penalty{
  async hostRoom(){await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=true;this.online=true;this.phase='wait';this.msg='بنجهّز الغرفة...';this.render();
   try{await this.g.vs.loadLib()}catch(e){this.err='مش قادر يحمّل مكتبة الأونلاين';this.phase='menu';return this.render()}
   const L='ABCDEFGHJKLMNPQRSTUVWXYZ',mk=()=>{let s='';for(let i=0;i<4;i++)s+=L[Math.floor(Math.random()*L.length)];return s};let n=0;
-  const tr=()=>{const code=mk(),p=new Peer('pnk-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
-   p.on('connection',c=>{if(this.conn){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}this.conn=c;c.on('data',m=>this.recv(m));c.on('close',()=>this.lost());c.on('error',()=>this.lost())});
+  const tr=()=>{const code=mk(),p=new Peer('pnk-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;pkRelayHost('pnk-'+code,onc,()=>this.peer===p);this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
+   const onc=c=>{if(this.conn&&this.conn.open!==false){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}if(this.conn){try{this.conn.close()}catch(e){}}this.conn=c;c.on('data',m=>this.recv(m));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conn!==c)return;if(c.__o)this.lost();else this.conn=null};c.on('close',gone);c.on('error',gone)};p.on('connection',onc);
    p.on('error',e=>{if(e.type==='unavailable-id'&&n++<6){try{p.destroy()}catch(_){}tr()}else this.fail('حصلت مشكلة في الاتصال ('+e.type+')')})};tr()}
  async joinRoom(code){code=(code||'').trim().toUpperCase();if(code.length<4){this.err='اكتب الكود (٤ حروف)';return this.render()}
   await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=false;this.online=true;this.phase='join';this.msg='بنتصل...';this.render();
@@ -1550,7 +1572,7 @@ class Penalty{
   p.on('error',e=>{if(this.phase==='join'&&e.type!=='peer-unavailable')this.fail(pkErr(e.type))})}
  fail(m){this.cleanupNet();this.err=m;this.phase='menu';if(this.g.state==='pen'){this.on=false;this.g.toMenu()}this.render();this.g.ui.show('s-pen')}
  lost(){if(this.phase==='menu'||!this.online)return;if(this.on&&this.ph!=='end'){this.on=false;this.ph='end';const me=this.me();this.sc[me]=Math.max(this.sc[me],this.sc[1-me])+1;this.finish()}else if(this.phase==='wait'||this.phase==='join')this.fail('اللاعب التاني فصل');else this.msg='اللاعب التاني فصل'}
- cleanupNet(){clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true}
+ cleanupNet(){Relay.stop();clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true}
  send(o){try{if(this.conn&&this.conn.open)this.conn.send(o)}catch(e){}}
  san(s){return String(s||'لاعب').replace(/[<>&"'`]/g,'').slice(0,14)}
  recv(m){if(!m||!m.t)return;
@@ -1835,8 +1857,8 @@ guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn
  async hostRoom(){await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=true;this.online=true;this.phase='wait';this.msg='بنجهّز الغرفة...';this.render();
   try{await this.g.vs.loadLib()}catch(e){this.err='مش قادر يحمّل مكتبة الأونلاين';this.phase='menu';return this.render()}
   const L='ABCDEFGHJKLMNPQRSTUVWXYZ',mk=()=>{let s='';for(let i=0;i<4;i++)s+=L[Math.floor(Math.random()*L.length)];return s};let n=0;
-  const tr=()=>{const code=mk(),p=new Peer('sc3-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
-   p.on('connection',c=>{if(this.conn){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}this.conn=c;c.on('data',m=>this.recv(m));c.on('close',()=>this.lost());c.on('error',()=>this.lost())});
+  const tr=()=>{const code=mk(),p=new Peer('sc3-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;pkRelayHost('sc3-'+code,onc,()=>this.peer===p);this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
+   const onc=c=>{if(this.conn&&this.conn.open!==false){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}if(this.conn){try{this.conn.close()}catch(e){}}this.conn=c;c.on('data',m=>this.recv(m));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conn!==c)return;if(c.__o)this.lost();else this.conn=null};c.on('close',gone);c.on('error',gone)};p.on('connection',onc);
    p.on('error',e=>{if(e.type==='unavailable-id'&&n++<6){try{p.destroy()}catch(_){}tr()}else this.fail(pkErr(e.type))})};tr()}
  async joinRoom(code){code=(code||'').trim().toUpperCase();if(code.length<4){this.err='اكتب الكود (٤ حروف)';return this.render()}
   await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=false;this.online=true;this.phase='join';this.msg='بنتصل...';this.render();
@@ -1845,7 +1867,7 @@ guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn
   p.on('error',e=>{if(this.phase==='join'&&e.type!=='peer-unavailable')this.fail(pkErr(e.type))})}
  fail(m){this.cleanupNet();this.err=m;this.phase='menu';if(this.g.state==='soccer'){this.on=false;this.g.toMenu()}this.render();this.g.ui.show('s-soc')}
  lost(){if(this.phase==='menu'||!this.online)return;if(this.on){this.on=false;const me=this.me();this.sc[me]=Math.max(this.sc[me],this.sc[1-me])+1;this.forf=true;this.endMatch(true)}else if(this.phase==='wait'||this.phase==='join')this.fail('اللاعب التاني فصل');else this.msg='اللاعب التاني فصل'}
- cleanupNet(){clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true;this.hum=[true,false]}
+ cleanupNet(){Relay.stop();clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true;this.hum=[true,false]}
  send(o){try{if(this.conn&&this.conn.open)this.conn.send(o)}catch(e){}}
  san(s){return String(s||'لاعب').replace(/[<>&"'`]/g,'').slice(0,14)}
  // ---------------- النهاية
@@ -2370,8 +2392,8 @@ class StickFight{
  async hostRoom(){this.cleanupNet();this.host=true;this.online=true;this.phase='wait';this.msg='بنجهّز الغرفة...';this.render();const ok=await this.ensure3D();if(!ok){this.err='جهازك مش بيدعم ٣D';this.phase='menu';this.online=false;return this.render()}
   try{await this.g.vs.loadLib()}catch(e){this.err='مش قادر يحمّل مكتبة الأونلاين';this.phase='menu';this.online=false;return this.render()}
   const L='ABCDEFGHJKLMNPQRSTUVWXYZ',mk=()=>{let s='';for(let i=0;i<4;i++)s+=L[Math.floor(Math.random()*L.length)];return s};let n=0;
-  const tr=()=>{const code=mk(),p=new Peer('stk-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
-   p.on('connection',c=>{if(this.conn){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}this.conn=c;c.on('data',m=>this.recv(m));c.on('close',()=>this.lost());c.on('error',()=>this.lost())});
+  const tr=()=>{const code=mk(),p=new Peer('stk-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;pkRelayHost('stk-'+code,onc,()=>this.peer===p);this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
+   const onc=c=>{if(this.conn&&this.conn.open!==false){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}if(this.conn){try{this.conn.close()}catch(e){}}this.conn=c;c.on('data',m=>this.recv(m));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conn!==c)return;if(c.__o)this.lost();else this.conn=null};c.on('close',gone);c.on('error',gone)};p.on('connection',onc);
    p.on('error',e=>{if(e.type==='unavailable-id'&&n++<6){try{p.destroy()}catch(_){}tr()}else this.fail(pkErr(e.type))})};tr()}
  async joinRoom(code){code=(code||'').trim().toUpperCase();if(code.length<4){this.err='اكتب الكود (٤ حروف)';return this.render()}
   this.cleanupNet();this.host=false;this.online=true;this.phase='join';this.msg='بنتصل...';this.err='';this.render();const ok=await this.ensure3D();if(!ok)return this.fail('جهازك مش بيدعم ٣D');
@@ -2390,7 +2412,7 @@ class StickFight{
  fail(m){this.cleanupNet();this.err=m;this.phase='menu';if(this.g.state==='stick'){this.on=false;this.hideBtns();this.g.state='menu'}this.render();this.g.ui.show('s-stk')}
  lost(){if(!this.online)return;if(this.on&&this.host){const p=this.pls[1];if(p&&!p.dead){p.hp=0;p.dead=true;p.st='ko';p.t=0;p.fadeT=0;p.vy=5}this.raw2.q=[];this.conn=null;this.online=false;this.co=false;this.g.ui.toast('اللاعب التاني فصل — كمّل لوحدك');}
   else if(this.on&&!this.host){this.fail('صاحب الغرفة فصل')}else if(this.phase==='wait'||this.phase==='join')this.fail('اللاعب التاني فصل');else{this.msg='اللاعب التاني فصل';this.fail('اللاعب التاني فصل')}}
- cleanupNet(){try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true;this.co=false;this.partner=''}
+ cleanupNet(){Relay.stop();try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true;this.co=false;this.partner=''}
  send(o){try{if(this.conn&&this.conn.open)this.conn.send(o)}catch(e){}}
 }
 const STS=['idle','walk','block','atk','hit','down','getup','dash','stun','ko','spawn'],AKS=Object.keys(ATK);
