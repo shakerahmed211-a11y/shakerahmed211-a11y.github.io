@@ -168,7 +168,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ٢٥ 🥷 حركة Stickman أسلس</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ٢٦ 🏹 أسلحة بعيدة + مراحل جديدة</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -1994,7 +1994,8 @@ const STK_AR=8.6;
 const STK_TH=[
  {n:'الحارة',sky:0x1b1038,gl:0x8b5cf6,fl:'#2b2158'},{n:'السطح',sky:0x0f2a44,gl:0x38bdf8,fl:'#14344f'},
  {n:'المخزن',sky:0x3b0f1c,gl:0xf43f5e,fl:'#4a1626'},{n:'الميناء',sky:0x0b3b3a,gl:0x2dd4bf,fl:'#114a47'},
- {n:'الجسر',sky:0x3a2a0b,gl:0xfbbf24,fl:'#4b3510'},{n:'عرين الظلام',sky:0x12071f,gl:0xe879f9,fl:'#241136'},{n:'وضع البقاء',sky:0x08201a,gl:0x4ade80,fl:'#10281c'},{n:'ساحة المواجهة',sky:0x1a0a2e,gl:0xfb7185,fl:'#2d1236'}];
+ {n:'الجسر',sky:0x3a2a0b,gl:0xfbbf24,fl:'#4b3510'},{n:'عرين الظلام',sky:0x12071f,gl:0xe879f9,fl:'#241136'},{n:'وضع البقاء',sky:0x08201a,gl:0x4ade80,fl:'#10281c'},{n:'ساحة المواجهة',sky:0x1a0a2e,gl:0xfb7185,fl:'#2d1236'},
+ {n:'المصنع',sky:0x0c2230,gl:0x22d3ee,fl:'#123446'},{n:'الصحرا',sky:0x3d2a12,gl:0xf59e0b,fl:'#573b16'},{n:'قلعة النار',sky:0x3b0d06,gl:0xfb923c,fl:'#521409'},{n:'قمة الجبل',sky:0x0d1630,gl:0xa5b4fc,fl:'#16224a'},{n:'برج التحدي',sky:0x16092b,gl:0xf472b6,fl:'#2a1048'}];
 const STK_EN={
  grunt:{n:'بلطجي',k:'melee',hp:42,sp:3.2,sc:1,col:0xef4444,dm:1,arm:0,blk:.14,dod:0,c0:1.1,c1:2.1},
  ninja:{n:'نينجا',k:'ninja',hp:32,sp:5.2,sc:.95,col:0x22c55e,dm:.9,arm:0,blk:.05,dod:.35,c0:.8,c1:1.5},
@@ -2004,15 +2005,27 @@ const STK_EN={
  boss2:{n:'ملك الضلمة',k:'boss',hp:520,sp:4,sc:1.7,col:0x7c3aed,dm:1.25,arm:24,blk:.3,dod:.12,c0:.7,c1:1.3,kr:.25,boss:1,acc:0xfbbf24},
  shield:{n:'الدرع',k:'melee',hp:70,sp:2.6,sc:1.05,col:0x64748b,dm:1,arm:0,blk:0,dod:0,c0:1.3,c1:2.2,shield:1},
  bomber:{n:'مفجّر',k:'bomber',hp:24,sp:5.4,sc:.9,col:0xf97316,dm:1.1,arm:0,blk:0,dod:0,c0:.5,c1:1},
- healer:{n:'المعالج',k:'healer',hp:45,sp:3.2,sc:1,col:0x34d399,dm:.6,arm:0,blk:0,dod:.25,c0:3,c1:4}};
+ healer:{n:'المعالج',k:'healer',hp:45,sp:3.2,sc:1,col:0x34d399,dm:.6,arm:0,blk:0,dod:.25,c0:3,c1:4},
+ sniper:{n:'القنّاص',k:'archer',hp:28,sp:3.0,sc:1,col:0x38bdf8,dm:1,arm:0,blk:0,dod:.2,c0:3.6,c1:5.4},
+ assassin:{n:'القاتل',k:'ninja',hp:34,sp:6.3,sc:.95,col:0xef4444,dm:1,arm:0,blk:.1,dod:.5,c0:.7,c1:1.4},
+ guardian:{n:'الحارس',k:'melee',hp:130,sp:2.5,sc:1.25,col:0x0ea5e9,dm:1.05,arm:10,blk:.35,dod:0,c0:1.3,c1:2.2,shield:1},
+ boss3:{n:'سيد النار',k:'boss',hp:620,sp:4.1,sc:1.65,col:0xea580c,dm:1.25,arm:22,blk:.3,dod:.1,c0:.8,c1:1.4,kr:.25,boss:1,acc:0xfb923c},
+ boss4:{n:'إمبراطور الظلام',k:'boss',hp:900,sp:4.4,sc:1.85,col:0x1e1b4b,dm:1.4,arm:28,blk:.3,dod:.15,c0:.7,c1:1.3,kr:.2,boss:1,acc:0xf0abfc}};
 const STK_TY=Object.keys(STK_EN),WM=['','stick','nun','sword','hammer'];
+function STK_TOWER(){const w=[],P=['grunt','ninja','archer','shield','sniper','assassin','guardian','bomber','healer','brute'];for(let n=1;n<=15;n++){if(n===5){w.push(['boss1']);continue}if(n===10){w.push(['boss3','healer']);continue}if(n===15){w.push(['boss4']);continue}const c=Math.min(2+Math.floor(n/3),6),a=[];for(let i=0;i<c;i++)a.push(P[(n*3+i*2+Math.floor(n/4))%P.length]);w.push(a)}return w}
 const STK_ST=[
  {n:'الحارة',w:[['grunt','grunt']]},
  {n:'السطح',w:[['grunt','grunt'],['ninja','bomber']]},
  {n:'المخزن',w:[['grunt','archer'],['boss1']],boss:1},
  {n:'الميناء',w:[['shield','grunt'],['brute','healer'],['ninja','ninja','archer']]},
  {n:'الجسر',w:[['shield','archer','bomber'],['ninja','ninja','healer'],['brute','shield','bomber']]},
- {n:'عرين الظلام',w:[['ninja','archer','grunt'],['boss2']],boss:1},{n:'وضع البقاء',w:[],surv:1},{n:'ساحة المواجهة',w:[],pvp:1}];
+ {n:'عرين الظلام',w:[['ninja','archer','grunt'],['boss2']],boss:1},{n:'وضع البقاء',w:[],surv:1},{n:'ساحة المواجهة',w:[],pvp:1},
+ {n:'المصنع',w:[['grunt','guardian'],['sniper','sniper','ninja'],['assassin','assassin','bomber']]},
+ {n:'الصحرا',w:[['sniper','grunt','grunt'],['brute','guardian','healer'],['assassin','sniper','shield','bomber']]},
+ {n:'قلعة النار',w:[['guardian','sniper','assassin'],['boss3']],boss:1},
+ {n:'قمة الجبل',w:[['assassin','assassin','sniper'],['guardian','brute','healer','sniper'],['boss4']],boss:1},
+ {n:'برج التحدي',w:STK_TOWER(),tower:1}];
+const STK_ORD=[0,1,2,3,4,5,8,9,10,11];
 const SG=[0,.15,1.0,1.7,.9,1.8,.35,.5,-.25,.4,-.05,0,.25];
 const spz=o=>{const a=SG.slice();for(const k in o)a[k]=o[k];return a};
 const SPS={
@@ -2039,13 +2052,18 @@ const ATK={
  slam:{dur:1.2,hs:.58,he:.74,dmg:20,rng:3.3,arc:3.3,kb:9,aoe:1,brk:1,down:1,warn:1,fr:[[0,SG],[.5,SPS.hvW],[.62,SPS.hvS],[.8,SPS.hvS],[1,SG]],sn:'boom'},
  charge:{dur:.85,hs:.15,he:.85,dmg:15,rng:1.9,arc:1.1,kb:10,mv:13,brk:1,down:1,fr:[[0,SPS.chg],[1,SPS.chg]],sn:'hhit',warn2:1},
  throw:{dur:.75,hs:.5,he:.5,dmg:0,rng:0,arc:0,kb:0,mv:0,shot:1,fr:[[0,SG],[.45,SPS.thW],[.55,SPS.thS],[1,SG]],sn:'jab'},
+ rsh:{dur:.4,hs:.32,he:.5,dmg:0,rng:0,arc:0,kb:0,mv:0,shot:1,rsh:1,fr:[[0,SG],[.3,SPS.thW],[.42,SPS.thS],[1,SG]],sn:'jab'},
  volley:{dur:.95,hs:.5,he:.5,dmg:0,rng:0,arc:0,kb:0,mv:0,shot:3,fr:[[0,SG],[.45,SPS.thW],[.55,SPS.thS],[1,SG]],sn:'jab'}};
 Object.assign(ATK,{
  spwave:{dur:.8,hs:.45,he:.45,dmg:0,rng:0,arc:0,kb:0,mv:0,shot:1,wave:1,fr:[[0,SG],[.4,SPS.thW],[.5,SPS.thS],[1,SG]],sn:'boom'},
  spdive:{dur:.7,hs:.12,he:.75,dmg:26,rng:1.9,arc:1.1,kb:11,mv:16,brk:1,down:1,foot:1,fr:[[0,SPS.kkW],[.15,SPS.kkS],[.85,SPS.kkS],[1,SG]],sn:'hhit'},
  blast:{dur:.95,hs:.7,he:.8,dmg:22,rng:3,arc:3.3,kb:9,aoe:1,brk:1,down:1,warn:1,fr:[[0,SG],[.5,SPS.hvW],[.7,SPS.hvS],[1,SPS.hvS]],sn:'boom'},
  heal:{dur:.9,hs:.5,he:.5,dmg:0,rng:0,arc:0,kb:0,mv:0,heal:1,fr:[[0,SG],[.45,SPS.thW],[.55,SPS.win],[1,SG]],sn:'jab'}});
-const WP={fist:{n:'قبضة',ic:'👊',pr:0,dm:1,sp:1,rg:0,kb:1,m:''},stick:{n:'عصا',ic:'🏑',pr:150,dm:1.12,sp:.92,rg:.4,kb:1.1,m:'stick',d:'مدى أطول وأسرع'},nunchaku:{n:'نانشاكو',ic:'⛓️',pr:300,dm:.95,sp:.72,rg:.3,kb:.9,m:'nun',d:'سريع جداً'},sword:{n:'سيف',ic:'🗡️',pr:500,dm:1.4,sp:1,rg:.55,kb:1.1,m:'sword',d:'ضرر عالي ومدى طويل'},hammer:{n:'مطرقة',ic:'🔨',pr:750,dm:2,sp:1.4,rg:.35,kb:1.5,m:'hammer',d:'ضرر ضخم وبطيء'}};
+const WP={fist:{n:'قبضة',ic:'👊',pr:0,dm:1,sp:1,rg:0,kb:1,m:''},stick:{n:'عصا',ic:'🏑',pr:150,dm:1.12,sp:.92,rg:.4,kb:1.1,m:'stick',d:'مدى أطول وأسرع'},nunchaku:{n:'نانشاكو',ic:'⛓️',pr:300,dm:.95,sp:.72,rg:.3,kb:.9,m:'nun',d:'سريع جداً'},sword:{n:'سيف',ic:'🗡️',pr:500,dm:1.4,sp:1,rg:.55,kb:1.1,m:'sword',d:'ضرر عالي ومدى طويل'},hammer:{n:'مطرقة',ic:'🔨',pr:750,dm:2,sp:1.4,rg:.35,kb:1.5,m:'hammer',d:'ضرر ضخم وبطيء'},
+ bow:{n:'قوس',ic:'🏹',pr:600,dm:1,sp:.95,rg:0,kb:1,m:'bow',rs:'arrow',d:'سهم سريع بعيد المدى'},
+ kunai:{n:'كوناي',ic:'🔪',pr:800,dm:1,sp:.8,rg:0,kb:1,m:'kunai',rs:'kunai',d:'٣ خناجر في مروحة'},
+ star:{n:'نجوم النينجا',ic:'🌟',pr:950,dm:1,sp:.75,rg:0,kb:1,m:'star',rs:'star',d:'نجمة بترجعلك وتضرب مرتين'},
+ cannon:{n:'مدفع يدوي',ic:'💣',pr:1300,dm:1,sp:1.6,rg:0,kb:1,m:'cannon',rs:'cannon',d:'قذيفة بتفرقع — بطيء وقوي'}};
 const SKT={dmg:{n:'القوة',ic:'💪',d:'+٦٪ ضرر'},en:{n:'الطاقة',ic:'🔋',d:'+١٢٪ شحن'},parry:{n:'الصد',ic:'🛡️',d:'نافذة صد مثالي أوسع'},dash:{n:'الرشاقة',ic:'💨',d:'من مستوى ٣ اندفاع أسرع'},hp:{n:'الصحة',ic:'❤️',d:'+٨ صحة'}},SKC=[80,160,260,380,520];
 const SPD={nova:{n:'دوامة',ic:'⚡',pr:0,k:'special',d:'ضربة دايرية حواليك'},wave:{n:'موجة صدمة',ic:'🌊',pr:250,k:'spwave',d:'موجة بعيدة بتخترق'},dive:{n:'ركلة طايرة',ic:'🚀',pr:350,k:'spdive',d:'اندفاع بركلة قوية'}};
 const stkClamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -2054,7 +2072,7 @@ const stkRn=(a,b)=>a+Math.random()*(b-a);
 
 class StickFight{
  constructor(g){this.g=g;this.phase='menu';this.on=false;this.ready=false;this.help=false;this.raw={ax:0,ay:0,blk:0,q:[]};this.raw2={ax:0,ay:0,blk:0,q:[]};this.raws=[this.raw,this.raw2];this.keys={};this.F=[];this.pls=[];this.si=0;this.ph='';this.peer=null;this.conn=null;this.host=true;this.online=false;this.osel=0;this.code='';this.msg='';this.err='';this.out=[];this.fid=0;this.setup()}
- k(){const d=this.g.sv.d,D={u:1,s:[0,0,0,0,0,0],w:0,k:0,mute:0,nv:0,nf:0,seen:0,sk:{dmg:0,en:0,parry:0,dash:0,hp:0},wp:['fist'],we:'fist',sp:['nova'],se:'nova',bs:0,bc:0,top:[]};if(!d.stk)d.stk=D;const k=d.stk;for(const x in D)if(k[x]===undefined)k[x]=D[x];if(!k.sk||typeof k.sk!=='object')k.sk=D.sk;if(!Array.isArray(k.wp)||k.wp.indexOf('fist')<0)k.wp=['fist'].concat(k.wp||[]);if(!Array.isArray(k.sp)||k.sp.indexOf('nova')<0)k.sp=['nova'].concat(k.sp||[]);if(!WP[k.we])k.we='fist';if(!SPD[k.se])k.se='nova';if(!Array.isArray(k.top))k.top=[];return k}
+ k(){const d=this.g.sv.d,D={u:1,s:[0,0,0,0,0,0],w:0,k:0,mute:0,nv:0,nf:0,seen:0,sk:{dmg:0,en:0,parry:0,dash:0,hp:0},wp:['fist'],we:'fist',sp:['nova'],se:'nova',bs:0,bc:0,top:[]};if(!d.stk)d.stk=D;const k=d.stk;for(const x in D)if(k[x]===undefined)k[x]=D[x];if(!k.sk||typeof k.sk!=='object')k.sk=D.sk;if(!Array.isArray(k.wp)||k.wp.indexOf('fist')<0)k.wp=['fist'].concat(k.wp||[]);if(!Array.isArray(k.sp)||k.sp.indexOf('nova')<0)k.sp=['nova'].concat(k.sp||[]);if(!WP[k.we])k.we='fist';if(!SPD[k.se])k.se='nova';if(!Array.isArray(k.top))k.top=[];if(!Array.isArray(k.s))k.s=[0,0,0,0,0,0];while(k.s.length<13)k.s.push(0);return k}
  lv(){return this.surv?Math.min(10,1+Math.floor((this.wi||0)*.45)):this.si}
  myLd(){const k=this.k();return{w:k.we,s:k.se,sk:Object.assign({},k.sk)}}
  sanLd(l){l=l||{};const sk={};for(const x in SKT)sk[x]=stkClamp((l.sk&&l.sk[x])|0,0,5);return{w:WP[l.w]?l.w:'fist',s:SPD[l.s]?l.s:'nova',sk}}
@@ -2081,7 +2099,7 @@ class StickFight{
  stop(){this.on=false;this.cleanupNet();this.hideBtns()}
  act(a,d){const g=this.g;
   if(a==='stkopen')this.open();else if(a==='stkgo'){this.cleanupNet();this.go(+d.i)}else if(a==='stkagain'){if(this.online&&!this.host)return;this.go(this.si)}else if(a==='stknext'){if(this.online&&!this.host)return;this.go(Math.min(5,this.si+1))}
-  else if(a==='stkhost')this.hostRoom();else if(a==='stkjoin'){const e=document.getElementById('stkCode');this.joinRoom(e?e.value:'')}else if(a==='stkosel'){const l=this.onlList(),p=stkClamp(l.indexOf(this.osel)+(+d.d),0,l.length-1);this.osel=l[p];this.render()}else if(a==='stkshop'){this.phase='shop';this.tab='w';this.render()}else if(a==='stktab'){this.tab=d.t;this.render()}else if(a==='stkbuy')this.buy(d.k,d.id);else if(a==='stkonl'){this.phase='onl';const l=this.onlList();if(l.indexOf(this.osel)<0)this.osel=0;this.err='';this.render()}
+  else if(a==='stkhost')this.hostRoom();else if(a==='stkjoin'){const e=document.getElementById('stkCode');this.joinRoom(e?e.value:'')}else if(a==='stkosel'){const l=this.onlList(),p=stkClamp(l.indexOf(this.osel)+(+d.d),0,l.length-1);this.osel=l[p];this.render()}else if(a==='stkshop'){this.phase='shop';this.tab='w';this.render()}else if(a==='stktab'){this.tab=d.t;this.render()}else if(a==='stkbuy')this.buy(d.k,d.id);else if(a==='stktut'){Tut.run('stk',()=>{})}else if(a==='stkonl'){this.phase='onl';const l=this.onlList();if(l.indexOf(this.osel)<0)this.osel=0;this.err='';this.render()}
   else if(a==='stkmenu'){this.on=false;this.hideBtns();g.state='menu';this.open()}else if(a==='stkhome'){this.on=false;this.cleanupNet();g.toMenu();g.ui.show('s-start')}else if(a==='stkback')this.open()
   else if(a==='stkres')this.resume();else if(a==='stktog'){this.tog(d.t)}else if(a==='stkhelp'){this.help=!this.help;this.render()}}
  onlList(){const k=this.k(),l=[];for(let i=0;i<Math.min(6,k.u);i++)l.push(i);if(k.u>=3)l.push(6);l.push(7);return l}
@@ -2094,7 +2112,14 @@ class StickFight{
  render(){const box=document.getElementById('stBox');if(!box)return;const k=this.k(),ph=this.phase;let h='';
   const tg='<div class="row" style="gap:6px;justify-content:center"><button class="btn sm alt" data-act="stktog" data-t="mute">'+(k.mute?'🔇 الصوت مقفول':'🔊 الصوت شغال')+'</button><button class="btn sm alt" data-act="stktog" data-t="nv">'+(k.nv?'📴 اهتزاز مقفول':'📳 اهتزاز شغال')+'</button><button class="btn sm alt" data-act="stktog" data-t="nf">'+(k.nf?'✨ وميض مخفف':'✨ وميض عادي')+'</button></div>';
   const help='<div class="sub" style="text-align:right;line-height:1.7">🕹 العصا: مشي (نص) وجري (آخرها) · 👊 ضربة سريعة (كرّرها كومبو ٣) · 🦵 ركلة · 💥 ضربة قوية (بتكسر الدفاع) · ⚡ خاصة (لما الطاقة تتملي) · 🛡 اضغط وسيب: صدّ، وقبل الضربة بلحظة = <b>صدّ مثالي</b> بيشل الخصم · 💨 اندفاع (تفادي) · ⤴ قفز (يتفادى الموجات والكور)<br>⌨ كيبورد: الأسهم/WASD حركة، J ضرب، K ركلة، L قوية، I خاصة، U صد، مسافة قفز، Shift اندفاع، Esc إيقاف</div>';
-  if(ph==='menu'){h='<h2>🥷 قتال Stickman</h2><div class="sub" style="text-align:center">'+fmt(k.w)+' فوز · '+fmt(k.k)+' ضربة قاضية · 🪙 '+fmt(this.g.sv.d.coins)+'</div><div class="grid2" style="grid-template-columns:repeat(3,1fr)">'+STK_ST.slice(0,6).map((s,i)=>{const lock=i>=k.u,st=k.s[i]||0;return '<button class="btn sm'+(lock?' alt':'')+'" '+(lock?'disabled style="opacity:.45"':'data-act="stkgo" data-i="'+i+'"')+'>'+(lock?'🔒':(s.boss?'👑':fmt(i+1)))+' '+s.n+'<br><span style="font-size:13px">'+(lock?'مقفولة':'⭐'.repeat(st)+'☆'.repeat(3-st))+'</span></button>'}).join('')+'</div><div class="grid2" style="grid-template-columns:repeat(3,1fr)"><button class="btn sm alt" data-act="stkshop">🛒 المتجر</button><button class="btn sm alt" '+(k.u>=3?'data-act="stkgo" data-i="6"':'disabled style="opacity:.45"')+'>♾ البقاء<br><span style="font-size:12px">'+(k.bs?'أعلى موجة '+fmt(k.bs):(k.u>=3?'ابدأ':'🔒 بعد مرحلة ٢'))+'</span></button><button class="btn sm alt" data-act="stkonl">🌐 أونلاين</button></div>'+tg+'<button class="btn alt" data-act="stkhelp">🎮 '+(this.help?'إخفاء التحكم':'طريقة التحكم')+'</button>'+(this.help||!k.seen?help:'')+(this.err?'<div class="stats" style="color:#fca5a5">⚠ '+this.err+'</div>':'')+(this.msg?'<div class="stats"><span>'+this.msg+'</span></div>':'')+'<button class="btn red" data-act="stkhome">🏠 رجوع للعبة</button>'}
+  if(ph==='menu'){const cell=(j)=>{const i=STK_ORD[j],t=STK_ST[i],lock=j>=k.u,st=k.s[i]||0;return '<button class="btn sm'+(lock?' alt':'')+'" '+(lock?'disabled style="opacity:.45"':'data-act="stkgo" data-i="'+i+'"')+' style="padding:8px 4px">'+(lock?'🔒':(t.boss?'👑':fmt(j+1)))+' '+t.n+'<br><span style="font-size:12px">'+(lock?'مقفولة':'⭐'.repeat(st)+'☆'.repeat(3-st))+'</span></button>'},sec=t=>'<div class="sub" style="text-align:right;margin:10px 4px 4px;font-weight:800;opacity:.9">'+t+'</div>';
+   const tw=k.s[12]||0;
+   h='<h2 style="margin:0">🥷 قتال Stickman</h2><div class="row" style="gap:6px;justify-content:center;flex-wrap:wrap;margin:6px 0"><span class="chip">🏆 '+fmt(k.w)+' فوز</span><span class="chip">💥 '+fmt(k.k)+' ضربة قاضية</span><span class="chip">🪙 '+fmt(this.g.sv.d.coins)+'</span></div>'+
+   sec('🎯 المراحل')+'<div class="grid2" style="grid-template-columns:repeat(3,1fr);gap:6px">'+STK_ORD.map((_,j)=>cell(j)).join('')+'</div>'+
+   sec('⚔️ الأوضاع')+'<div class="grid2" style="grid-template-columns:repeat(3,1fr);gap:6px"><button class="btn sm alt" '+(k.u>=3?'data-act="stkgo" data-i="6"':'disabled style="opacity:.45"')+'>♾ البقاء<br><span style="font-size:12px">'+(k.bs?'أعلى موجة '+fmt(k.bs):(k.u>=3?'ابدأ':'🔒'))+'</span></button><button class="btn sm alt" '+(k.u>=7?'data-act="stkgo" data-i="12"':'disabled style="opacity:.45"')+'>🗼 برج التحدي<br><span style="font-size:12px">'+(k.u>=7?(tw?'⭐'.repeat(tw)+'☆'.repeat(3-tw):'١٥ دور'):'🔒 بعد المرحلة ٦')+'</span></button><button class="btn sm alt" data-act="stkonl">🌐 أونلاين<br><span style="font-size:12px">تعاون / مواجهة</span></button></div>'+
+   '<div class="grid2" style="grid-template-columns:1fr 1fr;gap:6px;margin-top:8px"><button class="btn sm" data-act="stkshop">🛒 المتجر والأسلحة</button><button class="btn sm alt" data-act="stktut">❓ شرح سريع</button></div>'+
+   '<details style="margin-top:8px;text-align:right"><summary class="btn sm alt" style="display:block;list-style:none;text-align:center">⚙️ الإعدادات والتحكم</summary><div style="margin-top:6px">'+tg+'<div style="margin-top:6px">'+help+'</div></div></details>'+
+   (this.err?'<div class="stats" style="color:#fca5a5">⚠ '+this.err+'</div>':'')+(this.msg?'<div class="stats"><span>'+this.msg+'</span></div>':'')+'<button class="btn red" data-act="stkhome" style="margin-top:8px">🏠 رجوع للعبة</button>'}
   else if(ph==='shop'){const tab=this.tab||'w',coins=this.g.sv.d.coins,tb=(id,l)=>'<button class="btn sm '+(tab===id?'':'alt')+'" data-act="stktab" data-t="'+id+'" style="margin:0;flex:1">'+l+'</button>';
    h='<h2>🛒 المتجر</h2><div class="sub" style="text-align:center">🪙 '+fmt(coins)+'</div><div class="row" style="gap:6px">'+tb('w','🗡 أسلحة')+tb('s','🌟 مهارات')+tb('x','⚡ حركات')+'</div>';
    if(tab==='w')h+=Object.keys(WP).map(id=>{const w=WP[id],own=k.wp.indexOf(id)>=0,eq=k.we===id;return '<button class="btn sm '+(eq?'':'alt')+'" data-act="stkbuy" data-k="w" data-id="'+id+'">'+w.ic+' '+w.n+(w.d?' — '+w.d:'')+'<br><span style="font-size:13px">'+(eq?'✔ مجهّز':own?'اضغط للتجهيز':'🪙 '+fmt(w.pr))+'</span></button>'}).join('');
@@ -2139,6 +2164,11 @@ class StickFight{
   const wg=new T.Group();aR.e.add(wg);wg.position.y=-.36;const wm=(len,r,c)=>{const m=new T.Mesh(this.cg(len,r),new T.MeshStandardMaterial({color:c,roughness:.5,metalness:.4}));m.position.y=-len/2;return m};
   const W={stick:new T.Group(),sword:new T.Group(),nun:new T.Group(),hammer:new T.Group()};W.stick.add(wm(1,.035,0x92400e));
   W.sword.add(wm(.25,.03,0x78350f));const bl=new T.Mesh(new T.BoxGeometry(.07,.9,.02),new T.MeshStandardMaterial({color:0xe2e8f0,metalness:.8,roughness:.2,emissive:0x93c5fd,emissiveIntensity:.3}));bl.position.y=-.7;W.sword.add(bl);const gd=new T.Mesh(new T.BoxGeometry(.3,.05,.05),new T.MeshStandardMaterial({color:0xfbbf24}));gd.position.y=-.26;W.sword.add(gd);
+  W.bow=new T.Group();W.kunai=new T.Group();W.star=new T.Group();W.cannon=new T.Group();
+  {const bm=new T.Mesh(new T.TorusGeometry(.42,.022,6,16,Math.PI),new T.MeshStandardMaterial({color:0x92400e,roughness:.6}));bm.rotation.z=-Math.PI/2;bm.position.y=-.45;W.bow.add(bm);const sg=new T.Mesh(new T.BoxGeometry(.01,.84,.01),new T.MeshStandardMaterial({color:0xf5f5f4}));sg.position.set(0,-.45,0);W.bow.add(sg);
+   W.kunai.add(wm(.2,.02,0x111827));const kb=new T.Mesh(new T.BoxGeometry(.06,.32,.015),new T.MeshStandardMaterial({color:0xe2e8f0,metalness:.8,roughness:.2,emissive:0x93c5fd,emissiveIntensity:.3}));kb.position.y=-.36;W.kunai.add(kb);
+   const st=new T.Mesh(new T.OctahedronGeometry(.2),new T.MeshStandardMaterial({color:0xe2e8f0,metalness:.8,roughness:.25,emissive:0xfde047,emissiveIntensity:.5}));st.scale.set(1,1,.22);st.position.y=-.2;W.star.add(st);
+   W.cannon.add(wm(.62,.1,0x374151));const cm=new T.Mesh(new T.CylinderGeometry(.13,.13,.05,10),new T.MeshStandardMaterial({color:0xf97316,emissive:0xf97316,emissiveIntensity:.8}));cm.position.y=-.64;W.cannon.add(cm)}
   W.nun.add(wm(.5,.035,0x1f2937));const n2=wm(.5,.035,0x1f2937);n2.position.set(.12,-.6,0);n2.rotation.z=-.5;W.nun.add(n2);
   W.hammer.add(wm(.95,.04,0x78350f));const hh=new T.Mesh(new T.BoxGeometry(.38,.3,.3),new T.MeshStandardMaterial({color:0x64748b,metalness:.6,roughness:.4}));hh.position.y=-1;W.hammer.add(hh);
   for(const x in W){W[x].visible=false;wg.add(W[x])}
@@ -2221,7 +2251,7 @@ class StickFight{
   else if(a==='s'){if(f.en>=100){key=(SPD[f.ld&&f.ld.s]||SPD.nova).k;f.en=0;this.snd('ready')}else{this.ft(f,'⚡ الطاقة مش كاملة','#93c5fd');f.buf=null;return}}
   if(key){f.buf=null;this.startAtk(f,key,1)}}
  startDash(f,ang,sp){f.st='dash';f.t=0;f.dashA=ang;f.inv=.28;f.dashCd=(f.ld&&f.ld.sk.dash>=3)?.4:.65;f.atk=null;f.face=f.team?f.face:f.face;this.snd('dash');for(let i=0;i<5;i++)this.trail(f.x,.4+i*.35,f.z,f.team?f.def.col:0x22d3ee,.28,.3)}
- startAtk(f,key,sm){if(f.team===0)sm*=.86;const A=ATK[key],tg=this.foe(f),wp=f.ld&&!A.foot&&!A.aoe&&!A.shot&&!A.heal?WP[f.ld.w]:null;if(wp)sm*=wp.sp;if(tg){const dx=tg.x-f.x,dz=tg.z-f.z,d=Math.hypot(dx,dz);if(d<5&&!A.warn2)f.face=Math.atan2(dx,dz)}
+ startAtk(f,key,sm){if(f.team===0)sm*=.86;{const w0=f.team===0&&f.ld?WP[f.ld.w]:null;if(w0&&w0.rs&&(key==='jab'||key==='jab2'||key==='cross')){key='rsh';sm*=w0.sp}}const A=ATK[key],tg=this.foe(f),wp=f.ld&&!A.foot&&!A.aoe&&!A.shot&&!A.heal?WP[f.ld.w]:null;if(wp)sm*=wp.sp;if(tg){const dx=tg.x-f.x,dz=tg.z-f.z,d=Math.hypot(dx,dz);if(d<5&&!A.warn2)f.face=Math.atan2(dx,dz)}
   f.st='atk';f.t=0;f.atk={k:key,A,dur:A.dur*sm,u:0,hit:[],sh:false,tr:0};f.step=key==='jab'?1:key==='jab2'?2:0;if(f.air){f.vy=Math.max(f.vy,3)}this.snd(A.sn==='jab'||A.shot?'jab':'whiff');if(A.spin)this.ring(f.x,f.z,.5,A.rng,0x22d3ee,.5)}
  stepF(f,dt){f.t+=dt;f.inv=Math.max(0,f.inv-dt);f.blkT+=dt;f.dashCd=Math.max(0,f.dashCd-dt);f.cT=Math.max(0,f.cT-dt);f.guard=Math.min(60,f.guard+dt*(f.st==='block'?4:14));
   if(f.team===0&&this.ph!=='end')f.en=Math.min(100,f.en+dt*1.3);
@@ -2260,13 +2290,15 @@ class StickFight{
    if(!A.aoe&&Math.abs(stkAd(f.face,Math.atan2(dx,dz)))>A.arc)continue;
    if(A.aoe&&t.y>.8)continue;if(!f.air&&t.y>1.3&&!A.aoe)continue;
    at.hit.push(t);this.hurt(t,f,A2,f.x,f.z)}}
- shoot(f,n){if(f.atk&&f.atk.A.wave){this.shootWave(f);return}const Q=this.near(f)||this.pl,tx=Q.x,tz=Q.z,base=Math.atan2(tx-f.x,tz-f.z);this.snd('throw');for(let i=0;i<n;i++){const p=this.pj.find(q=>!q.on);if(!p)break;const a=base+(n>1?(i-(n-1)/2)*.28:0),sp=8.5;p.pl=false;p.m.scale.setScalar(1);p.on=true;p.x=f.x+Math.sin(a)*.8;p.z=f.z+Math.cos(a)*.8;p.y=1.2;p.vx=Math.sin(a)*sp;p.vz=Math.cos(a)*sp;p.life=2.6;p.dmg=7*f.dmgM;p.o=f;p.m.visible=true;p.m.material.color.setHex(f.def.col===0xa855f7?0xc084fc:0xfca5a5)}}
+ shoot(f,n){if(f.atk&&f.atk.A.wave){this.shootWave(f);return}if(f.atk&&f.atk.A.rsh){this.shootPl(f);return}const Q=this.near(f)||this.pl,tx=Q.x,tz=Q.z,base=Math.atan2(tx-f.x,tz-f.z);this.snd('throw');for(let i=0;i<n;i++){const p=this.pj.find(q=>!q.on);if(!p)break;const a=base+(n>1?(i-(n-1)/2)*.28:0),sp=8.5;p.pl=false;p.m.scale.setScalar(1);p.on=true;p.x=f.x+Math.sin(a)*.8;p.z=f.z+Math.cos(a)*.8;p.y=1.2;p.vx=Math.sin(a)*sp;p.vz=Math.cos(a)*sp;p.life=2.6;p.dmg=7*f.dmgM;p.o=f;p.m.visible=true;p.m.material.color.setHex(f.def.col===0xa855f7?0xc084fc:0xfca5a5)}}
+ shootPl(f){const w=f.ld&&WP[f.ld.w],kd=w&&w.rs;if(!kd)return;const tg=this.foe(f);if(tg)f.face=Math.atan2(tg.x-f.x,tg.z-f.z);const SP={arrow:{n:1,v:22,d:9,l:1.3,c:0xfde68a,s:.9,stop:1},kunai:{n:3,v:19,d:4,l:1.1,c:0xe2e8f0,s:.7,stop:1,sp:.2},star:{n:1,v:16,d:8,l:1.7,c:0xfde047,s:1.1,bm:1},cannon:{n:1,v:11,d:26,l:1.5,c:0xf97316,s:1.8,stop:1,exp:1}}[kd];this.snd(kd==='cannon'?'boom':'throw');for(let i=0;i<SP.n;i++){const p=this.pj.find(q=>!q.on);if(!p)break;const a=f.face+(SP.n>1?(i-(SP.n-1)/2)*SP.sp:0);p.on=true;p.pl=true;p.hit=[];p.x=f.x+Math.sin(a)*.9;p.z=f.z+Math.cos(a)*.9;p.y=1.2;p.vx=Math.sin(a)*SP.v;p.vz=Math.cos(a)*SP.v;p.life=SP.l;p.bl=SP.l*.5;p.bm=!!SP.bm;p.back=0;p.stop=!!SP.stop;p.exp=!!SP.exp;p.col=SP.c;p.dmg=SP.d*(f.dmgM||1);p.o=f;p.m.visible=true;p.m.scale.setScalar(SP.s);p.m.material.color.setHex(SP.c)}this.spark(f.x+Math.sin(f.face),1.2,f.z+Math.cos(f.face),5,SP.c,3,.1,.25)}
+ boom(p){this.ring(p.x,p.z,.3,3.2,0xf97316,.45);this.spark(p.x,.8,p.z,22,0xfb923c,8,.22,.5);this.shk=Math.max(this.shk,.5);this.snd('boom');for(const t of this.F){if((t.team===0&&(!this.pvp||t===p.o))||t.dead||t.st==='spawn'||t.st==='ko')continue;if(Math.hypot(p.x-t.x,p.z-t.z)<2.5*t.def.sc)this.hurt(t,p.o,{dmg:p.dmg,kb:9,sn:'hhit',down:1,brk:1},p.x,p.z)}}
  shootWave(f){const p=this.pj.find(q=>!q.on);if(!p)return;p.on=true;p.pl=true;p.hit=[];p.x=f.x+Math.sin(f.face);p.z=f.z+Math.cos(f.face);p.y=1;p.vx=Math.sin(f.face)*13;p.vz=Math.cos(f.face)*13;p.life=1.3;p.dmg=22;p.o=f;p.m.visible=true;p.m.scale.setScalar(2.2);p.m.material.color.setHex(0x22d3ee);this.snd('boom');this.ring(p.x,p.z,.3,1.6,0x22d3ee,.3)}
  heal(f){let b=null,br=1;for(const o of this.F){if(o===f||o.team!==1||o.dead||o.st==='spawn')continue;const r=o.hp/o.mhp;if(r<br&&Math.hypot(o.x-f.x,o.z-f.z)<12){br=r;b=o}}if(b){const h=Math.min(b.mhp-b.hp,b.mhp*.3);b.hp+=h;this.ft(b,'+'+fmt(h),'#4ade80');this.ring(b.x,b.z,.3,2,0x4ade80,.5);this.spark(b.x,1.4,b.z,12,0x4ade80,3,.14,.5,-2);this.snd('pick')}}
  selfDestruct(f){f.hp=0;f.dead=true;f.st='ko';f.t=0;f.vy=5;f.tok=false;this.kos++;this.k().k++;this.spark(f.x,1,f.z,26,0xfb923c,9,.25,.5);this.shk=Math.max(this.shk,.6);if(this.F.every(q=>q.team===0||q.dead)&&!this.spQ.length){this.slow=.3;this.slowT=.7}}
- projStep(dt){for(const p of this.pj){if(!p.on)continue;p.life-=dt;p.x+=p.vx*dt;p.z+=p.vz*dt;p.m.position.set(p.x,p.y,p.z);this.trail(p.x,p.y,p.z,0xc084fc,.3,.18);
-   if(p.life<=0||Math.hypot(p.x,p.z)>STK_AR+1){p.on=false;p.m.visible=false;continue}
-   if(p.pl){for(const t of this.F){if((t.team===0&&(!this.pvp||t===p.o))||t.dead||t.st==='spawn'||t.st==='ko'||p.hit.indexOf(t)>=0)continue;if(Math.hypot(p.x-t.x,p.z-t.z)<1.1*t.def.sc+.3){p.hit.push(t);this.hurt(t,p.o,{dmg:p.dmg,kb:8,sn:'hhit',down:1,brk:1},p.x-p.vx*.1,p.z-p.vz*.1)}}continue}
+ projStep(dt){for(const p of this.pj){if(!p.on)continue;p.life-=dt;if(p.bm){if(!p.back&&p.life<p.bl){p.back=1;p.hit=[]}if(p.back&&p.o){const dx=p.o.x-p.x,dz=p.o.z-p.z,d=Math.hypot(dx,dz)||1;p.vx+=(dx/d*17-p.vx)*Math.min(1,dt*9);p.vz+=(dz/d*17-p.vz)*Math.min(1,dt*9);if(d<.9){p.on=false;p.m.visible=false;continue}}p.m.rotation.y+=dt*20}p.x+=p.vx*dt;p.z+=p.vz*dt;p.m.position.set(p.x,p.y,p.z);this.trail(p.x,p.y,p.z,p.col||0xc084fc,.3,.18);
+   if(p.life<=0||Math.hypot(p.x,p.z)>STK_AR+1){if(p.exp&&p.pl)this.boom(p);p.on=false;p.m.visible=false;continue}
+   if(p.pl){for(const t of this.F){if((t.team===0&&(!this.pvp||t===p.o))||t.dead||t.st==='spawn'||t.st==='ko'||p.hit.indexOf(t)>=0)continue;if(Math.hypot(p.x-t.x,p.z-t.z)<1.1*t.def.sc+.3){p.hit.push(t);if(p.exp){this.boom(p);p.on=false;p.m.visible=false;break}this.hurt(t,p.o,{dmg:p.dmg,kb:p.stop?4:8,sn:'hhit',down:p.stop?0:1,brk:p.stop?0:1},p.x-p.vx*.1,p.z-p.vz*.1);if(p.stop){p.on=false;p.m.visible=false;break}}}continue}
    const P=this.pls.find(q=>!q.dead&&Math.hypot(p.x-q.x,p.z-q.z)<.65&&q.y<1.3&&q.st!=='ko');if(P){p.on=false;p.m.visible=false;if(P.inv>0)continue;this.spark(p.x,p.y,p.z,8,0xc084fc,4,.14,.3);this.hurt(P,p.o||{team:1,dmgM:1,x:p.x-p.vx*.1,z:p.z-p.vz*.1,def:{sc:1}},{dmg:p.dmg/(p.o&&p.o.dmgM||1),kb:3,sn:'hit',proj:1},p.x-p.vx*.1,p.z-p.vz*.1)}}}
  pickStep(dt){for(let i=this.pk.length-1;i>=0;i--){const p=this.pk[i];p.t+=dt;p.m.position.y=.6+Math.sin(p.t*4)*.12;p.m.rotation.y+=dt*3;const P=this.pls.find(q=>!q.dead&&Math.hypot(p.x-q.x,p.z-q.z)<1.1);if(P){const h=Math.min(P.mhp-P.hp,p.h);P.hp+=h;P.en=Math.min(100,P.en+15);this.ft(P,'+'+fmt(Math.max(1,h)),'#4ade80');this.snd('pick');this.spark(p.x,.7,p.z,10,0x4ade80,3,.14,.4);this.scene.remove(p.m);this.pk.splice(i,1)}else if(p.t>14){this.scene.remove(p.m);this.pk.splice(i,1)}}}
  // ---------------- الإصابة
@@ -2360,7 +2392,7 @@ class StickFight{
   if(f.dead&&f.wr){this.scene.remove(f.wr);f.wr=null}}
  // ---------------- النهاية
  finish(){const g=this.g,k=this.k(),win=this.win,i=this.si,P=this.mp||this.pl||{hp:0,mhp:1};this.on=false;this.phase='res';this.hideBtns();if(this.surv){this.finishSurv();return}if(this.pvp){this.finishDuel();return}const ratio=P.hp/P.mhp;let stars=0,rw=0,x='';
-  if(win){stars=ratio>=.7?3:ratio>=.35?2:1;const first=!k.s[i];if(stars>(k.s[i]||0)){rw+=(stars-(k.s[i]||0))*20;k.s[i]=stars}rw+=30+i*12+Math.round(this.score/12);if(first)rw+=50;k.w++;if(i+1<6&&k.u<i+2)k.u=i+2;if(first&&i<5)x='🔓 اتفتحت مرحلة جديدة'}
+  if(win){stars=ratio>=.7?3:ratio>=.35?2:1;const first=!k.s[i];if(stars>(k.s[i]||0)){rw+=(stars-(k.s[i]||0))*20;k.s[i]=stars}const j=STK_ORD.indexOf(i);rw+=30+(j<0?10:j)*12+Math.round(this.score/12);if(first)rw+=50;k.w++;if(j>=0&&j+1<STK_ORD.length&&k.u<j+2)k.u=j+2;if(first&&j>=0&&j<STK_ORD.length-1)x='🔓 اتفتحت مرحلة جديدة'}
   else rw=Math.round(this.score/25)+5;
   g.sv.d.coins+=rw;try{g.rkAdd(win?35:8);Sty.pts(win?10:3)}catch(e){}try{g.sv.save();g.checkAch()}catch(e){}
   this.fin={win,t:win?'🏆 انتصار!':'💀 اتهزمت',s:(win?'⭐'.repeat(stars)+'☆'.repeat(3-stars)+'<br>':'')+'ضربات قاضية '+fmt(this.kos)+' · أعلى كومبو '+fmt(this.maxCombo),rw,x};this.render();g.ui.show('s-stk')}
