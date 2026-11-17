@@ -168,7 +168,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ٢٣ ⚔️ مواجهة Stickman + ستايل أونلاين</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ٢٤ 👥 كورة ٢ ضد ٢ أونلاين</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -1715,7 +1715,8 @@ const SAY3={goal:['جووووول! هدف رائع','جول جميل! الشبا
 const sc3a=(a,b)=>{let d=b-a;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d};
 class Soccer3{
  constructor(g){this.g=g;this.phase='menu';this.on=false;this.ph='';this.peer=null;this.conn=null;this.host=true;this.online=false;this.cup=null;this.lg=null;this.msg='';this.err='';this.ready=false;this.fl=1;this.raw={ax:0,ay:0,sh:0,dx:0,dy:0,cv:0,ps:0,pdx:0,pdy:0,pr:0,lb:false,sw:0,tc:0,ox:0,oy:0};this.keys={};this.cur=null;this.rec=[];this.snaps=[];this.vrp=[0,0,0,0,0,0];this.ex=0;this.setup()}
- me(){return this.online&&!this.host?1:0}
+ me(){return this.online&&!this.host?(this.mySlot||1)%2:0}
+ slot(){return this.online&&!this.host?(this.mySlot||1):0}
  // ---------------- الإدخال
 setup(){const self=this,joy=document.getElementById('sjoy');
   if(joy){const knob=joy.querySelector('i');let pid=null;const set=e=>{const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy;const R0=r.width/2-8,l=Math.hypot(dx,dy);if(l>R0){dx*=R0/l;dy*=R0/l}knob.style.transform='translate('+dx+'px,'+dy+'px)';let ax=dx/R0,ay=dy/R0;if(Math.hypot(ax,ay)<.14){ax=0;ay=0}self.raw.ax=ax;self.raw.ay=ay};
@@ -1735,14 +1736,14 @@ setup(){const self=this,joy=document.getElementById('sjoy');
  open(){this.cleanupNet();this.g.audio.noMus=true;this.g.audio.stopMusic();this.phase='menu';this.err='';this.render();this.g.ui.show('s-soc')}
  act(a,d){const g=this.g;
   if(a==='scopen')this.open();else if(a==='scbot')this.startBot(+d.d);else if(a==='sccup')this.startCup();else if(a==='sclg')this.startLeague();
-  else if(a==='schost')this.hostRoom();else if(a==='scjoin'){const e=document.getElementById('scCode');this.joinRoom(e?e.value:'')}
-  else if(a==='scagain'){if(this.lg&&this.lg.on)this.nextLeague();else if(this.cup&&this.cup.on)this.nextCup();else if(this.online){if(this.host)this.beginOnline();else{this.msg='مستنيين صاحب الغرفة...';this.render()}}else this.initMatch(this.names[0],this.names[1],this.diff,this.opp0)}
+  else if(a==='schost')this.hostRoom();else if(a==='schost2')this.hostRoom(true);else if(a==='scgo2')this.beginOnline2();else if(a==='scjoin'){const e=document.getElementById('scCode');this.joinRoom(e?e.value:'')}
+  else if(a==='scagain'){if(this.lg&&this.lg.on)this.nextLeague();else if(this.cup&&this.cup.on)this.nextCup();else if(this.online){if(this.host){if(this.two)this.beginOnline2();else this.beginOnline()}else{this.msg='مستنيين صاحب الغرفة...';this.render()}}else this.initMatch(this.names[0],this.names[1],this.diff,this.opp0)}
   else if(a==='scmenu'){this.cleanupNet();this.cup=this.lg=null;g.toMenu();g.ui.show('s-start')}else if(a==='scback')this.open()}
  render(){const box=document.getElementById('scBox');if(!box)return;const d=this.g.sv.d,st=d.soc||{w:0,l:0,g:0};let h='';const back='<button class="btn alt" data-act="scmenu">🏠 رجوع للرئيسية</button>';
   if(this.phase==='menu'){h='<h2>⚽ كورة الحتة ٣D</h2><div class="sub" style="text-align:center">'+fmt(st.w||0)+' فوز · '+fmt(st.l||0)+' خسارة · '+fmt(st.g||0)+' جول</div><div class="sub" style="text-align:center">٣ ضد ٣ في ملعب كبير مقفول. العصا للجري. ⚽ و🎯: اسحب في الاتجاه اللي عايزه (طول السحب = القوة، وانحناء السحبة = انحناء الكورة). 🛡️ ضغط، 🔁 تبديل، 🪂 رفعة، 🧠 تكتيك (دفاعي / متوازن / هجومي).</div>'+(this.msg?'<div class="stats"><span>'+this.msg+'</span></div>':'')+
    '<div class="dh">🤖 ضد الكمبيوتر</div><div class="grid2" style="grid-template-columns:repeat(3,1fr)">'+DIFFS.map((x,i)=>'<button class="btn sm" data-act="scbot" data-d="'+i+'">'+x.ic+' '+x.n+'</button>').join('')+'</div><div class="grid2"><button class="btn alt" data-act="sclg">📊 دوري (٣ مباريات)</button><button class="btn alt" data-act="sccup">🏆 كأس (٣ أدوار)</button></div>'+
-   '<div class="dh">🌐 أونلاين ١ ضد ١ (ومعاكم بوتات)</div><button class="btn" data-act="schost">🆕 اعمل غرفة</button><div class="row"><input id="scCode" maxlength="4" placeholder="الكود" dir="ltr" autocomplete="off" autocapitalize="characters" style="width:90px;font-size:22px;text-align:center;text-transform:uppercase;border-radius:10px;border:2px solid #ffcf3f;padding:6px"><button class="btn alt" data-act="scjoin" style="flex:1;margin:0">🔑 ادخل بكود</button></div>'+(this.err?'<div class="stats" style="color:#fca5a5">⚠ '+this.err+'</div>':'')+back}
-  else if(this.phase==='wait'||this.phase==='join'){h='<h2>'+(this.host?'🆕 الغرفة':'🔑 بنتصل')+'</h2>'+(this.msg?'<div class="stats"><span>'+this.msg+'</span></div>':'')+(this.host&&this.code?'<div class="big" dir="ltr" style="letter-spacing:8px">'+this.code+'</div><div class="sub" style="text-align:center">ابعت الكود لصاحبك. الماتش بيبدأ أول ما يدخل.</div>':'')+'<button class="btn red" data-act="scback">إلغاء</button>'}
+   '<div class="dh">🌐 أونلاين ١ ضد ١ (ومعاكم بوتات)</div><button class="btn" data-act="schost">🆕 غرفة ١ ضد ١</button><button class="btn" data-act="schost2">👥 غرفة ٢ ضد ٢ (لحد ٤ لاعبين)</button><div class="row"><input id="scCode" maxlength="4" placeholder="الكود" dir="ltr" autocomplete="off" autocapitalize="characters" style="width:90px;font-size:22px;text-align:center;text-transform:uppercase;border-radius:10px;border:2px solid #ffcf3f;padding:6px"><button class="btn alt" data-act="scjoin" style="flex:1;margin:0">🔑 ادخل بكود</button></div>'+(this.err?'<div class="stats" style="color:#fca5a5">⚠ '+this.err+'</div>':'')+back}
+  else if(this.phase==='wait'||this.phase==='join'){h='<h2>'+(this.host?'🆕 الغرفة':'🔑 بنتصل')+'</h2>'+(this.msg?'<div class="stats"><span>'+this.msg+'</span></div>':'')+(this.host&&this.code?'<div class="big" dir="ltr" style="letter-spacing:8px">'+this.code+'</div>'+(this.two?'<div class="sub" style="text-align:center">ابعت الكود للاعبين (لحد ٣). اللاعب ٢ معاك في الفريق، و١ و٣ ضدك. الباقي بوتات.</div>'+(Object.keys(this.peers||{}).length?'<button class="btn" data-act="scgo2">▶ ابدأ الماتش</button>':''):'<div class="sub" style="text-align:center">ابعت الكود لصاحبك. الماتش بيبدأ أول ما يدخل.</div>'):'')+'<button class="btn red" data-act="scback">إلغاء</button>'}
   else if(this.phase==='res'&&this.fin){const r=this.fin;h='<h2>'+r.t+'</h2><div class="big">'+r.s+'</div>'+(r.rw?'<div class="rkp">+'+fmt(r.rw)+' 🪙</div>':'')+(r.x?'<div class="rkp">'+r.x+'</div>':'')+(r.tab||'')+(((this.lg&&this.lg.on)||(this.cup&&this.cup.on))?'<button class="btn" data-act="scagain">'+((this.cup&&this.cup.next)||(this.lg&&this.lg.next)?'▶ الجاية':'🔁 جرّب تاني')+'</button>':(this.online&&!this.host?'<div class="sub" style="text-align:center">'+(this.msg||'⏳ صاحب الغرفة بيبدأ إعادة')+'</div>':'<button class="btn" data-act="scagain">🔁 إعادة</button>'))+'<button class="btn alt" data-act="scback">⚽ قائمة الكورة</button>'+back}
   box.innerHTML=h}
  // ---------------- بدء المباراة
@@ -1750,9 +1751,9 @@ home(t,i){const os=t===0?-1:1;return i===0?[os*(S3X-2.5),0]:[os*S3X*.3,i===1?-5.
  nm(chId,name){return{ch:(typeof CHARS!=='undefined'&&CHARS.find(x=>x.id===chId))||CHARS[0],name:name}}
  initMatch(a,b,diff,opp){const g=this.g;g.audio.noMus=true;g.audio.stopMusic();this.names=[a,b];this.opp0=opp||null;this.diff=diff;this.sc=[0,0];this.tm=120;this.gold=false;this.on=true;this.fin=null;this.cap=null;this.bn=null;this.rec=[];this.rpOn=false;this.snaps=[];this.ex=0;this.hush=0;
   const mk=(t,i)=>{const h=this.home(t,i);return{team:t,i:i,x:h[0],z:h[1],vx:0,vz:0,fx:t===0?1:-1,fz:0,hx:h[0],hz:h[1],ka:0,lg:0,lc:0,tc:0,ce:0,dv:0,cr:0,ct:0,rp:0,th:Math.random(),sp:0}};
-  this.P=[];for(let t=0;t<2;t++)for(let i=0;i<3;i++)this.P.push(mk(t,i));this.b={x:0,y:S3R,z:0,vx:0,vy:0,vz:0,rx:0,cv:0};this.poss=null;this.shotT=9;this.ctl=[1,1];this.swT=[0,0];const mi=()=>({ax:0,az:0,sh:0,dx:0,dy:0,cv:0,ps:0,pdx:0,pdy:0,pr:0,lb:0,sw:0,swS:0,tc:0,tcS:0});this.inp=[mi(),mi()];this.tac=[1,1];this.press=[0,0];this.st={sh:[0,0],ps:[0,0],po:[0,0]};this.B0=null;this.hum=this.hum||[true,false];if(!this.online)this.hum=[true,false];this.fl=this.online&&!this.host?-1:1;
+  this.P=[];for(let t=0;t<2;t++)for(let i=0;i<3;i++)this.P.push(mk(t,i));this.b={x:0,y:S3R,z:0,vx:0,vy:0,vz:0,rx:0,cv:0};this.poss=null;this.shotT=9;this.ctl=[1,1,2,2];this.swT=[0,0,0,0];const mi=()=>({ax:0,az:0,sh:0,dx:0,dy:0,cv:0,ps:0,pdx:0,pdy:0,pr:0,lb:0,sw:0,swS:0,tc:0,tcS:0});this.inp=[mi(),mi(),mi(),mi()];this.tac=[1,1];this.press=[0,0];this.st={sh:[0,0],ps:[0,0],po:[0,0]};this.B0=null;this.hum=this.hum||[true,false,false,false];if(!this.online)this.hum=[true,false,false,false];this.fl=this.online&&!this.host?-1:1;
   g.state='soccer';g.mode='soccer';g.ui.show(null);g.ui.hud(false);document.getElementById('sbtns').classList.remove('hide');['bbtns','tbtns'].forEach(i=>{const e=document.getElementById(i);e&&e.classList.add('hide')});this.lastW=0;this.lowQ=false;this.setCd();this.hint=(d=>{d.soc=d.soc||{w:0,l:0,g:0};d.soc.hn3=(d.soc.hn3||0)+1;return d.soc.hn3<=3?10:0})(g.sv.d);this.dress();this.say(SAY3.start[0]);if(R.W<R.H)g.ui.toast('↻ لف الموبايل أفقي')}
- setCd(){this.ph='cd';this.t=0;this.poss=null;this.b.x=0;this.b.y=S3R;this.b.z=0;this.b.vx=this.b.vy=this.b.vz=0;for(const p of this.P){const h=this.home(p.team,p.i);p.x=p.hx=h[0];p.z=p.hz=h[1];p.vx=p.vz=0;p.fx=p.team===0?1:-1;p.fz=0;p.ce=0;p.dv=0;p.cr=0;p.lg=0;p.ka=0}this.ctl=[1,1]}
+ setCd(){this.ph='cd';this.t=0;this.poss=null;this.b.x=0;this.b.y=S3R;this.b.z=0;this.b.vx=this.b.vy=this.b.vz=0;for(const p of this.P){const h=this.home(p.team,p.i);p.x=p.hx=h[0];p.z=p.hz=h[1];p.vx=p.vz=0;p.fx=p.team===0?1:-1;p.fz=0;p.ce=0;p.dv=0;p.cr=0;p.lg=0;p.ka=0}this.ctl=[1,1,2,2]}
  startBot(d){this.go(()=>{this.cleanupNet();this.online=false;this.host=true;this.cup=this.lg=null;const o=POPP[Math.floor(Math.random()*POPP.length)],me=this.g.sv.d;this.initMatch(this.nm(me.char,me.pname||'أنت'),this.nm(o.ch===me.char?'ahmed':o.ch,o.n),d,o)})}
  startCup(){this.go(()=>{this.cleanupNet();this.online=false;this.host=true;this.lg=null;this.cup={on:true,rd:0,ds:[0,1,2],ops:[0,1,2],next:false};this.nextCup()})}
  nextCup(){const c=this.cup,me=this.g.sv.d;c.next=false;const o=POPP[c.ops[c.rd]];this.initMatch(this.nm(me.char,me.pname||'أنت'),this.nm(o.ch===me.char?'ahmed':o.ch,o.n),c.ds[c.rd],o)}
@@ -1767,26 +1768,26 @@ home(t,i){const os=t===0?-1:1;return i===0?[os*(S3X-2.5),0]:[os*S3X*.3,i===1?-5.
  update(dt){if(!this.on)return;if(this.online&&!this.host){this.guestUpdate(dt);return}
   this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.hush>0)this.hush=Math.max(0,this.hush-dt*.2);if(this.bn){this.bn.a-=dt;if(this.bn.a<=0)this.bn=null}if(this.cap){this.cap.a-=dt;if(this.cap.a<=0)this.cap=null}
   if(this.ph==='cd'){if(this.t>1.8){this.ph='play';this.t=0;this.g.audio.sfx('whistle')}this.aniOnly(dt)}
-  else if(this.ph==='play'){this.tacT=(this.tacT||0)-dt;if(this.tacT<=0){this.tacT=6;for(let t=0;t<2;t++)if(!this.hum[t])this.tac[t]=this.sc[t]<this.sc[1-t]?2:this.sc[t]>this.sc[1-t]?0:1}let n=Math.ceil(dt/.017);const h=dt/n;for(let i=0;i<n;i++)this.simStep(h);if(this.tm>0){this.tm-=dt;if(this.tm<=0){this.tm=0;if(this.sc[0]===this.sc[1]){this.gold=true;this.say(SAY3.gold[0]);this.bn={t:'⭐ الهدف الذهبي',a:2,c:'#fde047'}}else this.endMatch()}}}
+  else if(this.ph==='play'){this.tacT=(this.tacT||0)-dt;if(this.tacT<=0){this.tacT=6;for(let t=0;t<2;t++)if(!this.hum[t]&&!this.hum[t+2])this.tac[t]=this.sc[t]<this.sc[1-t]?2:this.sc[t]>this.sc[1-t]?0:1}let n=Math.ceil(dt/.017);const h=dt/n;for(let i=0;i<n;i++)this.simStep(h);if(this.tm>0){this.tm-=dt;if(this.tm<=0){this.tm=0;if(this.sc[0]===this.sc[1]){this.gold=true;this.say(SAY3.gold[0]);this.bn={t:'⭐ الهدف الذهبي',a:2,c:'#fde047'}}else this.endMatch()}}}
   else if(this.ph==='goal'){this.aniOnly(dt);if(!this.rpOn&&this.t>1.1&&this.rec.length>20)this.startReplay();if(this.rpOn){this.rpT+=dt*.6;if(this.rpT*30>=this.rpF.length-1){this.rpOn=false;if(this.gold||this.finalGoal)this.endMatch();else{this.setCd();this.sendEv('r')}}}else if(this.t>5){if(this.gold)this.endMatch();else{this.setCd();this.sendEv('r')}}}
   if(this.online&&this.host){this.sndT=(this.sndT||0)+dt;if(this.sndT>=.05){this.sndT=0;this.send(this.pack())}}}
  aniOnly(dt){for(const p of this.P){p.ka=Math.max(0,p.ka-dt);p.lg=Math.max(0,p.lg-dt);p.sp*=.9}}
  simStep(dt){this.shotT+=dt;const B=this.b;
-  for(let t=0;t<2;t++){if(this.hum[t]){this.humanCtl(t,dt)}}
-  for(const p of this.P){p.hum=this.hum[p.team]&&this.ctl[p.team]===p.i;p.tc=Math.max(0,p.tc-dt);p.lc=Math.max(0,p.lc-dt);p.ka=Math.max(0,p.ka-dt);p.lg=Math.max(0,p.lg-dt);if(!p.hum)this.aiCtl(p,dt)}
+  const hs=[0,0,0,0,0,0];for(let c=0;c<4;c++)if(this.hum[c]){this.humanCtl(c,dt);hs[(c%2)*3+this.ctl[c]]=1}
+  for(const p of this.P){p.hum=!!hs[p.team*3+p.i];p.tc=Math.max(0,p.tc-dt);p.lc=Math.max(0,p.lc-dt);p.ka=Math.max(0,p.ka-dt);p.lg=Math.max(0,p.lg-dt);if(!p.hum)this.aiCtl(p,dt)}
   // تباعد اللاعبين
   for(let i=0;i<6;i++)for(let j=i+1;j<6;j++){const a=this.P[i],b=this.P[j],d=this.dist(a,b);if(d<.85&&d>.001){const k=(.85-d)/2/d;a.x+=(a.x-b.x)*k;a.z+=(a.z-b.z)*k;b.x-=(a.x-b.x)*k;b.z-=(a.z-b.z)*k}}
   for(const p of this.P){p.x=pkc(p.x,-S3X+.5,S3X-.5);p.z=pkc(p.z,-S3Z+.5,S3Z-.5)}
   this.possStep(dt);this.ballStep(dt)}
  move(p,dt,tx,tz,spd,acc){const dx=tx-p.x,dz=tz-p.z,d=Math.hypot(dx,dz);let vx=0,vz=0;if(d>.08){const s=spd*Math.min(1,d/1.3);vx=dx/d*s;vz=dz/d*s}const k=Math.min(1,dt*(acc||11));p.vx+=(vx-p.vx)*k;p.vz+=(vz-p.vz)*k;this.integ(p,dt)}
  integ(p,dt){if(p.lg>0){p.x+=p.lgx*dt;p.z+=p.lgz*dt}else{p.x+=p.vx*dt;p.z+=p.vz*dt}const sp=Math.hypot(p.vx,p.vz);p.sp=p.lg>0?9:sp;if(sp>.6){const a=Math.atan2(p.fz,p.fx),b=Math.atan2(p.vz,p.vx),n=a+sc3a(a,b)*Math.min(1,dt*14);p.fx=Math.cos(n);p.fz=Math.sin(n)}}
-humanCtl(t,dt){const I=this.inp[t],P=this.P,B=this.b;this.swT[t]-=dt;let c=this.ctl[t],me=P[t*3+c];
-  const nearest=ex=>{let best=-1,bd=1e9;for(let i=0;i<3;i++){if(i===ex)continue;const q=P[t*3+i],d=this.dist(q,B)+(i===0?5:0);if(d<bd){bd=d;best=i}}return best};
-  if(I.tc!==I.tcS){I.tcS=I.tc;this.tac[t]=(this.tac[t]+1)%3;if(t===this.me())this.bn={t:'🧠 '+['تكتيك دفاعي','تكتيك متوازن','تكتيك هجومي'][this.tac[t]],a:1.4,c:'#7dd3fc'}}
-  if(I.sw!==I.swS){I.swS=I.sw;const n=nearest(c);if(n>=0){this.ctl[t]=n;c=n;me=P[t*3+c];this.swT[t]=1.2}}
-  else if(this.poss&&this.poss.team===t){if(this.poss.i!==c&&this.poss.tc<.0001){this.ctl[t]=this.poss.i;c=this.poss.i;me=P[t*3+c]}}
-  else if(this.swT[t]<=0){const n=nearest(-1);if(n!==c&&this.dist(P[t*3+n],B)+(n===0?5:0)<this.dist(me,B)+(c===0?5:0)-1.5){this.ctl[t]=n;c=n;me=P[t*3+c];this.swT[t]=.5}}
-  this.press[t]=I.pr?1:0;
+humanCtl(c,dt){const t=c%2,I=this.inp[c],P=this.P,B=this.b;this.swT[c]-=dt;let k=this.ctl[c];const mk=this.hum[c^2]?this.ctl[c^2]:-1;let me=P[t*3+k];
+  const nearest=ex=>{let best=-1,bd=1e9;for(let i=0;i<3;i++){if(i===ex||i===mk)continue;const q=P[t*3+i],d=this.dist(q,B)+(i===0?5:0);if(d<bd){bd=d;best=i}}return best};
+  if(I.tc!==I.tcS){I.tcS=I.tc;this.tac[t]=(this.tac[t]+1)%3;if(c===this.slot())this.bn={t:'🧠 '+['تكتيك دفاعي','تكتيك متوازن','تكتيك هجومي'][this.tac[t]],a:1.4,c:'#7dd3fc'}}
+  if(I.sw!==I.swS){I.swS=I.sw;const n=nearest(k);if(n>=0){this.ctl[c]=n;k=n;me=P[t*3+k];this.swT[c]=1.2}}
+  else if(this.poss&&this.poss.team===t){if(this.poss.i!==k&&this.poss.i!==mk&&this.poss.tc<.0001){this.ctl[c]=this.poss.i;k=this.poss.i;me=P[t*3+k]}}
+  else if(this.swT[c]<=0){const n=nearest(-1);if(n>=0&&n!==k&&this.dist(P[t*3+n],B)+(n===0?5:0)<this.dist(me,B)+(k===0?5:0)-1.5){this.ctl[c]=n;k=n;me=P[t*3+k];this.swT[c]=.5}}
+  if(I.pr)this.press[t]=1;else if(c<2)this.press[t]=0;
   let ax=I.ax,az=I.az,m=Math.hypot(ax,az),spd=m>.95?8.0:7.3;
   if(I.pr&&this.poss!==me){const dx=B.x+B.vx*.25-me.x,dz=B.z+B.vz*.25-me.z,d=Math.hypot(dx,dz)||1;if(m>.2){ax=ax*.45+dx/d*.55;az=az*.45+dz/d*.55}else{ax=dx/d;az=dz/d}m=1;spd=8.4;if(d<1.8&&me.lc<=0&&(!this.poss||this.poss.team!==t)&&B.y<1.5)this.tackle(me,dx/d,dz/d)}
   if(me.lg<=0){const k=Math.min(1,dt*13);me.vx+=(ax*spd-me.vx)*k;me.vz+=(az*spd-me.vz)*k}
@@ -1814,7 +1815,7 @@ possStep(dt){const B=this.b,pp=this.poss;if(this.rcvT>0)this.rcvT-=dt;if(pp)this
     for(const o of this.P){if(o.team===pp.team||o.tc>0)continue;const od=Math.hypot(o.x-B.x,o.z-B.z);if(od<.95){const rate=o.lg>0?9:o.hum?1.5:SKL[this.diff].st;if(Math.random()<rate*dt*(o.lg>0?1:.9)){this.poss=o;pp.tc=.7;o.tc=0;this.g.audio.sfx('hit');break}}}}}
   if(!this.poss){
    // مغناطيس: الكورة السايبة بتنجذب للاعب اللي بتتحكم فيه
-   for(let t=0;t<2;t++){if(!this.hum[t])continue;const me=this.P[t*3+this.ctl[t]];if(me.tc>0)continue;const dx=me.x-B.x,dz=me.z-B.z,d=Math.hypot(dx,dz),sp=Math.hypot(B.vx,B.vz);if(d<3.4&&d>.3&&sp<11&&B.y<1.1&&!(this.lastK===me&&this.shotT<.5)){const f=Math.min(1,dt*(7-d))*Math.min(1,(14-sp)/8);B.vx+=dx/d*16*f*dt*5;B.vz+=dz/d*16*f*dt*5}}
+   for(let c=0;c<4;c++){if(!this.hum[c])continue;const me=this.P[(c%2)*3+this.ctl[c]];if(me.tc>0)continue;const dx=me.x-B.x,dz=me.z-B.z,d=Math.hypot(dx,dz),sp=Math.hypot(B.vx,B.vz);if(d<3.4&&d>.3&&sp<11&&B.y<1.1&&!(this.lastK===me&&this.shotT<.5)){const f=Math.min(1,dt*(7-d))*Math.min(1,(14-sp)/8);B.vx+=dx/d*16*f*dt*5;B.vz+=dz/d*16*f*dt*5}}
    for(const p of this.P){if(p.tc>0)continue;const d=Math.hypot(B.x-p.x,B.z-p.z);if(d<1.05&&B.y<1.0){const sp=Math.hypot(B.vx,B.vz);if(sp>15&&this.lastK&&this.lastK.team!==p.team){B.vx=-B.vx*.45+p.vx*.5;B.vz=B.vz*.6+(B.z-p.z)*3;B.vy=1.5+Math.random()*1.5;p.tc=.4;this.g.audio.sfx('hit');if(p.i===0)this.say(pkPick(SAY3.save))}else if(p.lg>0||sp<15){this.poss=p;this.lastK=p;break}}}}}
 ballStep(dt){const B=this.b;if(!this.poss){B.vy-=15*dt;if(B.cv){const sp=Math.hypot(B.vx,B.vz),an=B.cv*1.15*dt*Math.min(1,sp/16),c=Math.cos(an),s2=Math.sin(an),vx=B.vx*c-B.vz*s2,vz=B.vx*s2+B.vz*c;B.vx=vx;B.vz=vz;B.cv*=Math.exp(-.3*dt)}B.x+=B.vx*dt;B.y+=B.vy*dt;B.z+=B.vz*dt;if(B.y<S3R){B.y=S3R;if(B.vy<-1.2)B.vy=-B.vy*.55;else B.vy=0;const f=Math.exp(-1.5*dt);B.vx*=f;B.vz*=f}else if(B.y>8){B.y=8;B.vy=-Math.abs(B.vy)*.5}}
   B.rx+=Math.hypot(B.vx,B.vz)*dt/S3R;
@@ -1859,19 +1860,28 @@ aiCtl(p,dt){const sk=SKL[this.diff]||SKL[1],T=p.team,ad=T===0?1:-1,B=this.b,P=th
 guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn.a-=dt;if(this.bn.a<=0)this.bn=null}if(this.cap){this.cap.a-=dt;if(this.cap.a<=0)this.cap=null}if(this.rpOn){this.rpT+=dt*.6;if(this.rpT*30>=this.rpF.length-1)this.rpOn=false}
   this.gT=(this.gT||0)+dt;if(this.gT>=.05){this.gT=0;this.flush()}}
  flush(){if(!this.online||this.host||!this.on)return;const r=this.raw,fl=this.fl;this.send({t:'i',ax:r.ax*fl,az:r.ay*fl,sh:r.sh,dx:r.dx*fl,dy:r.dy*fl,cv:r.cv*fl,ps:r.ps,pdx:r.pdx*fl,pdy:r.pdy*fl,pr:r.pr,lb:r.lb?1:0,sw:r.sw,tc:r.tc});if(!r.sh&&!r.ps&&r.lb&&this.lastRel){r.lb=false;const lb=document.querySelector('#sbtns [data-s="lb"]');lb&&lb.classList.remove('on')}this.lastRel=(r.sh||r.ps)?0:this.lastRel;if(this.pSh&&!r.sh||this.pPs&&!r.ps)this.lastRel=1;this.pSh=r.sh;this.pPs=r.ps}
- recv(m){if(!m||!m.t)return;
-  if(this.host){if(m.t==='hi'){this.opp={ch:m.ch,pn:this.san(m.pn),sy:Sty.san(m.sty)};this.beginOnline()}else if(m.t==='i'){const I=this.inp&&this.inp[1];if(I&&isFinite(m.ax)&&isFinite(m.az)){I.ax=pkc(+m.ax,-1,1);I.az=pkc(+m.az,-1,1);I.sh=m.sh?1:0;I.dx=+m.dx||0;I.dy=+m.dy||0;I.cv=pkc(+m.cv||0,-1,1);I.ps=m.ps?1:0;I.pdx=+m.pdx||0;I.pdy=+m.pdy||0;I.pr=m.pr?1:0;I.lb=m.lb?1:0;I.sw=+m.sw||0;I.tc=+m.tc||0}}else if(m.t==='q')this.lost()}
-  else{if(m.t==='go'){this.online=true;this.host=false;this.sty=[Sty.san(m.sty),Sty.pack()];this.hum=[true,true];this.initMatch(this.nm(m.c0,m.n0),this.nm(m.c1,m.n1),1,null);this.hum=[true,true];this.fl=-1}
+ recv(m,sl){if(!m||!m.t)return;
+  if(this.host){if(m.t==='hi'){const pe={ch:m.ch,pn:this.san(m.pn),sy:Sty.san(m.sty)};if(this.two){this.peers[sl||1]=pe;this.lobby()}else{this.opp=pe;this.beginOnline()}}else if(m.t==='i'){const I=this.inp&&this.inp[sl||1];if(I&&isFinite(m.ax)&&isFinite(m.az)){I.ax=pkc(+m.ax,-1,1);I.az=pkc(+m.az,-1,1);I.sh=m.sh?1:0;I.dx=+m.dx||0;I.dy=+m.dy||0;I.cv=pkc(+m.cv||0,-1,1);I.ps=m.ps?1:0;I.pdx=+m.pdx||0;I.pdy=+m.pdy||0;I.pr=m.pr?1:0;I.lb=m.lb?1:0;I.sw=+m.sw||0;I.tc=+m.tc||0}}else if(m.t==='q')this.lost()}
+  else{if(m.t==='go'){this.online=true;this.host=false;this.sty=[Sty.san(m.sty),m.sty1?Sty.san(m.sty1):Sty.pack()];this.mySlot=(m.slot|0)||1;this.two=!!m.two;const hm=Array.isArray(m.hm)&&m.hm.length===4?m.hm.map(v=>!!v):[true,true,false,false];this.initMatch(this.nm(m.c0,m.n0),this.nm(m.c1,m.n1),1,null);this.hum=hm;this.fl=this.me()===1?-1:1}
    else if(m.t==='full')this.fail('الغرفة ممتلئة')
+   else if(m.t==='lobby'){this.msg='متصل ✅ — '+m.n+' في الغرفة، مستنيين صاحب الغرفة يبدأ';this.render()}
    else if(m.t==='s'){this.snaps.push({at:performance.now(),f:{P:m.P,B:m.B,c:m.c}});if(this.snaps.length>6)this.snaps.shift();this.sc=m.sc;this.tm=m.tm;this.gold=!!m.gold;if(!this.rpOn&&m.ph!==this.ph){this.ph=m.ph;this.t=0}}
    else if(m.t==='ev'){if(m.k==='g'){this.ph='goal';this.t=0;this.ex=1;this.cel=m.tm;this.bn={t:'⚽ جووووول!',a:2.2,c:m.tm===1?'#4ade80':'#f87171'};this.g.audio.sfx('level');this.say(pkPick(SAY3.goal))}else if(m.k==='p'&&this.rec.length>20){this.rpF=this.rec.slice(-85);this.rpT=0;this.rpOn=true}else if(m.k==='r'){this.rpOn=false}}
    else if(m.t==='end'){this.sc=m.sc;if(m.st)this.st=m.st;this.on=true;this.endMatch()}else if(m.t==='q')this.lost()}}
- beginOnline(){const d=this.g.sv.d,o=this.opp||{ch:'ahmed',pn:'لاعب'};this.online=true;this.host=true;this.hum=[true,true];const a=this.nm(d.char,d.pname||'أنت'),b=this.nm(o.ch===d.char?(CHARS.find(c=>c.id!==d.char)||CHARS[0]).id:o.ch,o.pn);this.send({t:'go',c0:a.ch.id,n0:a.name,c1:b.ch.id,n1:b.name,sty:Sty.pack()});this.sty=[Sty.pack(),o.sy||null];this.initMatch(a,b,1,null);this.hum=[true,true]}
- async hostRoom(){await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=true;this.online=true;this.phase='wait';this.msg='بنجهّز الغرفة...';this.render();
+ beginOnline(){const d=this.g.sv.d,o=this.opp||{ch:'ahmed',pn:'لاعب'};this.online=true;this.host=true;this.hum=[true,true,false,false];const a=this.nm(d.char,d.pname||'أنت'),b=this.nm(o.ch===d.char?(CHARS.find(c=>c.id!==d.char)||CHARS[0]).id:o.ch,o.pn);this.send({t:'go',c0:a.ch.id,n0:a.name,c1:b.ch.id,n1:b.name,sty:Sty.pack(),slot:1});this.sty=[Sty.pack(),o.sy||null];this.initMatch(a,b,1,null);this.hum=[true,true,false,false]}
+ beginOnline2(){const d=this.g.sv.d,pe=this.peers,sl=[1,2,3].filter(i=>pe[i]&&this.conns[i]&&this.conns[i].open);if(!sl.length)return;this.online=true;this.host=true;this.two=true;const hm=[true,false,false,false];sl.forEach(i=>hm[i]=true);
+  const names=ids=>ids.filter(i=>i===0||hm[i]).map(i=>i===0?(d.pname||'أنت'):pe[i].pn).join(' + ')||'بوت';
+  const cap=pe[1]&&hm[1]?pe[1]:(pe[3]&&hm[3]?pe[3]:null),chB=cap?(cap.ch===d.char?(CHARS.find(c=>c.id!==d.char)||CHARS[0]).id:cap.ch):(CHARS.find(c=>c.id!==d.char)||CHARS[0]).id;
+  const a=this.nm(d.char,names([0,2])),b=this.nm(chB,names([1,3])),s1=cap?cap.sy:null;this.sty=[Sty.pack(),s1];
+  for(const i of sl)this.sendTo(i,{t:'go',c0:a.ch.id,n0:a.name,c1:b.ch.id,n1:b.name,sty:Sty.pack(),sty1:s1,slot:i,two:1,hm:hm});
+  this.initMatch(a,b,1,null);this.hum=hm}
+ lobby(){const n=Object.keys(this.peers).length;this.msg=n?('دخل '+n+' لاعب'+(n>1?'ين':'')+' — (الباقي بوتات)'):'';for(const i of [1,2,3])this.sendTo(i,{t:'lobby',n:n+1});if(n>=3)this.beginOnline2();else this.render()}
+ async hostRoom(two){await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=true;this.online=true;this.two=!!two;this.phase='wait';this.msg='بنجهّز الغرفة...';this.render();
   try{await this.g.vs.loadLib()}catch(e){this.err='مش قادر يحمّل مكتبة الأونلاين';this.phase='menu';return this.render()}
   const L='ABCDEFGHJKLMNPQRSTUVWXYZ',mk=()=>{let s='';for(let i=0;i<4;i++)s+=L[Math.floor(Math.random()*L.length)];return s};let n=0;
   const tr=()=>{const code=mk(),p=new Peer('sc3-'+code,PKCFG);this.peer=p;p.on('open',()=>{this.code=code;pkRelayHost('sc3-'+code,onc,()=>this.peer===p);this.msg='';this.render()});p.on('disconnected',()=>{try{p.reconnect()}catch(e){}});
-   const onc=c=>{if(this.conn&&this.conn.open!==false){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}if(this.conn){try{this.conn.close()}catch(e){}}this.conn=c;c.on('data',m=>this.recv(m));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conn!==c)return;if(c.__o)this.lost();else this.conn=null};c.on('close',gone);c.on('error',gone)};p.on('connection',onc);
+   const onc=c=>{if(this.two){let sl=0;for(let i=1;i<4;i++){if(!this.conns[i]){sl=i;break}}if(!sl||this.on){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}this.conns[sl]=c;if(sl===1)this.conn=c;c.on('data',m=>this.recv(m,sl));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conns[sl]!==c)return;this.conns[sl]=null;if(sl===1)this.conn=null;delete this.peers[sl];if(this.on){this.hum[sl]=false;if(!this.conns.some(x=>x&&x.open))this.lost()}else this.lobby()};c.on('close',gone);c.on('error',gone);return}
+   if(this.conn&&this.conn.open!==false){c.on('open',()=>{try{c.send({t:'full'})}catch(e){}setTimeout(()=>c.close(),300)});return}if(this.conn){try{this.conn.close()}catch(e){}}this.conn=c;this.conns[1]=c;c.on('data',m=>this.recv(m,1));c.on('open',()=>{c.__o=1});const gone=()=>{if(this.conn!==c)return;if(c.__o)this.lost();else{this.conn=null;this.conns[1]=null}};c.on('close',gone);c.on('error',gone)};p.on('connection',onc);
    p.on('error',e=>{if(e.type==='unavailable-id'&&n++<6){try{p.destroy()}catch(_){}tr()}else this.fail(pkErr(e.type))})};tr()}
  async joinRoom(code){code=(code||'').trim().toUpperCase();if(code.length<4){this.err='اكتب الكود (٤ حروف)';return this.render()}
   await this.go(async()=>{});if(!this.ready)return;this.cleanupNet();this.host=false;this.online=true;this.phase='join';this.msg='بنتصل...';this.render();
@@ -1880,8 +1890,9 @@ guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn
   p.on('error',e=>{if(this.phase==='join'&&e.type!=='peer-unavailable')this.fail(pkErr(e.type))})}
  fail(m){this.cleanupNet();this.err=m;this.phase='menu';if(this.g.state==='soccer'){this.on=false;this.g.toMenu()}this.render();this.g.ui.show('s-soc')}
  lost(){if(this.phase==='menu'||!this.online)return;if(this.on){this.on=false;const me=this.me();this.sc[me]=Math.max(this.sc[me],this.sc[1-me])+1;this.forf=true;this.endMatch(true)}else if(this.phase==='wait'||this.phase==='join')this.fail('اللاعب التاني فصل');else this.msg='اللاعب التاني فصل'}
- cleanupNet(){Relay.stop();clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.peer=null;this.code='';this.online=false;this.host=true;this.hum=[true,false]}
- send(o){try{if(this.conn&&this.conn.open)this.conn.send(o)}catch(e){}}
+ cleanupNet(){Relay.stop();clearTimeout(this.to);try{this.conn&&this.conn.close()}catch(e){}try{this.peer&&this.peer.destroy()}catch(e){}this.conn=null;this.conns=[null,null,null,null];this.two=false;this.peers={};this.mySlot=1;this.peer=null;this.code='';this.online=false;this.host=true;this.hum=[true,false,false,false]}
+ send(o){if(this.host&&this.conns){for(const c of this.conns){try{if(c&&c.open)c.send(o)}catch(e){}}}else try{if(this.conn&&this.conn.open)this.conn.send(o)}catch(e){}}
+ sendTo(sl,o){try{const c=this.conns[sl];if(c&&c.open)c.send(o)}catch(e){}}
  san(s){return String(s||'لاعب').replace(/[<>&"'`]/g,'').slice(0,14)}
  // ---------------- النهاية
  endMatch(forfeit){if(this.ph==='end')return;this.ph='end';if(this.online&&this.host)this.send({t:'end',sc:this.sc,st:this.st});const g=this.g,d=g.sv.d,me=this.me(),mine=this.sc[me],th=this.sc[1-me];this.on=false;d.soc=d.soc||{w:0,l:0,g:0};const win=mine>th;let rw=win?80:15;if(this.online)rw=Math.round(rw/2);d.soc.g+=mine;if(win)d.soc.w++;else d.soc.l++;d.coins+=rw;try{g.rkAdd(win?40:10);Sty.pts(win?10:3)}catch(e){}let x='',tab='';
@@ -1946,7 +1957,7 @@ guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn
    if(p[7]){h.aL.sh.rotation.set(0,0,Math.PI-.4);h.aR.sh.rotation.set(0,0,-(Math.PI-.4));G.position.y=Math.abs(Math.sin(t*7+i))*.3}else if(i%3===0&&p[8]){h.aL.sh.rotation.set(0,0,Math.PI-.3);h.aR.sh.rotation.set(0,0,-(Math.PI-.3));Bd.rotation.z=p[8]*.9;Bd.rotation.x=0}else{h.aL.sh.rotation.set(al,0,.12);h.aR.sh.rotation.set(ar,0,-.12)}
    h.aL.el.rotation.set(.4,0,0);h.aR.el.rotation.set(.4,0,0)}
   // الحلقة
-  const li=this.me(),cp=f.P[li*3+(f.c?f.c[li]:1)];if(cp&&!this.rpOn){this.ringM.visible=true;this.ringM.position.x=cp[0];this.ringM.position.z=cp[1];this.ringM.rotation.z=t*2}else this.ringM.visible=false;
+  const li=this.me(),cp=f.P[li*3+(f.c?f.c[this.slot()]:1)];if(cp&&!this.rpOn){this.ringM.visible=true;this.ringM.position.x=cp[0];this.ringM.position.z=cp[1];this.ringM.rotation.z=t*2}else this.ringM.visible=false;
   // الجمهور
   const ex=this.ex,amp=.04+.4*ex*(1-(this.hush||0)),spd=5+9*ex,dm=this._dm||(this._dm=new T.Object3D());for(const cs of this.crowd){for(let i=0;i<cs.rows.length;i++){const r=cs.rows[i],b=Math.max(0,Math.sin(t*spd*r.sp+r.ph))*amp;dm.position.set(r.x,r.y+b,r.z);dm.rotation.set(0,0,0);dm.updateMatrix();cs.bm.setMatrixAt(i,dm.matrix);dm.position.y+=.52;dm.updateMatrix();cs.hm.setMatrixAt(i,dm.matrix)}cs.bm.instanceMatrix.needsUpdate=true;cs.hm.instanceMatrix.needsUpdate=true}
   // الكاميرا
@@ -1958,7 +1969,7 @@ guestUpdate(dt){this.t+=dt;this.ex=Math.max(0,this.ex-dt*.3);if(this.bn){this.bn
  // ---------------- الرسم ثنائي الأبعاد
 draw(c){c.setTransform(R.dpr,0,0,R.dpr,0,0);if(!this.ready||!this.rd||!this.cf){c.fillStyle='#0b1030';c.fillRect(0,0,R.W,R.H);return}c.drawImage(this.rd.domElement,0,0,R.W,R.H);const w=R.W,f=this.cf,li=this.me(),fl=this.fl;
   if(this.rpOn){c.fillStyle='rgba(0,0,0,.28)';c.fillRect(0,0,w,34);c.fillRect(0,R.H-34,w,34);txt(c,'🎬 إعادة بطيئة',w/2,18,18,'#fde047');return}
-  const raw=this.raw,me=this.P&&this.P[li*3+(this.ctl?this.ctl[li]:1)],fp=f.P[li*3+(f.c?f.c[li]:1)];
+  const raw=this.raw,me=this.P&&this.P[li*3+(this.ctl?this.ctl[li]:1)],fp=f.P[li*3+(f.c?f.c[this.slot()]:1)];
   // معاينة الإيماء (شوط / تمرير)
   if(fp&&this.ph==='play'){const px=fp[0],pz=fp[1],ang0=Math.atan2(fp[3],fp[2]),pc=this.proj(px,.25,pz);
    if(raw.sh){const dr=Math.hypot(raw.dx,raw.dy),man=dr>24,a=man?Math.atan2(raw.dy*fl,raw.dx*fl):ang0,pw=man?pkc(.3+dr/150*.7,.3,1):.62,cvv=man?raw.cv*fl:0;let x=px,z=pz,ang=a;const sp=11+pw*16;c.setLineDash([9,8]);c.strokeStyle=raw.lb?'#7dd3fc':'#fde047';c.lineWidth=4;c.beginPath();c.moveTo(pc[0],pc[1]);for(let i=1;i<=16;i++){ang+=cvv*1.15*.07*Math.min(1,sp/16);x+=Math.cos(ang)*sp*.07;z+=Math.sin(ang)*sp*.07;const q=this.proj(x,raw.lb?Math.sin(i/16*Math.PI)*2.5:.25,z);c.lineTo(q[0],q[1])}c.stroke();c.setLineDash([]);c.strokeStyle=pw>.85?'#f87171':pw>.55?'#fbbf24':'#34d399';c.lineWidth=7;c.beginPath();c.arc(pc[0],pc[1]-34,22,-Math.PI/2,-Math.PI/2+pw*6.283);c.stroke()}
@@ -1971,7 +1982,7 @@ draw(c){c.setTransform(R.dpr,0,0,R.dpr,0,0);if(!this.ready||!this.rd||!this.cf){
   if(this.tac)txt(c,'🧠 '+['دفاعي','متوازن','هجومي'][this.tac[li]],w/2,70,12,'rgba(255,255,255,.75)');
   // رادار
   if(this.P&&f){const rw=Math.min(150,w*.22),rh=rw*S3Z/S3X,rx=10,ry=62;c.globalAlpha=.78;c.fillStyle='rgba(20,60,30,.85)';rr(c,rx,ry,rw,rh,6);c.fill();c.strokeStyle='rgba(255,255,255,.5)';c.lineWidth=1;c.beginPath();c.moveTo(rx+rw/2,ry);c.lineTo(rx+rw/2,ry+rh);c.stroke();
-   const mp=(x,z)=>[rx+(fl*x/S3X*.5+.5)*rw,ry+(fl*z/S3Z*.5+.5)*rh];for(let i=0;i<6;i++){const p=f.P[i],q=mp(p[0],p[1]),t=i<3?0:1,mine=f.c&&f.c[li]===i-li*3&&t===li;c.fillStyle=t===0?'#ef4444':'#3b82f6';c.beginPath();c.arc(q[0],q[1],mine?4:3,0,6.3);c.fill();if(mine){c.strokeStyle='#fde047';c.lineWidth=2;c.stroke()}}
+   const mp=(x,z)=>[rx+(fl*x/S3X*.5+.5)*rw,ry+(fl*z/S3Z*.5+.5)*rh];for(let i=0;i<6;i++){const p=f.P[i],q=mp(p[0],p[1]),t=i<3?0:1,mine=f.c&&f.c[this.slot()]===i-li*3&&t===li;c.fillStyle=t===0?'#ef4444':'#3b82f6';c.beginPath();c.arc(q[0],q[1],mine?4:3,0,6.3);c.fill();if(mine){c.strokeStyle='#fde047';c.lineWidth=2;c.stroke()}}
    const bq=mp(f.B[0],f.B[2]);c.fillStyle='#fff';c.beginPath();c.arc(bq[0],bq[1],2.5,0,6.3);c.fill();c.globalAlpha=1}
   if(this.ph==='cd')txt(c,String(Math.max(1,Math.ceil(1.8-this.t)))+'',w/2,R.H*.4,90,'#fff');
   if(this.bn)txt(c,this.bn.t,w/2,R.H*.34,Math.min(58,R.W/12),this.bn.c);
