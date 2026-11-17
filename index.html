@@ -168,7 +168,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ٢٤ 👥 كورة ٢ ضد ٢ أونلاين</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ٢٥ 🥷 حركة Stickman أسلس</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -2183,7 +2183,7 @@ class StickFight{
   while(this.mt>=st&&n++<3){this.mt-=st;const s=this.ms=(this.ms+1)%32,T=(f,d,t,v,to)=>a.tone(f,d,t,v,to);if(s%8===0)T(130,.2,'sine',.2,42);if(s%16===10)T(130,.15,'sine',.14,42);if(s%16===8)a.noise(.12,.1,1900,0,'bandpass');if(s%2===1)a.noise(.04,.035,7000,0,'highpass');
    const bs=[55,0,55,0,65.4,0,49,0,55,0,55,0,73.4,0,65.4,0],f=bs[s%16];if(f)T(f,.2,'square',.07);if(B&&s%2===0){const ar=[220,261.6,329.6,392,329.6,261.6,196,247];T(ar[(s>>1)%8],.1,'square',.035)}}if(n>=3)this.mt=0}
  // ---------------- المحاكاة
- update(dt){if(!this.on)return;this.music(dt);dt=Math.min(dt,.05);if(this.online&&!this.host){this.guestUpdate(dt);return}
+ update(dt){if(this.hs>0){this.hs-=dt;dt*=.07}if(!this.on)return;this.music(dt);dt=Math.min(dt,.05);if(this.online&&!this.host){this.guestUpdate(dt);return}
   if(this.hs>0){this.hs-=dt;this.fx(dt);return}
   if(this.slowT>0){this.slowT-=dt;dt*=this.slow}
   this.t+=dt;this.fx(dt);this.shk=Math.max(0,this.shk-dt*1.8);this.flash=Math.max(0,this.flash-dt*4);this.hurtV=Math.max(0,this.hurtV-dt*1.6);if(this.cmbT>0){this.cmbT-=dt;if(this.cmbT<=0)this.combo=0}if(this.bn){this.bn.a-=dt;if(this.bn.a<=0)this.bn=null}if(this.hint>0)this.hint-=dt;
@@ -2221,21 +2221,21 @@ class StickFight{
   else if(a==='s'){if(f.en>=100){key=(SPD[f.ld&&f.ld.s]||SPD.nova).k;f.en=0;this.snd('ready')}else{this.ft(f,'⚡ الطاقة مش كاملة','#93c5fd');f.buf=null;return}}
   if(key){f.buf=null;this.startAtk(f,key,1)}}
  startDash(f,ang,sp){f.st='dash';f.t=0;f.dashA=ang;f.inv=.28;f.dashCd=(f.ld&&f.ld.sk.dash>=3)?.4:.65;f.atk=null;f.face=f.team?f.face:f.face;this.snd('dash');for(let i=0;i<5;i++)this.trail(f.x,.4+i*.35,f.z,f.team?f.def.col:0x22d3ee,.28,.3)}
- startAtk(f,key,sm){const A=ATK[key],tg=this.foe(f),wp=f.ld&&!A.foot&&!A.aoe&&!A.shot&&!A.heal?WP[f.ld.w]:null;if(wp)sm*=wp.sp;if(tg){const dx=tg.x-f.x,dz=tg.z-f.z,d=Math.hypot(dx,dz);if(d<5&&!A.warn2)f.face=Math.atan2(dx,dz)}
+ startAtk(f,key,sm){if(f.team===0)sm*=.86;const A=ATK[key],tg=this.foe(f),wp=f.ld&&!A.foot&&!A.aoe&&!A.shot&&!A.heal?WP[f.ld.w]:null;if(wp)sm*=wp.sp;if(tg){const dx=tg.x-f.x,dz=tg.z-f.z,d=Math.hypot(dx,dz);if(d<5&&!A.warn2)f.face=Math.atan2(dx,dz)}
   f.st='atk';f.t=0;f.atk={k:key,A,dur:A.dur*sm,u:0,hit:[],sh:false,tr:0};f.step=key==='jab'?1:key==='jab2'?2:0;if(f.air){f.vy=Math.max(f.vy,3)}this.snd(A.sn==='jab'||A.shot?'jab':'whiff');if(A.spin)this.ring(f.x,f.z,.5,A.rng,0x22d3ee,.5)}
  stepF(f,dt){f.t+=dt;f.inv=Math.max(0,f.inv-dt);f.blkT+=dt;f.dashCd=Math.max(0,f.dashCd-dt);f.cT=Math.max(0,f.cT-dt);f.guard=Math.min(60,f.guard+dt*(f.st==='block'?4:14));
   if(f.team===0&&this.ph!=='end')f.en=Math.min(100,f.en+dt*1.3);
   f.air=f.y>.05;const wasAir=f.air;
   if(f.st==='spawn'){f.vy-=26*dt;f.y+=f.vy*dt;if(f.y<=0){f.y=0;f.vy=0;f.st='idle';f.t=0;f.inv=.2;this.ring(f.x,f.z,.3,2.6,f.def.col,.4);this.spark(f.x,.2,f.z,14,f.def.col,5,.18,.5);this.shk=Math.max(this.shk,.15);if(f.def.boss){this.shk=.6;this.snd('boom')}}this.pose(f,dt);return}
-  if(f.y>0||f.vy>0){f.vy-=24*dt;f.y+=f.vy*dt;if(f.y<=0){f.y=0;if(f.vy<-6)this.spark(f.x,.1,f.z,6,0xffffff,2.5,.1,.3);f.vy=0}}
-  const spd=f.def.sp*(f.spdM||1);
+  if(f.y>0||f.vy>0){f.vy-=24*dt;f.y+=f.vy*dt;if(f.y<=0){f.y=0;if(f.vy<-6){this.spark(f.x,.1,f.z,6,0xffffff,2.5,.1,.3);f.sq=.8}f.vy=0}}
+  const spd=f.def.sp*(f.spdM||1)*(f.team===0?1.1:1);
   const ctl=f.st==='idle'||f.st==='walk'||f.st==='block';
   if(ctl&&!f.dead){const m=Math.hypot(f.mx,f.mz);const blk=f.blkW&&!f.air;
    if(blk&&f.st!=='block'){f.st='block';f.blkT=0}else if(!blk&&f.st==='block'){f.st='idle';f.t=0}
-   const run=f.team===0&&m>.88,sp=spd*(run?2:1)*(f.st==='block'?.35:1)*(f.team===0?(m>.88?1:m/.88):1)*(f.team===0?1:1);const k=Math.min(1,dt*(f.air?5:13));f.vx+=(f.mx*sp*(f.team===0?1:1)-f.vx)*k;f.vz+=(f.mz*sp-f.vz)*k;f.run=run&&m>.5;
+   const run=f.team===0&&m>.88,sp=spd*(run?2:1)*(f.st==='block'?.35:1)*(f.team===0?(m>.88?1:m/.88):1)*(f.team===0?1:1);const k=Math.min(1,dt*(f.air?5:18));f.vx+=(f.mx*sp*(f.team===0?1:1)-f.vx)*k;f.vz+=(f.mz*sp-f.vz)*k;f.run=run&&m>.5;
    if(f.st!=='block'){if(m>.12&&!f.air){f.st='walk'}else if(f.st==='walk'&&m<=.12){f.st='idle'}}
    // الاتجاه
-   if(f.team===0){const tg=this.foe(f),td=tg?Math.hypot(tg.x-f.x,tg.z-f.z):99;if(tg&&td<9&&!(f.run&&td>3.5)){f.face+=stkAd(f.face,Math.atan2(tg.x-f.x,tg.z-f.z))*Math.min(1,dt*14)}else if(m>.2)f.face+=stkAd(f.face,Math.atan2(f.mx,f.mz))*Math.min(1,dt*12)}
+   if(f.team===0){const tg=this.foe(f),td=tg?Math.hypot(tg.x-f.x,tg.z-f.z):99;if(tg&&td<9&&!(f.run&&td>3.5)){f.face+=stkAd(f.face,Math.atan2(tg.x-f.x,tg.z-f.z))*Math.min(1,dt*19)}else if(m>.2)f.face+=stkAd(f.face,Math.atan2(f.mx,f.mz))*Math.min(1,dt*17)}
    f.wp+=Math.hypot(f.vx,f.vz)*dt*2.3}
   else if(f.st==='atk'){const at=f.atk,A=at.A;at.u=f.t/at.dur;
    if(A.mv&&at.u<A.he){const s=A.mv*(f.team?1:1)*(1-at.u*.5);f.vx+=(Math.sin(f.face)*s-f.vx)*Math.min(1,dt*18);f.vz+=(Math.cos(f.face)*s-f.vz)*Math.min(1,dt*18)}else{f.vx*=Math.exp(-dt*9);f.vz*=Math.exp(-dt*9)}
@@ -2270,7 +2270,7 @@ class StickFight{
    const P=this.pls.find(q=>!q.dead&&Math.hypot(p.x-q.x,p.z-q.z)<.65&&q.y<1.3&&q.st!=='ko');if(P){p.on=false;p.m.visible=false;if(P.inv>0)continue;this.spark(p.x,p.y,p.z,8,0xc084fc,4,.14,.3);this.hurt(P,p.o||{team:1,dmgM:1,x:p.x-p.vx*.1,z:p.z-p.vz*.1,def:{sc:1}},{dmg:p.dmg/(p.o&&p.o.dmgM||1),kb:3,sn:'hit',proj:1},p.x-p.vx*.1,p.z-p.vz*.1)}}}
  pickStep(dt){for(let i=this.pk.length-1;i>=0;i--){const p=this.pk[i];p.t+=dt;p.m.position.y=.6+Math.sin(p.t*4)*.12;p.m.rotation.y+=dt*3;const P=this.pls.find(q=>!q.dead&&Math.hypot(p.x-q.x,p.z-q.z)<1.1);if(P){const h=Math.min(P.mhp-P.hp,p.h);P.hp+=h;P.en=Math.min(100,P.en+15);this.ft(P,'+'+fmt(Math.max(1,h)),'#4ade80');this.snd('pick');this.spark(p.x,.7,p.z,10,0x4ade80,3,.14,.4);this.scene.remove(p.m);this.pk.splice(i,1)}else if(p.t>14){this.scene.remove(p.m);this.pk.splice(i,1)}}}
  // ---------------- الإصابة
- hurt(t,a,A,sx,sz){const T=THREE,dx=t.x-sx,dz=t.z-sz,d=Math.hypot(dx,dz)||.01,nx=dx/d,nz=dz/d;
+ hurt(t,a,A,sx,sz){t.sq=1;this.hs=Math.max(this.hs||0,A&&A.dmg>=12?.085:.04);const T=THREE,dx=t.x-sx,dz=t.z-sz,d=Math.hypot(dx,dz)||.01,nx=dx/d,nz=dz/d;
   if(t.inv>0){if(t.team===0&&!A.proj&&t.st==='dash'){t.en=Math.min(100,t.en+10);this.ft(t,'تفادي!','#7dd3fc')}return}
   const dm0=(A.dmg||0)*(a.dmgM||1),front=Math.abs(stkAd(t.face,Math.atan2(-dx,-dz)))<1.6;
   const my=t.y+1.1*t.def.sc;
@@ -2332,16 +2332,21 @@ class StickFight{
  summon(f){this.snd('roar');this.bnr('👑 الزعيم بيستدعي رجاله!',1.8,'#fca5a5');this.ring(f.x,f.z,.5,5,0xf87171,.6);this.shk=.5;this.spQ.push('grunt','grunt');f.ai.cd=1.4}
  // ---------------- الأوضاع (حركة الهيكل)
  pose(f,dt){const j=f.fig.j,F=f.fig,st=f.st,cur=f.cur;let tg=SG,ln=0,rate=16;
-  const wl=(m)=>{const s=Math.sin(f.wp),c=Math.cos(f.wp),a=f.run?1.1:.7,v=SG.slice();v[6]=.1+a*s;v[8]=.1-a*s;v[7]=.3+Math.max(0,-c)*(f.run?1.5:.9);v[9]=.3+Math.max(0,c)*(f.run?1.5:.9);if(f.run){v[2]=.9+s*.8;v[4]=.9-s*.8;v[3]=1.7;v[5]=1.7;v[1]=.38;v[10]=-.1}return v};
-  if(st==='atk'&&f.atk){const fr=f.atk.A.fr,u=f.atk.u;tg=fr[fr.length-1][1];for(let i=0;i<fr.length-1;i++){if(u>=fr[i][0]&&u<=fr[i+1][0]){const q=(u-fr[i][0])/(fr[i+1][0]-fr[i][0]),e=q*q*(3-2*q),a=fr[i][1],b=fr[i+1][1];tg=a.map((x,n)=>x+(b[n]-x)*e);break}}rate=45}
+  const wl=(m)=>{const sp=Math.hypot(f.vx||0,f.vz||0),s=Math.sin(f.wp),c=Math.cos(f.wp),R=f.run,v=SG.slice(),a=R?1.25:.8,lean=Math.min(.42,sp*.045);
+    v[6]=.1+a*s;v[8]=.1-a*s;v[7]=.25+Math.max(0,-c)*(R?1.7:1.0);v[9]=.25+Math.max(0,c)*(R?1.7:1.0);
+    v[10]=-.05-Math.abs(s)*(R?.1:.06);v[1]=.15+lean+(R?.12:0);v[0]=s*(R?.3:.16);v[11]=-s*(R?.26:.14);
+    if(R){v[2]=.9+s*1.0;v[4]=.9-s*1.0;v[3]=1.75;v[5]=1.75;v[12]=.1}else{v[2]=1.0-s*.3;v[4]=.9+s*.3;v[3]=1.7+c*.1;v[5]=1.8-c*.1}
+    return v};
+  if(st==='atk'&&f.atk){const fr=f.atk.A.fr,u=f.atk.u;tg=fr[fr.length-1][1];for(let i=0;i<fr.length-1;i++){if(u>=fr[i][0]&&u<=fr[i+1][0]){const q=(u-fr[i][0])/(fr[i+1][0]-fr[i][0]),e=i<fr.length-2?1-Math.pow(1-q,2.4):q*q*(3-2*q),a=fr[i][1],b=fr[i+1][1];tg=a.map((x,n)=>x+(b[n]-x)*e);break}}rate=45}
   else if(st==='walk'){tg=wl()}else if(st==='block')tg=SPS.blk;else if(st==='hit')tg=SPS.hit;else if(st==='down'||st==='ko'||st==='getup')tg=SPS.dead;else if(st==='dash')tg=SPS.dash;else if(st==='stun')tg=SPS.stun;
   else if(f.air){tg=spz({2:1.6,3:.6,4:1.5,5:.6,6:.9,7:1.1,8:.1,9:1.2,1:.1})}
   else if(this.ph==='end'&&this.win&&f.team===0)tg=SPS.win;
-  else{tg=SG.slice();const b=Math.sin(this.t*3+f.x)*.04;tg[1]+=b;tg[3]+=b*2;tg[10]+=b*.5}
-  const k=Math.min(1,dt*rate);for(let i=0;i<13;i++)cur[i]+=(tg[i]-cur[i])*k;
+  else{tg=SG.slice();const b=Math.sin(this.t*2.8+f.x)*.05,w=Math.sin(this.t*1.3+f.x*.7);tg[1]+=b;tg[3]+=b*2;tg[5]-=b*1.5;tg[10]+=b*.6;tg[11]=w*.07;tg[0]=-w*.05;tg[2]+=w*.06;tg[6]+=w*.05}
+  if(!f.cv)f.cv=new Array(13).fill(0);{const w=st==='atk'?60:(st==='hit'||st==='down'||st==='ko'||st==='stun'||st==='dash')?36:st==='walk'?30:24,z=st==='atk'?.92:.7,n=Math.max(1,Math.ceil(dt/.014)),h=Math.min(dt,.1)/n,cv=f.cv;for(let q=0;q<n;q++)for(let i=0;i<13;i++){cv[i]+=((tg[i]-cur[i])*w*w-cv[i]*2*z*w)*h;cur[i]+=cv[i]*h}}
   j.torso.rotation.set(cur[1],cur[0],0);j.aR.s.rotation.set(-cur[2],0,-cur[12]);j.aR.e.rotation.x=-cur[3];j.aL.s.rotation.set(-cur[4],0,cur[12]);j.aL.e.rotation.x=-cur[5];
   j.lR.t.rotation.x=-cur[6];j.lR.k.rotation.x=cur[7];j.lL.t.rotation.x=-cur[8];j.lL.k.rotation.x=cur[9];j.hip.position.y=1+cur[10]+(st==='down'||st==='ko'?0:0);j.hip.rotation.y=cur[11];
   j.head.rotation.x=-cur[1]*.4+(st==='stun'?Math.sin(this.t*12)*.3:0);j.head.rotation.z=st==='stun'?Math.sin(this.t*9)*.25:0;
+  f.sq=Math.max(0,(f.sq||0)-dt*5);F.body.scale.set(1+f.sq*.14,1-f.sq*.2,1+f.sq*.14);
   // السقوط
   const fa=(st==='down'&&f.t>.12)||st==='ko'?1.45:0;f.fall+=(fa-f.fall)*Math.min(1,dt*(fa?12:9));F.body.rotation.x=-f.fall;F.body.position.y=f.fall*.18;
   if(st==='atk'&&f.atk&&f.atk.A.spin){F.body.rotation.y=F.body.rotation.y}
