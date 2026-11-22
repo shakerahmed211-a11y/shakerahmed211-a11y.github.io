@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081f1c"><meta name="description" content="لعبة Spinner Dominoes — الدوّار، العب ضد الذكاء الاصطناعي أو مع أصدقائك أونلاين.">
+  <title>الدوّار | Spinner Dominoes</title><link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar"><a class="brand" href="#" id="brand"><span class="brand-mark"><span>9</span><i>✦</i></span><span><b>الدَوّار</b><small>SPINNER DOMINOES</small></span></a><div class="top-actions"><button class="icon-btn" id="soundToggle" title="الصوت" aria-label="تبديل الصوت">♫</button><button class="icon-btn" id="rulesOpen" title="القواعد" aria-label="شرح القواعد">؟</button><span class="online-pill"><i></i> <span id="onlineLabel">جاهز للعب</span></span></div></header>
+  <main id="app" class="shell"></main>
+  <dialog id="rulesDialog" class="modal"><div class="modal-head"><div><span class="eyebrow">دليل سريع</span><h2>كيف تلعب Spinner؟</h2></div><button class="icon-btn close-modal" aria-label="إغلاق">×</button></div><div class="rules-body"><p>هذه نسخة من لعبة Spinner الرسمية: مجموعة Double‑9 من 55 قطعة، مضافًا إليها 11 قطعة دوّار خاصة.</p><ol><li>ابدأ بـ<strong>٩–٩</strong> أو <strong>الدوّار المزدوج</strong>. إن لم تكن بيد أحد، اسحب حتى تظهر.</li><li>ضع القطعة بمطابقة الرقم عند طرف مفتوح. قطعة الدوّار البرية تصلح بدل أي رقم.</li><li>بعد لعب أي دبل، تلعب الحركات الثلاث التالية على الأذرع المفتوحة لذلك الدبل، باستخدام رقمه أو قطعة دوّار.</li><li>إن لم تجد حركة، اسحب من المخزون؛ وإذا لم تصلح القطعة، مرّر.</li><li>تنتهي اليد عندما يفرغ لاعب قطعه أو تُغلق اللعبة. تُضاف قيمة القطع الباقية إلى نقاط كل لاعب؛ الفائز بعد عشر أيادٍ هو الأقل نقاطًا.</li></ol><p class="rules-note">قيمة كل طرف من قطعة Spinner هي ١٠ نقاط؛ لذلك قيمة Spinner/٨ تساوي ١٨، والدوّار المزدوج ٢٠.</p><small>القواعد مبنية على كتيّب University Games الرسمي. واجهة اللعب تعرض مسارات الطاولة بصيغة مبسطة.</small></div></dialog>
+  <dialog id="chatDialog" class="modal chat-modal"><div class="modal-head"><div><span class="eyebrow">تواصل</span><h2>دردشة الغرفة</h2></div><div class="top-actions"><button class="btn ghost" id="chatMute">كتم الدردشة</button><button class="icon-btn close-modal" aria-label="إغلاق">×</button></div></div><div id="chatList" class="chat-list"></div><form id="chatForm" class="chat-form"><input id="chatInput" maxlength="160" placeholder="اكتب رسالة قصيرة…" autocomplete="off"><button class="btn primary">إرسال</button></form><div class="quick-replies"><button>حركة موفقة!</button><button>بالتوفيق 👋</button><button>دورك يا بطل</button></div></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body></html>
