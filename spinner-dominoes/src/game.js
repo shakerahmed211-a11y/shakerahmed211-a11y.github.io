@@ -62,7 +62,7 @@ export function beginRound(names, round = 0, random = Math.random, settings = {}
     bag: dealt.bag, board: [{ tile: start, endId: null, as: n, opening: true }],
     ends: slots, forced: { tileId: start.id, value: n, slots: slots.slice(0,3), remaining: 3 }, forcedQueue: [],
     turn: dealt.startPlayer, passes: 0, lastMessage: `${names[dealt.startPlayer]} بدأ بالقطعة الافتتاحية.`, finished: false,
-    roundWinner: null, result: null, targetScore: 100, log: [`بدأت الجولة بالقطعة ${start.id === 'w-w' ? 'الدوّار المزدوج' : 'التسعة المزدوجة'}.`]
+    roundWinner: null, result: null, targetScore: 100, log: [`بدأت الجولة بالقطعة ${start.id === 'w-w' ? 'الدوّار المزدوج' : 'السبعة المزدوجة'}.`]
   };
   // Record the opening tile in the starter's hand-independent board. The starter is turn owner.
   state.turn = (dealt.startPlayer + 1) % names.length;
