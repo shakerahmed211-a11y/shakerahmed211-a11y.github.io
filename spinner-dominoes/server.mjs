@@ -58,7 +58,7 @@ function handle(sock,msg){
   if(!msg||typeof msg!=='object'||Array.isArray(msg))throw Error('صيغة الطلب غير صحيحة.');
   if(msg.type==='ping'){send(sock,{type:'pong'});return;}
   if(msg.type==='create'){
-    const name=cleanName(msg.name), teamMode=!!msg.teamMode, max=teamMode?4:Math.max(2,Math.min(4,Number(msg.max)||2)), roundsTotal=[3,5,10].includes(Number(msg.roundsTotal))?Number(msg.roundsTotal):5, starterMode=msg.starterMode==='repeat-seven'?'repeat-seven':'official', speed=msg.speed==='fast'?'fast':'normal'; let c=code();while(rooms.has(c))c=code();
+    const name=cleanName(msg.name), teamMode=!!msg.teamMode, max=teamMode?4:Math.max(2,Math.min(4,Number(msg.max)||2)), roundsTotal=[3,5,10].includes(Number(msg.roundsTotal))?Number(msg.roundsTotal):5, starterMode=msg.starterMode==='repeat-six'?'repeat-six':'official', speed=msg.speed==='fast'?'fast':'normal'; let c=code();while(rooms.has(c))c=code();
     detach(sock);const token=crypto.randomUUID(), room={code:c,host:token,max,teamMode,roundsTotal,starterMode,speed,seats:[{name,token,socket:null}],state:null,created:Date.now()};rooms.set(c,room);bind(sock,room,token);send(sock,{type:'created',code:c,token});return;
   }
   if(msg.type==='join'){
