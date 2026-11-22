@@ -1,10 +1,12 @@
-// Spinner® rules engine: classic Double-9 set plus ten wild/value tiles and a double wild.
-export const RULES_VERSION = 'university-games-spinner-2017';
+// Spinner-inspired house rules with a Double-7 set and eight wild tiles plus a double wild.
+export const RULES_VERSION = 'spinner-double-seven-v1';
+export const MAX_PIP = 7;
+export const TOTAL_TILES = ((MAX_PIP + 1) * (MAX_PIP + 2)) / 2 + MAX_PIP + 2;
 
 export function createSet() {
   const tiles = [];
-  for (let a = 0; a <= 9; a++) for (let b = a; b <= 9; b++) tiles.push({ id: `d${a}-${b}`, a, b });
-  for (let n = 0; n <= 9; n++) tiles.push({ id: `w-${n}`, a: 'W', b: n });
+  for (let a = 0; a <= MAX_PIP; a++) for (let b = a; b <= MAX_PIP; b++) tiles.push({ id: `d${a}-${b}`, a, b });
+  for (let n = 0; n <= MAX_PIP; n++) tiles.push({ id: `w-${n}`, a: 'W', b: n });
   tiles.push({ id: 'w-w', a: 'W', b: 'W' });
   return tiles;
 }
@@ -17,9 +19,9 @@ export function shuffle(items, random = Math.random) {
 }
 export function deal(names, random = Math.random, round = 0, starterMode = 'official') {
   if (names.length < 2 || names.length > 8) throw new Error('يلزم من لاعبين إلى ثمانية.');
-  const bag = shuffle(createSet(), random), count = names.length === 2 ? 14 : 7;
+  const bag = shuffle(createSet(), random), count = names.length === 2 ? 10 : 7;
   const hands = names.map(() => bag.splice(0, count));
-  const firstDouble = starterMode === 'repeat-nine' ? 9 : Math.max(0, 9 - round);
+  const firstDouble = starterMode === 'repeat-seven' ? MAX_PIP : Math.max(0, MAX_PIP - round);
   const starter = [`d${firstDouble}-${firstDouble}`, 'w-w'];
   let startPlayer = hands.findIndex(h => h.some(t => starter.includes(t.id)));
   let startTile;
@@ -51,7 +53,7 @@ export function beginRound(names, round = 0, random = Math.random, settings = {}
   const starterMode = settings.starterMode || 'official';
   const dealt = deal(names, random, round, starterMode), start = dealt.startTile;
   // The opening double is already laid. Its first three plays fill three arms.
-  const n = start.id === 'w-w' ? Math.max(0, 9 - round) : start.a;
+  const n = start.id === 'w-w' ? Math.max(0, MAX_PIP - round) : start.a;
   const slots = [0,1,2,3].map(i => end(`root-${i}`, n, start.id, `arm-${i}`));
   const state = {
     started: true, round, roundsTotal: settings.roundsTotal || 10, teamMode: !!settings.teamMode,

@@ -48,7 +48,7 @@ function broadcast(room){room.seats.forEach((s,i)=>{if(s.socket)send(s.socket,pe
 function bind(sock,room,token){sock.room=room.code;sock.token=token;const i=seatOf(room,token);if(i>=0)room.seats[i].socket=sock;broadcast(room);}
 function handle(sock,msg){
   if(msg.type==='create'){
-    const name=cleanName(msg.name), teamMode=!!msg.teamMode, max=teamMode?4:Math.max(2,Math.min(4,Number(msg.max)||4)), roundsTotal=[3,5,10].includes(Number(msg.roundsTotal))?Number(msg.roundsTotal):10, starterMode=msg.starterMode==='repeat-nine'?'repeat-nine':'official', speed=msg.speed==='fast'?'fast':'normal'; let c=code();while(rooms.has(c))c=code();
+    const name=cleanName(msg.name), teamMode=!!msg.teamMode, max=teamMode?4:Math.max(2,Math.min(4,Number(msg.max)||2)), roundsTotal=[3,5,10].includes(Number(msg.roundsTotal))?Number(msg.roundsTotal):10, starterMode=msg.starterMode==='repeat-seven'?'repeat-seven':'official', speed=msg.speed==='fast'?'fast':'normal'; let c=code();while(rooms.has(c))c=code();
     const token=crypto.randomUUID(), room={code:c,host:token,max,teamMode,roundsTotal,starterMode,speed,seats:[{name,token,socket:sock}],state:null,created:Date.now()};rooms.set(c,room);bind(sock,room,token);send(sock,{type:'created',code:c,token});return;
   }
   if(msg.type==='join'){
