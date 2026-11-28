@@ -168,7 +168,7 @@ input[type=range]{width:120px}select{font-family:inherit;padding:4px;border-radi
  <button class="btn alt" data-act="wshop">🔧 ورشة الموتوسيكل</button>
  <button class="btn alt" data-act="acc">☁️ حفظ البيانات وتسجيل الدخول</button>
  <button class="btn alt" data-act="settings">⚙ الإعدادات</button>
- <div class="sub" style="text-align:center">النسخة ٢٨ 🎯 مدفعية: أونلاين + قدرات + زعيم</div></div></div>
+ <div class="sub" style="text-align:center">النسخة ٢٩ 🎯 تظبيط الرصاص + سلاسة</div></div></div>
 <div id="nav"><button data-act="hub" data-h="start" class="on"><i>🏠</i>الرئيسية</button><button data-act="hub" data-h="play"><i>🎮</i>العب</button><button data-act="hub" data-h="rew"><i>🎁</i>المكافآت</button><button data-act="hub" data-h="me"><i>👤</i>حسابي</button></div>
 
 <div class="screen" id="s-exam"><div class="panel"><h2>🎯 اختبار الترقية</h2><div id="examBox"></div><button class="btn alt" data-act="menu">رجوع</button></div></div>
@@ -2724,7 +2724,7 @@ class Arena{
   for(const u of this.alive(sd))if(u.cls==='md'){const t=this.alive(sd).filter(q=>q.hp<q.mhp).sort((a,b)=>a.hp/a.mhp-b.hp/b.mhp)[0];if(t)this.heal(t,10)}
   if(!first&&this.turns>=4&&this.turns%3===1&&this.cr.length<2)this.spawnCrate();
   this.beginAim(first)}
- beginAim(first){this.ph='aim';const al=this.alive(this.side);this.sel=this.lastSel[this.side]&&this.lastSel[this.side].alive?this.lastSel[this.side]:al[0];this.bot=!this.hot&&!this.online&&this.side===1;this.drag=null;this.aimv=null;this.botT=this.bot?1.1:0;this.botP=null;this.botAbD=false;this.fired=false;this.abUsed=false;
+ beginAim(first){this.ph='aim';const al=this.alive(this.side);this.sel=this.lastSel[this.side]&&this.lastSel[this.side].alive?this.lastSel[this.side]:al[0];this.bot=!this.hot&&!this.online&&this.side===1;this.drag=null;this.aimv=null;this.botT=this.bot?1.1:0;this.botP=null;this.botAbD=false;this.fired=false;this.abUsed=false;this.ff=false;
   if(this.mine())this.bnr(this.hot?this.nm[this.side]+' — دورك':'🎯 دورك',1.2);else if(this.online)this.bnr('⏳ دور '+this.nm[this.side],1)}
  curW(){const k=this.wp[this.side],s=AR_SETS[this.m],i=this.inv[this.side];if(i[k]===0){const j=i.findIndex(v=>v!==0);this.wp[this.side]=j<0?0:j;return s[this.wp[this.side]]}return s[k]}
  // ---------- صناديق الإمدادات
@@ -2752,7 +2752,7 @@ class Arena{
  setupIn(){const me=this,ok=e=>me.g.state==='arena'&&me.on&&!me.paused&&!me.res&&!(e.target.closest&&e.target.closest('button,.screen.show,#tut'));
   const P=e=>{const r=me.tr();return{x:(e.clientX-r.ox)/r.s,y:AR_H-(e.clientY-r.oy)/r.s}};
   window.addEventListener('pointerdown',e=>{if(!ok(e))return;me.g.audio.init();const p=P(e);
-   if(me.hudTap(e.clientX,e.clientY))return;if(me.ph!=='aim'||me.bot||!me.mine())return;
+   if(me.hudTap(e.clientX,e.clientY))return;if(me.ph==='fly'&&!me.rpl){me.ff=true;return}if(me.ph!=='aim'||me.bot||!me.mine())return;
    const w=AW[me.curW()[0]];
    if(w.air){me.fire(p.x,p.y);return}
    const own=me.alive(me.side);let near=null,nd=60;for(const u of own){const d=Math.hypot(u.x-p.x,u.y+16-p.y);if(d<nd){nd=d;near=u}}if(near&&near!==me.sel&&me.m!=='duel'){me.sel=near;me.lastSel[me.side]=near;me.snd('click')}
@@ -2773,7 +2773,7 @@ class Arena{
  fire(tx,ty,a,rpl,rem){const u=this.sel,k=this.wp[this.side],wid=AR_SETS[this.m][k][0],w=AW[wid];if(!u||!u.alive)return;
   if(!rpl)this.rp={sn:this.snap(),k,uid:u.id,a:a?{ang:a.ang,pw:a.pw}:null,tx,ty,side:this.side,db:this.dbl[this.side]|0};
   if(!rpl&&!rem&&this.online&&this.net)this.net({t:'sh',s:this.side,u:u.id,k,a:a?[a.ang,a.pw]:null,x:tx,y:ty,d:this.dbl[this.side]|0});
-  this.ph='fly';this.fired=true;this.dmgT=0;this.lastSel[this.side]=u;if(!rpl&&(this.side===this.me||this.hot))this.shots++;
+  if(a&&!w.air&&!rpl){this.lastA=this.lastA||[null,null];this.lastA[this.side]={ang:a.ang,pw:a.pw,k}}this.ph='fly';this.fired=true;this.dmgT=0;this.lastSel[this.side]=u;if(!rpl&&(this.side===this.me||this.hot))this.shots++;
   if(this.inv[this.side][k]>0)this.inv[this.side][k]--;const dbl=this.dbl[this.side];this.dbl[this.side]=0;this.drag=null;this.aimv=null;
   for(let rep=0;rep<(dbl?2:1);rep++){const off=rep*(w.air?1.2:.5);
    if(w.air){if(!rep){this.snd('air');this.bnr('✈️ غارة جوية!',1)}for(let i=0;i<w.nn;i++)this.pend.push({t:off+.5+i*.16,w:wid,x:tx+(i-(w.nn-1)/2)*38+arR(-8,8),y:AR_H+40,vx:0,vy:-260,s:this.side,air:1});continue}
@@ -2783,7 +2783,7 @@ class Arena{
  replay(){if(!this.rp)return;const r=this.rp;this.close();this.applySnap(r.sn);this.sel=this.un.find(q=>q.id===r.uid);this.side=r.side;this.wp[r.side]=r.k;this.dbl[r.side]=r.db;this.rpl=1;this.ts=.6;this.tsT=99;this.cm=null;this.dead=null;this.bnr('🎬 إعادة اللقطة',1.4);this.fire(r.tx,r.ty,r.a,true)}
  // ---------- محاكاة (البوت)
  simShot(u,wid,ang,pw){const w=AW[wid],v=w.v*(.3+.7*pw);let x=u.x+Math.cos(ang)*14,y=u.y+26+Math.sin(ang)*14,vx=Math.cos(ang)*v,vy=Math.sin(ang)*v,t=0;const dt=1/90,wf=this.wind*220*w.wf,gg=-560*w.g;
-  for(let n=0;n<420;n++){vx+=wf*dt;vy+=gg*dt;x+=vx*dt;y+=vy*dt;t+=dt;if(x<-30||x>AR_W+30||y<-60)return{x,y};if(x>0&&x<AR_W&&y<=this.H[Math.round(x)]&&t>.03)return{x,y};
+  for(let n=0;n<420;n++){vx+=wf*dt;vy+=this.gF(w,y)*dt;x+=vx*dt;y+=vy*dt;t+=dt;if(x<-30||x>AR_W+30||y<-60)return{x,y};if(x>0&&x<AR_W&&y<=this.H[Math.round(x)]&&t>.03)return{x,y};
    {const bk=this._bk&&this._bk[Math.floor(x/AR_B)];if(bk)for(const b of bk){if(x>=b.x&&x<=b.x+AR_B&&y>=b.y&&y<=b.y+AR_B)return{x,y}}}
    for(const o of this.un){if(!o.alive||o===u)continue;if(Math.abs(x-o.x)<8&&y>o.y-2&&y<o.y+40)return{x,y,u:o}}}
   return{x,y}}
@@ -2797,7 +2797,7 @@ class Arena{
   for(const u of ucand){const kk=ks.slice();const pick=this.m==='war'?kk.sort(()=>Math.random()-.5).slice(0,2):kk.length>3?kk.sort(()=>Math.random()-.5).slice(0,3):kk;for(const k of pick){if(this.m==='duel'&&Math.random()<.35&&k>0&&this.turns<5)continue;tryU(u,k)}}
   if(!pool.length)return null;pool.sort((a,b)=>a.d-b.d);best=pool[0];const nz=(Math.random()-.5)*2*sg;best.ang+=nz;best.pw=Math.max(.3,Math.min(1,best.pw*(1+(Math.random()-.5)*sg*1.4)));return best}
  // ---------- تحديث
- update(dt){if(this.paused||!this.on)return;this.t+=dt;if(this.tsT>0&&this.tsT<90){this.tsT-=dt;if(this.tsT<=0)this.ts=1}const D=dt*this.ts;
+ update(dt){if(this.paused||!this.on)return;this.t+=dt;if(this.tsT>0&&this.tsT<90){this.tsT-=dt;if(this.tsT<=0)this.ts=1}const D=dt*this.ts*(this.ff&&this.ph==='fly'?2.4:1);
   this.camUpd(dt);this.musicTick(dt);
   for(const c of this.cloud){c.x+=c.v*D;if(c.x>AR_W+120)c.x=-120}
   if(this.sh>0)this.sh=Math.max(0,this.sh-D*14);
@@ -2813,7 +2813,7 @@ class Arena{
   this.parts(D);for(let i=this.fx.length-1;i>=0;i--){const f=this.fx[i];f.t-=D;if(!f.fixed)f.y+=D*34;if(f.t<=0)this.fx.splice(i,1)}
   if(this.bn){this.bn.t-=dt;if(this.bn.t<=0)this.bn=null}
   const idle=this.ph==='fly'&&!this.pj.length&&!this.pend.length&&!moving&&this.un.every(u=>!u.alive||Math.abs(u.vy)<1)&&this.cr.every(c=>c.land||c.y>AR_H);
-  if(idle){this.settle=(this.settle||0)+D;if(this.settle>.55){this.settle=0;
+  if(idle){this.settle=(this.settle||0)+D;if(this.settle>.4){this.settle=0;
     if(this.rpl){this.rpl=0;this.ts=1;this.tsT=0;this.ph='end';this.resBox();return}
     if(this.fired&&this.dmgT<=0&&this.side===this.me&&!this.hot)this.say(arPick(AR_CM.miss));this.endTurn()}}else this.settle=0;
   if(this.ph==='wait'&&this.pendSt&&this.netApply)this.netApply();
@@ -2826,13 +2826,14 @@ class Arena{
   else if(this.dead&&this.deadT>0){this.deadT-=dt;tz=1.6;tx=this.dead.x;ty=this.dead.y+30}
   else if(fl&&this.camHold&&this.camHold.t>0){this.camHold.t-=dt;tz=1.35;tx=this.camHold.x;ty=this.camHold.y}
   const kp=1-Math.exp(-9*dt),kz=1-Math.exp(-5*dt);c.x+=(tx-c.x)*kp;c.y+=(ty-c.y)*kp;c.z+=(tz-c.z)*kz;if(Math.abs(c.z-1)<.004&&tz===1){c.z=1;c.x=550;c.y=280}}
+ gF(w,y){return -560*w.g-(w.g<.5&&y>AR_H*.85?3200:0)}
  supported(b){const x0=b.x,x1=b.x+AR_B;let m=0;for(let x=Math.floor(x0);x<=x1;x+=6)m=Math.max(m,this.H[Math.max(0,Math.min(AR_W,x))]);if(b.y<=m+1.5)return true;for(const o of this.bl){if(o===b||o.fall)continue;if(Math.abs(o.x-b.x)<AR_B*.6&&Math.abs(o.y+AR_B-b.y)<2)return true}return false}
  under(b){let m=0;for(let x=Math.floor(b.x);x<=b.x+AR_B;x+=6)m=Math.max(m,this.H[Math.max(0,Math.min(AR_W,x))]);for(const o of this.bl){if(o===b||o.fall)continue;if(Math.abs(o.x-b.x)<AR_B*.7&&o.y+AR_B<=b.y+6)m=Math.max(m,o.y+AR_B)}return m}
  landB(b){this.sh=Math.max(this.sh,1.5);this.dust(b.x+AR_B/2,b.y,4,AR_MAT[b.mat].c);for(const u of this.un){if(!u.alive)continue;if(u.x>b.x-6&&u.x<b.x+AR_B+6&&u.y>b.y-4&&u.y<b.y+34)this.hurt(u,12,null,0)}}
  projs(D){const n=Math.max(1,Math.ceil(D/(1/180)));const h=D/n;for(let i=this.pj.length-1;i>=0;i--){const p=this.pj[i],w=AW[p.w],pm=this.pm(p);let dead=false;
-  for(let s=0;s<n&&!dead;s++){p.age+=h;p.life-=h;const wf=this.wind*220*w.wf;p.vx+=wf*h;p.vy-=560*w.g*h;if(p.air)p.vy-=300*h;p.x+=p.vx*h;p.y+=p.vy*h;
+  for(let s=0;s<n&&!dead;s++){p.age+=h;p.life-=h;const wf=this.wind*220*w.wf;p.vx+=wf*h;p.vy+=this.gF(w,p.y)*h;if(p.air)p.vy-=300*h;p.x+=p.vx*h;p.y+=p.vy*h;
    if(w.fuse){p.fz-=h;if(p.fz<=0){this.boom(p.x,p.y,w,p);dead=true;break}}
-   if(p.x<-60||p.x>AR_W+60||p.y<-80||p.life<=0){dead=true;break}
+   if(p.x<-60||p.x>AR_W+60||p.y<-80||p.y>AR_H*4||p.life<=0){dead=true;break}
    for(const c of this.cr){if(Math.abs(p.x-c.x)<12&&p.y>c.y-2&&p.y<c.y+24){if(w.ex){this.boom(p.x,p.y,w,p)}else{this.hitFx(p.x,p.y,w);this.loot(c,p.s)}dead=true;break}}if(dead)break;
    if(!w.fuse){for(const u of this.un){if(!u.alive||(u===p.o&&p.age<.25))continue;const dh=Math.hypot(p.x-u.x,p.y-(u.y+31)),sc=u.cls==='bs'?1.5:1;if(dh<8*sc){if(w.ex){this.boom(p.x,p.y,w,p);dead=true;break}this.hurt(u,w.dm*w.hd*pm,p.s,Math.sign(p.vx),true);this.hitFx(p.x,p.y,w);if(w.fire)this.ignite(p.x,p.y,w);dead=true;break}
     if(Math.abs(p.x-u.x)<7*sc&&p.y>u.y&&p.y<u.y+27*sc){if(w.ex){this.boom(p.x,p.y,w,p);dead=true;break}this.hurt(u,w.dm*pm,p.s,Math.sign(p.vx),false);this.hitFx(p.x,p.y,w);if(w.fire)this.ignite(p.x,p.y,w);dead=true;break}}if(dead)break}
@@ -2908,7 +2909,8 @@ class Arena{
   c.fillStyle=th.pt==='snow'?'#fff':th.pt==='ember'?'#fb923c':th.pt==='leaf'?'#86c26a':th.pt==='sand'?'#e8c98c':'rgba(0,0,0,0)';for(const w of this.wd){c.globalAlpha=.7;c.beginPath();c.arc(T.ox+w.x*s,gy(w.y),(th.pt==='snow'?2.2:1.6)*w.s*s,0,6.3);c.fill()}c.globalAlpha=1;
   c.textAlign='center';for(const f of this.fx){if(f.k==='n'){c.globalAlpha=Math.min(1,f.t*1.6);c.fillStyle=f.c;c.strokeStyle='#000a';c.lineWidth=3;c.font='900 '+Math.round(17*s+4)+'px system-ui,sans-serif';const x=T.ox+f.x*s,y=gy(f.y);c.strokeText(f.tx,x,y);c.fillText(f.tx,x,y)}}c.globalAlpha=1;
   if(this.ph==='aim'&&this.sel&&this.sel.alive&&this.mine()){const u=this.sel,x=T.ox+u.x*s,y=gy(u.y+66*(u.cls==='bs'?1.4:1));c.fillStyle='#fde047';const bob=Math.sin(this.t*5)*3*s;c.beginPath();c.moveTo(x,y+bob+10*s);c.lineTo(x-6*s,y+bob);c.lineTo(x+6*s,y+bob);c.fill();
-   if(this.aimv){const a=this.aimv,w=AW[this.curW()[0]];if(w&&!w.air){const v=w.v*(.3+.7*Math.max(.25,a.pw));let px=u.x+Math.cos(a.ang)*14,py=u.y+26+Math.sin(a.ang)*14,vx=Math.cos(a.ang)*v,vy=Math.sin(a.ang)*v;const wf=this.wind*220*w.wf,gg=-560*w.g;c.fillStyle='rgba(255,255,255,.9)';const nd=w.burst?9:14;for(let k=0;k<nd*4;k++){vx+=wf/60;vy+=gg/60;px+=vx/60;py+=vy/60;if(k%4===3){const al=1-k/(nd*4);c.globalAlpha=.4+al*.6;c.beginPath();c.arc(T.ox+px*s,gy(py),(2.6*al+1)*s,0,6.3);c.fill()}}c.globalAlpha=1}
+   const gh=this.lastA&&this.lastA[this.side];if(!this.aimv&&gh&&gh.k===this.wp[this.side]&&!AW[this.curW()[0]].air){const w=AW[this.curW()[0]],v=w.v*(.3+.7*Math.max(.25,gh.pw));let px=u.x+Math.cos(gh.ang)*14,py=u.y+26+Math.sin(gh.ang)*14,vx=Math.cos(gh.ang)*v,vy=Math.sin(gh.ang)*v;const wf=this.wind*220*w.wf;c.fillStyle='rgba(255,255,255,.55)';for(let k=0;k<44;k++){vx+=wf/60;vy+=this.gF(w,py)/60;px+=vx/60;py+=vy/60;if(k%4===3){c.globalAlpha=.25;c.beginPath();c.arc(T.ox+px*s,gy(py),1.8*s,0,6.3);c.fill()}}c.globalAlpha=1}
+   if(this.aimv){const a=this.aimv,w=AW[this.curW()[0]];if(w&&!w.air){const v=w.v*(.3+.7*Math.max(.25,a.pw));let px=u.x+Math.cos(a.ang)*14,py=u.y+26+Math.sin(a.ang)*14,vx=Math.cos(a.ang)*v,vy=Math.sin(a.ang)*v;const wf=this.wind*220*w.wf,gg=-560*w.g;c.fillStyle='rgba(255,255,255,.9)';const nd=w.burst?9:14;for(let k=0;k<nd*4;k++){vx+=wf/60;vy+=this.gF(w,py)/60;px+=vx/60;py+=vy/60;if(k%4===3){const al=1-k/(nd*4);c.globalAlpha=.4+al*.6;c.beginPath();c.arc(T.ox+px*s,gy(py),(2.6*al+1)*s,0,6.3);c.fill()}}c.globalAlpha=1}
     c.strokeStyle='rgba(253,224,71,.9)';c.lineWidth=4;c.lineCap='round';c.beginPath();c.moveTo(x,gy(u.y+26));c.lineTo(x-Math.cos(a.ang)*a.pw*70*s,gy(u.y+26)+Math.sin(a.ang)*a.pw*70*s);c.stroke();
     c.fillStyle='#fff';c.strokeStyle='#000a';c.lineWidth=3;c.font='900 '+Math.round(13*s+6)+'px system-ui,sans-serif';const tx=Math.round(a.pw*100)+'%  '+Math.round(a.ang*180/Math.PI)+'°';c.strokeText(tx,x,gy(u.y+84));c.fillText(tx,x,gy(u.y+84))}}
   c.restore();this.hud(c,T)}
